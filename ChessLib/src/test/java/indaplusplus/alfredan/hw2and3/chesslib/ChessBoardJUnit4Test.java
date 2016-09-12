@@ -1,4 +1,4 @@
-package indaplusplus.alfredan.hw2and3;
+package indaplusplus.alfredan.hw2and3.chesslib;
 
 import indaplusplus.alfredan.hw2and3.chesslib.ChessBoard;
 import org.junit.After;

@@ -58,17 +58,33 @@ public class ChessBoard {
    * Places the given piece on the ChessBoard at the specified position.
    * If the piece is already on this or another board, it will be moved to the
    * specified position.
+   * If there already is a piece at the target location, it will be captured
+   * and the move will still take place.
+   * @return Whether a piece was captured (i.e. whether the target location was
+   * not empty)
    * @throws IllegalArgumentException if the position is not valid
    */
-  public void placePiece(ChessPiece piece, int x, int y) {
+  public boolean placePiece(ChessPiece piece, int x, int y) {
     checkIfValidPosition(x, y);
     
     if (piece.getBoard() != null) {
       piece.getBoard().removePiece(piece);
     }
     
+    boolean capture = false;
+    
+    if (board[x][y] != null) {
+      removePiece(board[x][y]);
+      capture = true;
+    }
+    
     board[x][y] = piece;
-    updatePiece(x, y);
+    
+    piece.board = this;
+    piece.xPos = x;
+    piece.yPos = y;
+    
+    return capture;
   }
   
   /**
@@ -99,15 +115,29 @@ public class ChessBoard {
   
   
   /**
-   * Updates the coordinates of the piece at the specified position.
-   * Must be called whenever a piece is added or moved.
+   * Places the specified piece in the specified location.
+   * Also updates the piece's internal variables.
+   * If there already is a piece at the target location, it will automatically
+   * be removed.
+   * This is the only way pieces should ever be added or moved to avoid errors.
+   * 
+   * @return Whether a piece was captured (by already being in the target location)
    */
-  private void updatePiece(int x, int y) {
-    ChessPiece piece = getPiece(x, y);
+  private boolean setPiece(ChessPiece piece, int x, int y) {
+    boolean capture = false;
+    
+    if (board[x][y] != null) {
+      removePiece(board[x][y]);
+      capture = true;
+    }
+    
+    board[x][y] = piece;
     
     piece.board = this;
     piece.xPos = x;
     piece.yPos = y;
+    
+    return capture;
   }
   
   /**

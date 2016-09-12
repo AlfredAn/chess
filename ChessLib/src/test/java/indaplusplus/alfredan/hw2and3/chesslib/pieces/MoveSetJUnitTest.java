@@ -12,14 +12,14 @@ public class MoveSetJUnitTest {
   public void testEmptyMoveSet() {
     MoveSet ms = new MoveSet(new IntVector2[] {});
     
-    Assert.assertEquals("ms.numMoves()", 0, ms.numMoves());
+    Assert.assertEquals("ms.numMoves()", 0, ms.size());
   }
   
   @Test
   public void testGetElementsFromMoveSet() {
     MoveSet ms = new MoveSet(new IntVector2[] {new IntVector2(1, 2), new IntVector2(2, 1)});
     
-    Assert.assertEquals("ms.numMoves()", 2, ms.numMoves());
+    Assert.assertEquals("ms.numMoves()", 2, ms.size());
     Assert.assertEquals("ms.get(0)", new IntVector2(1, 2), ms.get(0));
     Assert.assertEquals("ms.get(1)", new IntVector2(2, 1), ms.get(1));
   }

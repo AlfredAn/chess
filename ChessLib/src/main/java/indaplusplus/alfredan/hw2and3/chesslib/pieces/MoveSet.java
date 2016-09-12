@@ -56,7 +56,7 @@ public final class MoveSet implements Iterable<IntVector2> {
   /**
    * Returns the number of movement vectors in this MoveSet.
    */
-  public int numMoves() {
+  public int size() {
     return moveSet.length;
   }
   
@@ -80,7 +80,7 @@ public final class MoveSet implements Iterable<IntVector2> {
       
       @Override
       public boolean hasNext() {
-        return i < numMoves();
+        return i < size();
       }
       
       @Override
@@ -103,7 +103,7 @@ public final class MoveSet implements Iterable<IntVector2> {
     MoveSet other = (MoveSet)o;
     
     // checking length first to potentially avoid having to compare the elements
-    return numMoves() == other.numMoves() && Arrays.equals(moveSet, other.moveSet);
+    return size() == other.size() && Arrays.equals(moveSet, other.moveSet);
   }
 
   @Override

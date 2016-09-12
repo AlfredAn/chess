@@ -12,4 +12,22 @@ public final class IntVector2 {
     this.x = x;
     this.y = y;
   }
+  
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof IntVector2)) return false;
+    
+    IntVector2 other = (IntVector2)o;
+    
+    return other.x == x && other.y == y;
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 7;
+    hash = 41 * hash + x;
+    hash = 41 * hash + y;
+    return hash;
+  }
 }

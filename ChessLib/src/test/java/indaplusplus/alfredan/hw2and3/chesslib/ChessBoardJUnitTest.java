@@ -6,7 +6,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class ChessBoardJUnit4Test {
+public class ChessBoardJUnitTest {
   
   /**
    * Check that the default empty board is the correct size

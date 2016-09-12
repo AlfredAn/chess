@@ -1,4 +1,4 @@
-package indaplusplus.alfredan.hw2and3.chesslib;
+package indaplusplus.alfredan.hw2and3.chesslib.pieces;
 
 import indaplusplus.alfredan.hw2and3.chesslib.pieces.MoveSet;
 import indaplusplus.alfredan.hw2and3.chesslib.util.IntVector2;

@@ -112,34 +112,6 @@ public class ChessBoard {
     piece.board = null;
   }
   
-  
-  
-  /**
-   * Places the specified piece in the specified location.
-   * Also updates the piece's internal variables.
-   * If there already is a piece at the target location, it will automatically
-   * be removed.
-   * This is the only way pieces should ever be added or moved to avoid errors.
-   * 
-   * @return Whether a piece was captured (by already being in the target location)
-   */
-  private boolean setPiece(ChessPiece piece, int x, int y) {
-    boolean capture = false;
-    
-    if (board[x][y] != null) {
-      removePiece(board[x][y]);
-      capture = true;
-    }
-    
-    board[x][y] = piece;
-    
-    piece.board = this;
-    piece.xPos = x;
-    piece.yPos = y;
-    
-    return capture;
-  }
-  
   /**
    * Throws an IllegalArgumentException if the specified coordinates are invalid.
    */

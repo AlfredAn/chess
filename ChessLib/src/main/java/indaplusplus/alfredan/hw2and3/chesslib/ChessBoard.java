@@ -113,10 +113,24 @@ public class ChessBoard {
   }
   
   /**
+   * Returns whether the specified position is within bounds.
+   */
+  public boolean isValidPosition(int x, int y) {
+    return x >= 0 && x < width && y >= 0 && y < height;
+  }
+  
+  /**
+   * Returns whether the specified position is within bounds.
+   */
+  public boolean isValidPosition(IntVector2 pos) {
+    return isValidPosition(pos.x, pos.y);
+  }
+  
+  /**
    * Throws an IllegalArgumentException if the specified coordinates are invalid.
    */
   private void checkIfValidPosition(int x, int y) {
-    if (x < 0 || x >= width || y < 0 || y >= height) {
+    if (!isValidPosition(x, y)) {
       throw new IllegalArgumentException("Invalid board position: (" + x + ", " + y + ")");
     }
   }

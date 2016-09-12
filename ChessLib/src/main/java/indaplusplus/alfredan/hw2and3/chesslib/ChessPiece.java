@@ -1,5 +1,6 @@
 package indaplusplus.alfredan.hw2and3.chesslib;
 
+import indaplusplus.alfredan.hw2and3.chesslib.util.IntVector2;
 import java.util.List;
 
 public abstract class ChessPiece {

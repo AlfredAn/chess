@@ -1,5 +1,7 @@
 package indaplusplus.alfredan.hw2and3.chesslib;
 
+import indaplusplus.alfredan.hw2and3.chesslib.util.IntVector2;
+
 public class ChessBoard {
   
   public final int width, height;

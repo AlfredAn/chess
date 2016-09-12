@@ -1,4 +1,4 @@
-package indaplusplus.alfredan.hw2and3.chesslib;
+package indaplusplus.alfredan.hw2and3.chesslib.util;
 
 /**
  * An immutable class that contains two integers.

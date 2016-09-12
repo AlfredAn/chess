@@ -60,6 +60,10 @@ public class ChessBoardJUnitTest {
    */
   private static final class TestPiece extends ChessPiece {
     
+    public TestPiece() {
+      super(Team.BLACK);
+    }
+    
     @Override
     public List<IntVector2> getAvailableMoves() {
       return new ArrayList<>(0);

@@ -30,7 +30,15 @@ public abstract class ChessPiece {
    */
   int yPos;
   
-  public ChessPiece() {}
+  /**
+   * The team that this piece belongs to.
+   * Normally this can only be either Team.BLACK or Team.WHITE, but any number is valid.
+   */
+  private int team;
+  
+  public ChessPiece(int team) {
+    this.team = team;
+  }
   
   public final int getX() {
     return xPos;
@@ -38,6 +46,14 @@ public abstract class ChessPiece {
   
   public final int getY() {
     return yPos;
+  }
+  
+  public final void setTeam(int team) {
+    this.team = team;
+  }
+  
+  public final int getTeam() {
+    return team;
   }
   
   /**

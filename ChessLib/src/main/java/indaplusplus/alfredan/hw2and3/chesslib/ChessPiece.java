@@ -3,6 +3,10 @@ package indaplusplus.alfredan.hw2and3.chesslib;
 import indaplusplus.alfredan.hw2and3.chesslib.util.IntVector2;
 import java.util.List;
 
+/**
+ * Represents a chess piece.
+ * Can be placed and moved on a ChessBoard.
+ */
 public abstract class ChessPiece {
 
   /**

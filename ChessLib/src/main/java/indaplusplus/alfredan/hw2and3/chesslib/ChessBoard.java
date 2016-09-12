@@ -2,6 +2,10 @@ package indaplusplus.alfredan.hw2and3.chesslib;
 
 import indaplusplus.alfredan.hw2and3.chesslib.util.IntVector2;
 
+/**
+ * Represents a chess board.
+ * Can be of any size as long as it has at least one cell.
+ */
 public class ChessBoard {
   
   public final int width, height;
@@ -33,7 +37,7 @@ public class ChessBoard {
   }
   
   /**
-   * Returns the chess piece at the given position, or null if there is none.
+   * Returns the chess piece at the specified position, or null if there is none.
    * @throws IllegalArgumentException if the position is invalid
    */
   public ChessPiece getPiece(int x, int y) {
@@ -43,7 +47,7 @@ public class ChessBoard {
   }
   
   /**
-   * Returns the chess piece at the given position, or null if there is none.
+   * Returns the chess piece at the specified position, or null if there is none.
    * @throws IllegalArgumentException if the position is invalid
    */
   public ChessPiece getPiece(IntVector2 position) {
@@ -51,7 +55,7 @@ public class ChessBoard {
   }
   
   /**
-   * Adds the given piece to the ChessBoard at the given position.
+   * Places the given piece on the ChessBoard at the specified position.
    * If the piece is already on this or another board, it will be moved to the
    * specified position.
    * @throws IllegalArgumentException if the position is not valid
@@ -68,7 +72,7 @@ public class ChessBoard {
   }
   
   /**
-   * Adds the given piece to the ChessBoard at the given position.
+   * Places the given piece on the ChessBoard at the specified position.
    * If the piece is already on this or another board, it will be moved to the
    * specified position.
    * @throws IllegalArgumentException if the position is not valid
@@ -95,7 +99,7 @@ public class ChessBoard {
   
   
   /**
-   * Updates the coordinates of the piece at the given position.
+   * Updates the coordinates of the piece at the specified position.
    * Must be called whenever a piece is added or moved.
    */
   private void updatePiece(int x, int y) {
@@ -107,7 +111,7 @@ public class ChessBoard {
   }
   
   /**
-   * Throws an IllegalArgumentException if the given coordinates are invalid.
+   * Throws an IllegalArgumentException if the specified coordinates are invalid.
    */
   private void checkIfValidPosition(int x, int y) {
     if (x < 0 || x >= width || y < 0 || y >= height) {

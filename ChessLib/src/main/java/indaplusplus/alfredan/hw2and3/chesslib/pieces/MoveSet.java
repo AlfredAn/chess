@@ -11,6 +11,11 @@ import java.util.List;
  */
 public final class MoveSet implements Iterable<IntVector2> {
   
+  /**
+   * An empty MoveSet. This is useful if you don't want a piece to be able to use a certain type of move.
+   */
+  public static final MoveSet EMPTY = new MoveSet(new IntVector2[] {});
+  
   private final IntVector2[] moveSet;
   
   /**

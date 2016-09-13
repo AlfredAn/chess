@@ -8,7 +8,7 @@ public abstract class BoardEvent {
   
   public final ChessBoard board;
   
-  BoardEvent(ChessBoard board) {
+  public BoardEvent(ChessBoard board) {
     this.board = board;
   }
   

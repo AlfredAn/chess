@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * This class provides utilities to make it easier to make many common types of chess pieces.
- * Most of the built-in chess pieces extend this class,
+ * All built-in chess pieces extend this class,
  * but you are also free to extend ChessPiece directly if you so desire.
  */
 public abstract class TemplatePiece extends ChessPiece {
@@ -56,7 +56,7 @@ public abstract class TemplatePiece extends ChessPiece {
       
       // check if the move would lead to a valid position
       if (getBoard().isValidPosition(moveX, moveY)
-              && canMoveSingle(delta, moveX, moveY)) {
+              && canMoveSingle(delta, moveX, moveY, i)) {
         
         IntVector2 move = new IntVector2(moveX, moveY);
         
@@ -86,7 +86,7 @@ public abstract class TemplatePiece extends ChessPiece {
         
         // check if the move would lead to a valid position
         if (getBoard().isValidPosition(moveX, moveY)) {
-          switch (canMoveRepeatable(delta, moveX, moveY, iteration)) {
+          switch (canMoveRepeatable(delta, moveX, moveY, i, iteration)) {
             case INVALID_STOP:
               break outer;
             case INVALID_CONTINUE:
@@ -126,9 +126,10 @@ public abstract class TemplatePiece extends ChessPiece {
    * @param delta The offset from the piece's current position
    * @param moveX The x position after making the move
    * @param moveY The y position after making the move
+   * @param index The index of this move in the MoveSet
    * @return Whether the move is valid
    */
-  protected boolean canMoveSingle(IntVector2 delta, int moveX, int moveY) {
+  protected boolean canMoveSingle(IntVector2 delta, int moveX, int moveY, int index) {
     ChessPiece pieceAtDestination = getBoard().getPiece(moveX, moveY);
     
     return pieceAtDestination == null || pieceAtDestination.team != team;
@@ -145,6 +146,7 @@ public abstract class TemplatePiece extends ChessPiece {
    * @param delta The offset from the piece's current position
    * @param moveX The x position after making the move
    * @param moveY The y position after making the move
+   * @param index The index of this move in the MoveSet
    * @param iteration How many times the move has been repeated thus far
    * @return <p>The action that should be taken:
    * <p>INVALID_STOP: if the move is invalid and iteration should stop,
@@ -152,7 +154,7 @@ public abstract class TemplatePiece extends ChessPiece {
    * <p>VALID_CONTINUE: if the move is valid and iteration should continue,
    * <p>VALID_STOP: if the move is valid but iteration should stop.
    */
-  protected RepeatableMoveResult canMoveRepeatable(IntVector2 delta, int moveX, int moveY, int iteration) {
+  protected RepeatableMoveResult canMoveRepeatable(IntVector2 delta, int moveX, int moveY, int index, int iteration) {
     ChessPiece pieceAtDestination = getBoard().getPiece(moveX, moveY);
     
     if (pieceAtDestination == null) {

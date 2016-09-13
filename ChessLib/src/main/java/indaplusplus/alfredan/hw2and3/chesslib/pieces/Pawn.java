@@ -7,8 +7,6 @@ import indaplusplus.alfredan.hw2and3.chesslib.util.IntVector2;
 
 /**
  * A pawn from standard chess.
- * 
- * TODO: Pawn promotion
  */
 public class Pawn extends TemplatePiece {
   

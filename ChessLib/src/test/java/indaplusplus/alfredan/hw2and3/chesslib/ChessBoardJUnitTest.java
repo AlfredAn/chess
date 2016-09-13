@@ -56,7 +56,7 @@ public class ChessBoardJUnitTest {
   }
   
   /**
-   * Test chess piece that cannot move by itself
+   * Test chess piece. Can only move upward, one square at a time
    */
   private static final class TestPiece extends ChessPiece {
     
@@ -66,7 +66,13 @@ public class ChessBoardJUnitTest {
     
     @Override
     public List<IntVector2> getAvailableMoves() {
-      return new ArrayList<>(0);
+      List<IntVector2> moveList = new ArrayList<>(1);
+      
+      if (getBoard().isValidPosition(xPos, yPos+1)) {
+        moveList.add(new IntVector2(getX(), getY()+1));
+      }
+      
+      return moveList;
     }
   }
   
@@ -213,5 +219,19 @@ public class ChessBoardJUnitTest {
     Assert.assertEquals("board.getPiece(4, 5)", piece1, board.getPiece(4, 5));
     Assert.assertNull("piece2.getBoard()", piece2.getBoard());
     Assert.assertNull("board.getPiece(3, 4)", board.getPiece(3, 4));
+  }
+  
+  @Test
+  public void testMoveUsingPieceMakeMove() {
+    ChessBoard board = new ChessBoard();
+    ChessPiece piece = new TestPiece();
+    
+    board.placePiece(piece, 1, 1);
+    piece.makeMove(1, 2);
+    
+    Assert.assertEquals("piece.getX()", 1, piece.getX());
+    Assert.assertEquals("piece.getY()", 2, piece.getY());
+    Assert.assertEquals("board.getPiece(1, 2)", piece, board.getPiece(1, 2));
+    Assert.assertNull("board.getPiece(1, 1)", board.getPiece(1, 1));
   }
 }

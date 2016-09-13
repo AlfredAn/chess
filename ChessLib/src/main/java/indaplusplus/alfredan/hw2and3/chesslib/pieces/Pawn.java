@@ -120,10 +120,6 @@ public class Pawn extends TemplatePiece {
       getBoard().removePiece(pieceToCapture);
     }
     
-    if (pieceAtDestination == null) {
-      
-    }
-    
     super.performMove(x, y);
     
     // this has to be placed after super.performMove() because it will otherwise be reset to false

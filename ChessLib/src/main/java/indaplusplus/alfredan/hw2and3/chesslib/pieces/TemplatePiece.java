@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * This class provides utilities to make it easier to make many common types of chess pieces.
- * All built-in chess pieces extend this class,
+ * Most of the built-in chess pieces extend this class,
  * but you are also free to extend ChessPiece directly if you so desire.
  */
 public abstract class TemplatePiece extends ChessPiece {
@@ -131,7 +131,7 @@ public abstract class TemplatePiece extends ChessPiece {
   protected boolean canMoveSingle(IntVector2 delta, int moveX, int moveY) {
     ChessPiece pieceAtDestination = getBoard().getPiece(moveX, moveY);
     
-    return pieceAtDestination == null || pieceAtDestination.getTeam() != getTeam();
+    return pieceAtDestination == null || pieceAtDestination.team != team;
   }
   
   /**
@@ -158,7 +158,7 @@ public abstract class TemplatePiece extends ChessPiece {
     if (pieceAtDestination == null) {
       // the square is empty - we can keep going
       return RepeatableMoveResult.VALID_CONTINUE;
-    } else if (pieceAtDestination.getTeam() == getTeam()) {
+    } else if (pieceAtDestination.team == team) {
       // the square is occupied by one of our own pieces - we can't move there
       return RepeatableMoveResult.INVALID_STOP;
     } else {

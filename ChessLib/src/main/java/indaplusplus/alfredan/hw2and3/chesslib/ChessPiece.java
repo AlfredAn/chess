@@ -103,10 +103,29 @@ public abstract class ChessPiece {
    * Performs the specified move.
    * This method is called by the makeMove() method if it determines that the move is valid,
    * and is intended to be overridden by subclasses for custom behavior.
+   * Should never be called manually.
+   * If you override this (and don't call super.performMove()), you need to either call signalMoveCompleted()
+   * after performing the move to let the board know that you made a move.
    */
   protected void performMove(int x, int y) {
     board.placePiece(this, x, y);
+    signalMoveCompleted();
   }
+  
+  /**
+   * Lets the board know that you finished a move.
+   */
+  protected final void signalMoveCompleted() {
+    board.signalEndOfTurn();
+  }
+  
+  /**
+   * Called whenever an event occurs on the board.
+   * ChessPiece gets the events this way instead of implementing BoardEventListener
+   * because then we won't have to keep track of adding and removing them from
+   * the ChessBoard's list of listeners.
+   */
+  protected void boardEvent(BoardEvent event) {}
   
   /**
    * Returns the ChessBoard that this piece belongs to,

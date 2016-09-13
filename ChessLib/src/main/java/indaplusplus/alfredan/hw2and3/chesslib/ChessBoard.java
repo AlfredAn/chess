@@ -2,6 +2,8 @@ package indaplusplus.alfredan.hw2and3.chesslib;
 
 import indaplusplus.alfredan.hw2and3.chesslib.util.IntVector2;
 import indaplusplus.alfredan.hw2and3.chesslib.util.TextUtil;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents a chess board.
@@ -12,6 +14,8 @@ public class ChessBoard {
   public final int width, height;
   
   private final ChessPiece[][] board;
+  
+  private final List<BoardEventListener> listeners = new ArrayList<>();
   
   /**
    * Create an empty ChessBoard with the specified dimensions.
@@ -111,6 +115,43 @@ public class ChessBoard {
     
     board[piece.xPos][piece.yPos] = null;
     piece.board = null;
+  }
+  
+  public void addEventListener(BoardEventListener l) {
+    listeners.add(l);
+  }
+  
+  public void removeEventListener(BoardEventListener l) {
+    listeners.remove(l);
+  }
+  
+  /**
+   * Sends the event to all the registered listeners,
+   * as well as to all the pieces on the board.
+   */
+  protected void sendEvent(BoardEvent event) {
+    // send the event to all listeners
+    for (int i = 0; i < listeners.size(); i++) {
+      listeners.get(i).boardEvent(event);
+    }
+    
+    // send the event to all the pieces on the board
+    for (int x = 0; x < width; x++) {
+      for (int y = 0; y < height; y++) {
+        ChessPiece piece = getPiece(x, y);
+        
+        if (piece != null) {
+          piece.boardEvent(event);
+        }
+      }
+    }
+  }
+  
+  /**
+   * Called by ChessPiece to signal that it has completed a move.
+   */
+  void signalEndOfTurn() {
+    sendEvent(new BoardEvent.EndOfTurnEvent(this));
   }
   
   /**

@@ -13,6 +13,10 @@ public final class IntVector2 {
     this.y = y;
   }
   
+  public boolean equals(int x, int y) {
+    return this.x == x && this.y == y;
+  }
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;

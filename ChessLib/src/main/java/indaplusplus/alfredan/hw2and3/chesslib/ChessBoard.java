@@ -1,6 +1,7 @@
 package indaplusplus.alfredan.hw2and3.chesslib;
 
 import indaplusplus.alfredan.hw2and3.chesslib.util.IntVector2;
+import indaplusplus.alfredan.hw2and3.chesslib.util.TextUtil;
 
 /**
  * Represents a chess board.
@@ -124,6 +125,22 @@ public class ChessBoard {
    */
   public boolean isValidPosition(IntVector2 pos) {
     return isValidPosition(pos.x, pos.y);
+  }
+  
+  /**
+   * Returns the text of the specified square on the board.
+   * Convenience method that simply calls TextUtil.getSquareText().
+   */
+  public final String getSquareText(int x, int y) {
+    return TextUtil.getSquareText(x, y, width, height);
+  }
+  
+  /**
+   * Returns the text of the specified square on the board.
+   * Convenience method that simply calls TextUtil.getSquareText().
+   */
+  public final String getSquareText(IntVector2 pos) {
+    return getSquareText(pos.x, pos.y);
   }
   
   /**

@@ -34,4 +34,9 @@ public final class IntVector2 {
     hash = 41 * hash + y;
     return hash;
   }
+  
+  @Override
+  public String toString() {
+    return "(" + x + ", " + y + ")";
+  }
 }

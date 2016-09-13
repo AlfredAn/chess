@@ -75,6 +75,26 @@ public final class MoveSet implements Iterable<IntVector2> {
   }
   
   /**
+   * Returns whether this MoveSet contains the specified move.
+   */
+  public boolean contains(IntVector2 v) {
+    for (int i = 0; i < size(); i++) {
+      if (get(i).equals(v)) return true;
+    }
+    return false;
+  }
+  
+  /**
+   * Returns whether this MoveSet contains the specified move.
+   */
+  public boolean contains(int x, int y) {
+    for (int i = 0; i < size(); i++) {
+      if (get(i).equals(x, y)) return true;
+    }
+    return false;
+  }
+  
+  /**
    * Returns an iterator over all the movement vectors in this MoveSet.
    */
   @Override

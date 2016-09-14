@@ -28,7 +28,7 @@ public final class MoveSet implements Iterable<IntVector2> {
    * Create a new MoveSet from a list of vectors.
    */
   public MoveSet(List<IntVector2> moveSet) {
-    this.moveSet = moveSet.toArray(new IntVector2[] {});
+    this.moveSet = moveSet.toArray(new IntVector2[moveSet.size()]);
   }
   
   /**

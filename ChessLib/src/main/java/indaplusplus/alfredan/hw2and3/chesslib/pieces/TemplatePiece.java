@@ -42,7 +42,7 @@ public abstract class TemplatePiece extends ChessPiece {
   }
   
   @Override
-  public final List<IntVector2> getAvailableMoves() {
+  public final List<IntVector2> listAvailableMoves() {
     List<IntVector2> moveList = new ArrayList<>();
     
     addCustomMoves(moveList);

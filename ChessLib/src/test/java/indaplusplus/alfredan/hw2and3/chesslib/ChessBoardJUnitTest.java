@@ -65,7 +65,7 @@ public class ChessBoardJUnitTest {
     }
     
     @Override
-    public List<IntVector2> getAvailableMoves() {
+    public List<IntVector2> listAvailableMoves() {
       List<IntVector2> moveList = new ArrayList<>(1);
       
       if (getBoard().isValidPosition(xPos, yPos+1)) {

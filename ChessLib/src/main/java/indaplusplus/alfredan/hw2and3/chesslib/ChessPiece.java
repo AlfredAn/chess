@@ -1,5 +1,6 @@
 package indaplusplus.alfredan.hw2and3.chesslib;
 
+import indaplusplus.alfredan.hw2and3.chesslib.pieces.MoveSet;
 import indaplusplus.alfredan.hw2and3.chesslib.util.IntVector2;
 import java.util.List;
 
@@ -36,6 +37,11 @@ public abstract class ChessPiece {
    */
   public int team;
   
+  /**
+   * Used to cache the available moves to avoid having to compute them more than once per turn.
+   */
+  private MoveSet cachedMoveSet;
+  
   public ChessPiece(int team) {
     this.team = team;
   }
@@ -49,9 +55,21 @@ public abstract class ChessPiece {
   }
   
   /**
-   * Returns a list of all the possible squares that this piece can move to.
+   * Returns a MoveSet containing all the possible squares that this piece can move to.
    */
-  public abstract List<IntVector2> getAvailableMoves();
+  public final MoveSet getAvailableMoves() {
+    if (cachedMoveSet == null) {
+      cachedMoveSet = new MoveSet(listAvailableMoves());
+    }
+    return cachedMoveSet;
+  }
+  
+  /**
+   * Returns a list of all the possible squares that this piece can move to.
+   * This method must be overridden by all subclasses to define the piece's behavior.
+   * getAvailableMoves() will convert the returned list to a MoveSet and cache it for the duration of the turn.
+   */
+  protected abstract List<IntVector2> listAvailableMoves();
   
   /**
    * Returns whether this piece can move to the specified square.
@@ -117,6 +135,13 @@ public abstract class ChessPiece {
    */
   protected final void signalMoveCompleted() {
     board.signalEndOfTurn();
+  }
+  
+  void handleBoardEvent(BoardEvent event) {
+    if (event instanceof BoardEvent.EndOfTurnEvent) {
+      cachedMoveSet = null;
+    }
+    boardEvent(event);
   }
   
   /**

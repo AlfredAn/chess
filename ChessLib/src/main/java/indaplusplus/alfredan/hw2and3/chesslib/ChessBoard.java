@@ -141,7 +141,7 @@ public class ChessBoard {
         ChessPiece piece = getPiece(x, y);
         
         if (piece != null) {
-          piece.boardEvent(event);
+          piece.handleBoardEvent(event);
         }
       }
     }

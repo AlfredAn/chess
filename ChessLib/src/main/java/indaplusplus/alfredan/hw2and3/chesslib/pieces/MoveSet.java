@@ -126,8 +126,7 @@ public final class MoveSet implements Iterable<IntVector2> {
     
     MoveSet other = (MoveSet)o;
     
-    // checking length first to potentially avoid having to compare the elements
-    return size() == other.size() && Arrays.equals(moveSet, other.moveSet);
+    return Arrays.equals(moveSet, other.moveSet);
   }
 
   @Override

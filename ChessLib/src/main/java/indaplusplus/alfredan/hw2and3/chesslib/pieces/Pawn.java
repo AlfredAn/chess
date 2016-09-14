@@ -72,6 +72,11 @@ public class Pawn extends TemplatePiece {
   private boolean enPassantVulnerable = false;
   
   /**
+   * Whether the pawn will be vulnerable to en passant next turn.
+   */
+  private boolean enPassantVulnerableNextTurn = false;
+  
+  /**
    * Create a pawn with the specified team.
    */
   public Pawn(int team) {
@@ -120,18 +125,19 @@ public class Pawn extends TemplatePiece {
       getBoard().removePiece(pieceToCapture);
     }
     
-    super.performMove(x, y);
-    
-    // this has to be placed after super.performMove() because it will otherwise be reset to false
     if (isDoubleMove) {
-      enPassantVulnerable = true;
+      // this will cause enPassantVulnerable to be set to true after the turn ends
+      enPassantVulnerableNextTurn = true;
     }
+    
+    super.performMove(x, y);
   }
   
   @Override
   protected void boardEvent(BoardEvent event) {
     if (event instanceof BoardEvent.EndOfTurnEvent) {
-      enPassantVulnerable = false;
+      enPassantVulnerable = enPassantVulnerableNextTurn;
+      enPassantVulnerableNextTurn = false;
     }
   }
 }

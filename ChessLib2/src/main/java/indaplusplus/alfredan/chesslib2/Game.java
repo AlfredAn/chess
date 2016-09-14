@@ -2,9 +2,9 @@ package indaplusplus.alfredan.chesslib2;
 
 public class Game {
   
-  private ChessBoard currentBoard;
+  private Board currentBoard;
   
-  public Game(ChessBoard startBoard) {
+  public Game(Board startBoard) {
     currentBoard = startBoard;
   }
 }

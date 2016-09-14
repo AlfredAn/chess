@@ -15,7 +15,7 @@ public abstract class TemplatePiece extends ChessPiece {
   /**
    * This MoveSet defines a set of moves that can only be performed once per turn.
    * In standard chess, the pawn, the knight and the king all move this way,
-   * although the pawn and the king has some special cases.
+   * although the pawn has some special cases.
    */
   protected final MoveSet singleMoves;
   

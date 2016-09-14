@@ -7,6 +7,8 @@ import java.util.List;
 /**
  * Represents a chess piece.
  * Can be placed and moved on a ChessBoard.
+ * 
+ * <p>Note for subclassers: You cannot make a custom piece that can capture the king without directly moving to it.
  */
 public abstract class ChessPiece {
 

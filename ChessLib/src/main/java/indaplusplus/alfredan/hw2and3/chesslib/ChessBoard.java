@@ -1,5 +1,7 @@
 package indaplusplus.alfredan.hw2and3.chesslib;
 
+import indaplusplus.alfredan.hw2and3.chesslib.pieces.King;
+import indaplusplus.alfredan.hw2and3.chesslib.pieces.MoveSet;
 import indaplusplus.alfredan.hw2and3.chesslib.util.IntVector2;
 import indaplusplus.alfredan.hw2and3.chesslib.util.TextUtil;
 import java.util.ArrayList;
@@ -145,6 +147,36 @@ public class ChessBoard {
         }
       }
     }
+  }
+  
+  /**
+   * Returns whether the specified king is currently in check.
+   * NOTE: If you have custom pieces that can capture the king without directly moving to it
+   * (like how pawns can do an "en passant" capture), then this method won't work.
+   */
+  public boolean isInCheck(King king) {
+    if (king.getBoard() != this) {
+      throw new IllegalArgumentException("That king isn't on this board.");
+    }
+    
+    for (int x = 0; x < width; x++) {
+      for (int y = 0; y < height; y++) {
+        ChessPiece attacker = getPiece(x, y);
+        
+        if (attacker != null && attacker.team != king.team) {
+          MoveSet moves = attacker.getAvailableMoves();
+          
+          for (int i = 0; i < moves.size(); i++) {
+            IntVector2 move = moves.get(i);
+            
+            if (move.x == king.getX() && move.y == king.getY()) {
+              return true;
+            }
+          }
+        }
+      }
+    }
+    return false;
   }
   
   /**

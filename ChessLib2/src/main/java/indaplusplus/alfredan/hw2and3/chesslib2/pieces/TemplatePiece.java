@@ -33,7 +33,7 @@ public abstract class TemplatePiece extends Piece {
   }
   
   @Override
-  public final List<IntVector2> listAvailableMoves(Board board, int xPos, int yPos) {
+  public final List<IntVector2> getAvailableMoves(Board board, int xPos, int yPos) {
     List<IntVector2> moveList = new ArrayList<>();
     
     addCustomMoves(board, xPos, yPos, moveList);

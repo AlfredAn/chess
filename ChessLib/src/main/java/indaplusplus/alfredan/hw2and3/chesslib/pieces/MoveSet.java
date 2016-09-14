@@ -6,34 +6,33 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Defines a set of vectors that represent directions a piece can move in.
- * A MoveSet instance is immutable and is intended to be shared by all pieces of the same type.
+ * An immutable list of vectors.
  */
 public final class MoveSet implements Iterable<IntVector2> {
   
   /**
-   * An empty MoveSet. This is useful if you don't want a piece to be able to make a certain type of move.
+   * An empty MoveSet.
    */
   public static final MoveSet EMPTY = new MoveSet(new IntVector2[] {});
   
   private final IntVector2[] moveSet;
   
   /**
-   * Create a new MoveSet from an array of movement vectors.
+   * Create a new MoveSet from an array of vectors.
    */
   public MoveSet(IntVector2[] moveSet) {
     this.moveSet = Arrays.copyOf(moveSet, moveSet.length); // copy for safety
   }
   
   /**
-   * Create a new MoveSet from a list of movement vectors.
+   * Create a new MoveSet from a list of vectors.
    */
   public MoveSet(List<IntVector2> moveSet) {
     this.moveSet = moveSet.toArray(new IntVector2[] {});
   }
   
   /**
-   * Create a new MoveSet from an array of movement vectors.
+   * Create a new MoveSet from an array of vectors.
    * Every sub-array has to be of length exactly two.
    * This is a convenience method intended to allow you to create a MoveSet as follows:
    * {@code MoveSet moveSet = new MoveSet(new int[][] {
@@ -59,14 +58,14 @@ public final class MoveSet implements Iterable<IntVector2> {
   }
   
   /**
-   * Returns the number of movement vectors in this MoveSet.
+   * Returns the number of vectors in this MoveSet.
    */
   public int size() {
     return moveSet.length;
   }
   
   /**
-   * Returns the movement vector with index i in this MoveSet.
+   * Returns the vector with index i in this MoveSet.
    * 
    * @throws ArrayIndexOutOfBoundsException if i is not a valid index
    */
@@ -75,7 +74,7 @@ public final class MoveSet implements Iterable<IntVector2> {
   }
   
   /**
-   * Returns whether this MoveSet contains the specified move.
+   * Returns whether this MoveSet contains the specified vector.
    */
   public boolean contains(IntVector2 v) {
     for (int i = 0; i < size(); i++) {
@@ -85,7 +84,7 @@ public final class MoveSet implements Iterable<IntVector2> {
   }
   
   /**
-   * Returns whether this MoveSet contains the specified move.
+   * Returns whether this MoveSet contains the specified vector.
    */
   public boolean contains(int x, int y) {
     for (int i = 0; i < size(); i++) {
@@ -95,7 +94,7 @@ public final class MoveSet implements Iterable<IntVector2> {
   }
   
   /**
-   * Returns an iterator over all the movement vectors in this MoveSet.
+   * Returns an iterator over all the vectors in this MoveSet.
    */
   @Override
   public Iterator<IntVector2> iterator() {

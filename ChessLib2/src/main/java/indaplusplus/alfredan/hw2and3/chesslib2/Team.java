@@ -1,4 +1,4 @@
-package indaplusplus.alfredan.chesslib2;
+package indaplusplus.alfredan.hw2and3.chesslib2;
 
 /**
  * Contains constants for the black and white players in a standard chess game.

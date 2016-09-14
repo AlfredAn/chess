@@ -1,5 +1,7 @@
-package indaplusplus.alfredan.chesslib2;
+package indaplusplus.alfredan.hw2and3.chesslib2;
 
+import indaplusplus.alfredan.hw2and3.chesslib2.util.MoveSet;
+import indaplusplus.alfredan.hw2and3.chesslib2.util.IntVector2;
 import java.util.List;
 
 public abstract class Piece {

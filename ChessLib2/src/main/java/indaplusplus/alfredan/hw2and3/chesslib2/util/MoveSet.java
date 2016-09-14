@@ -1,5 +1,6 @@
-package indaplusplus.alfredan.chesslib2;
+package indaplusplus.alfredan.hw2and3.chesslib2.util;
 
+import indaplusplus.alfredan.hw2and3.chesslib2.util.IntVector2;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;

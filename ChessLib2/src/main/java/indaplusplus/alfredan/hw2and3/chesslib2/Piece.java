@@ -16,7 +16,7 @@ public abstract class Piece {
    * This method must be overridden by all subclasses to define the piece's behavior.
    * getAvailableMoves() will convert the returned list to a MoveSet and cache it for the duration of the turn.
    */
-  public abstract List<IntVector2> getAvailableMoves(Board board, int xPos, int yPos);
+  protected abstract List<IntVector2> getAvailableMoves(Board board, int xPos, int yPos);
   
   /**
    * Returns whether this piece can move to the specified square.

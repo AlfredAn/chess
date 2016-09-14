@@ -1,5 +1,8 @@
 package indaplusplus.alfredan.hw2and3.chesslib2;
 
+import indaplusplus.alfredan.hw2and3.chesslib2.util.IntVector2;
+import java.util.List;
+
 public final class Board {
   
   private final Piece[][] board;
@@ -32,6 +35,19 @@ public final class Board {
   
   public boolean isValidPosition(int x, int y) {
     return x >= 0 && x < getWidth() && y >= 0 && y < getHeight();
+  }
+  
+  /**
+   * Returns a list of all the available moves from the piece at location (x, y).
+   * @throws IllegalArgumentException If the specified location is empty.
+   */
+  public List<IntVector2> getAvailableMoves(int x, int y) {
+    Piece piece = get(x, y);
+    if (piece == null) {
+      throw new IllegalArgumentException("No piece at this location!");
+    } else {
+      return piece.getAvailableMoves(this, x, y);
+    }
   }
   
   public Board makeMove(int fromX, int fromY, int toX, int toY, MutableBoard mutableBoard) {

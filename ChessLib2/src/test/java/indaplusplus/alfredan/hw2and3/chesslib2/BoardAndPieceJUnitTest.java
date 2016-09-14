@@ -1,7 +1,6 @@
 package indaplusplus.alfredan.hw2and3.chesslib2;
 
 import indaplusplus.alfredan.hw2and3.chesslib2.util.IntVector2;
-import indaplusplus.alfredan.hw2and3.chesslib2.util.MoveSet;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Assert;
@@ -16,7 +15,7 @@ public class BoardAndPieceJUnitTest {
     }
     
     @Override
-    protected List<IntVector2> listAvailableMoves(Board board, int xPos, int yPos) {
+    protected List<IntVector2> getAvailableMoves(Board board, int xPos, int yPos) {
       List<IntVector2> moveList = new ArrayList<>(1);
       
       if (board.isValidPosition(xPos, yPos+1)) {
@@ -50,7 +49,7 @@ public class BoardAndPieceJUnitTest {
     
     Board board = new Board(mBoard);
     
-    MoveSet moveSet = piece.getAvailableMoves(board, 1, 1);
+    List<IntVector2> moveSet = piece.getAvailableMoves(board, 1, 1);
     
     Assert.assertEquals("moveSet.size()", 1, moveSet.size());
     Assert.assertEquals("moveSet.get(0)", new IntVector2(1, 2), moveSet.get(0));
@@ -66,7 +65,7 @@ public class BoardAndPieceJUnitTest {
     
     Board board = new Board(mBoard);
     
-    MoveSet moveSet = piece.getAvailableMoves(board, 1, 7);
+    List<IntVector2> moveSet = piece.getAvailableMoves(board, 1, 7);
     
     Assert.assertEquals("moveSet.size()", 0, moveSet.size());
   }

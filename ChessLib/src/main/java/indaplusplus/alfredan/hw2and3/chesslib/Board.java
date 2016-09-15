@@ -107,6 +107,7 @@ public final class Board {
       for (int i = 0; i < moveList.size(); i++) {
         IntVector2 move = moveList.get(i);
         
+        // temporarily make the move to see if it would lead to a check
         Board tempBoard = makeMoveNoCheck(x, y, move.x, move.y);
         if ((piece instanceof King && tempBoard.isDangerous(move.x, move.y, piece.team))
                 || ((!(piece instanceof King)) && tempBoard.isDangerous(kingX, kingY, piece.team))) {

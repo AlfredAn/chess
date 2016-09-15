@@ -52,7 +52,7 @@ public class CastlingJUnitTest {
     Assert.assertEquals("moveList.size()", 6, moveList.size());
     Assert.assertTrue("contains (2, 0)", moveList.contains(new IntVector2(2, 0)));
     
-    board = board.makeMove(4, 0, 6, 0);
+    board = board.makeMove(4, 0, 2, 0);
     
     Assert.assertTrue("board.get(6, 0)", board.get(2, 0) instanceof King);
     Assert.assertTrue("board.get(5, 0)", board.get(3, 0) instanceof Rook);

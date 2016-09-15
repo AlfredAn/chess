@@ -2,6 +2,7 @@ package indaplusplus.alfredan.hw2and3.chesslib.game;
 
 import indaplusplus.alfredan.hw2and3.chesslib.Board;
 import indaplusplus.alfredan.hw2and3.chesslib.MutableBoard;
+import indaplusplus.alfredan.hw2and3.chesslib.Piece;
 import indaplusplus.alfredan.hw2and3.chesslib.Team;
 import indaplusplus.alfredan.hw2and3.chesslib.pieces.Bishop;
 import indaplusplus.alfredan.hw2and3.chesslib.pieces.King;
@@ -58,9 +59,40 @@ public final class StandardChessGame {
   
   public static final Board STARTING_BOARD;
   
-  private Board currentBoard;
+  private Board board = STARTING_BOARD;
   
-  public StandardChessGame() {
+  private int turn = Team.WHITE;
+  
+  public StandardChessGame() {}
+  
+  /**
+   * Try to move the piece at (fromX, fromY) to position (toX, toY).
+   * @return Whether the move was successful.
+   */
+  public boolean move(int fromX, int fromY, int toX, int toY) {
+    Piece piece = board.get(fromX, fromY);
     
+    if (piece != null && piece.team == turn && board.isValidMove(fromX, fromY, toX, toY)) {
+      board.makeMove(fromX, fromY, toX, toY);
+      turn = 1 - turn;
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
+  /**
+   * Returns the current state of the chess board.
+   */
+  public Board getBoard() {
+    return board;
+  }
+  
+  /**
+   * Returns whose turn it is.
+   * Possible values are Team.BLACK and Team.WHITE.
+   */
+  public int getTurn() {
+    return turn;
   }
 }

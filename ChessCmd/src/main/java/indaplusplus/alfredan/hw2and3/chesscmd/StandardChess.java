@@ -15,6 +15,7 @@ import indaplusplus.alfredan.hw2and3.chesslib.util.TextUtil;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.Locale;
 
 public final class StandardChess {
@@ -29,31 +30,74 @@ public final class StandardChess {
   
   private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
   
-  private final StandardChessGame game = new StandardChessGame();
+  private StandardChessGame game = new StandardChessGame();
+  
+  private int xLook = -1, yLook = -1;
   
   public void run() {
-    System.out.println("\n\n-----Standard Chess-----\n");
-    
-    while (true) {
-      doTurn();
+    outer: while (true) {
+      System.out.println("\n\n-----Standard Chess-----\n");
+      System.out.println("Type help if you don't know what to do!");
+      mid: while (true) {
+        doTurn();
+        
+        switch (game.getGameStatus()) {
+          case BLACK_WIN:
+            xLook = -1;
+            yLook = -1;
+            printChessBoard();
+            System.out.println("\nCheckmate! Black wins.");
+            break mid;
+          case WHITE_WIN:
+            xLook = -1;
+            yLook = -1;
+            printChessBoard();
+            System.out.println("\nCheckmate! White wins.");
+            break mid;
+          case DRAW:
+            xLook = -1;
+            yLook = -1;
+            printChessBoard();
+            System.out.println("\nThe game ended in a draw.");
+            break mid;
+        }
+      }
       
-      switch (game.getGameStatus()) {
-        case BLACK_WIN:
-          System.out.println("\nCheckmate! Black wins.");
-          return;
-        case WHITE_WIN:
-          System.out.println("\nCheckmate! White wins.");
-          return;
-        case DRAW:
-          System.out.println("\nThe game ended in a draw.");
-          return;
+      System.out.print("\n\nPlay again? (y/n)\n> ");
+      while (true) {
+        try {
+          String s = reader.readLine();
+          if (s.length() == 0) {
+            continue;
+          }
+          char c = s.charAt(0);
+          switch (c) {
+            case 'y':
+            case 'Y':
+              System.out.print("\n\n");
+              game = new StandardChessGame();
+              continue outer;
+            case 'n':
+            case 'N':
+              System.out.print("\n> ");
+              return;
+          }
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
       }
     }
   }
   
   private void doTurn() {
+    xLook = -1;
+    yLook = -1;
+    
     printChessBoard();
     
+    if (game.getBoard().isChecked(game.getTurn())) {
+      System.out.println("Check!");
+    }
     System.out.print("\nIt's " + Team.getTeamName(game.getTurn()).toLowerCase(Locale.ENGLISH) + "'s turn!\n> ");
     
     outer: while (true) {
@@ -62,7 +106,10 @@ public final class StandardChess {
         if (input.length == 0) continue;
         
         // parse command
-        switch (input[0]) {
+        switch (input[0].toLowerCase(Locale.ENGLISH)) {
+          case "m":
+          case "mo":
+          case "mov":
           case "move":
             if (input.length != 3) {
               System.out.print("\nUsage: move xx yy\nWhere xx and yy are positions on the board, such as c1 or h5\n> ");
@@ -87,8 +134,44 @@ public final class StandardChess {
               break;
             }
             break;
+          case "l":
+          case "lo":
+          case "loo":
+          case "look":
+            if (input.length > 2) {
+              System.out.print("\nUsage: look xx\nWhere xx is the position of a piece on the board.\n> ");
+              break;
+            }
+            int prevXLook = xLook;
+            int prevYLook = yLook;
+            if (input.length == 1) {
+              xLook = -1;
+              yLook = -1;
+            } else {
+              IntVector2 pos = TextUtil.readSquareText(input[1]);
+              if (!game.getBoard().isValidPosition(pos.x, pos.y)) {
+                System.out.print("\nUsage: look xx\nWhere xx is the position of a piece on the board.\n> ");
+                break;
+              }
+              xLook = pos.x;
+              yLook = pos.y;
+            }
+            if (prevXLook != xLook || prevYLook != yLook) {
+              printChessBoard();
+            }
+            System.out.print("\n> ");
+            break;
+          case "h":
+          case "he":
+          case "hel":
+          case "help":
+            System.out.print("\nCommand list:"
+                    + "\nmove xx yy - move the piece at xx to yy."
+                    + "\nlook xx - display all possible moves that can be made from xx."
+                    + "\nhelp - display this list.\nYou don't have to type the whole command names, only the first letter is needed.\n> ");
+            break;
           default:
-            System.out.print("\nUnknown command: " + input[0] + "\n> ");
+            System.out.print("\nUnknown command: " + input[0] + " (type \"help\" for a list of commands)\n> ");
             break;
         }
       } catch (IOException e) {
@@ -137,6 +220,12 @@ public final class StandardChess {
     
     Board board = game.getBoard();
     
+    List<IntVector2> moveList = null;
+    if (board.isValidPosition(xLook, yLook)
+            && board.get(xLook, yLook) != null) {
+      moveList = board.getAvailableMoves(xLook, yLook);
+    }
+    
     // draw the bottom edge
     for (int x = 2; x < BUF_WIDTH - 2; x++) {
       draw(x, BUF_HEIGHT - 2, '-');
@@ -160,7 +249,19 @@ public final class StandardChess {
           draw(2 + cx * 6, 1 + cy * 4 + y, '|');
         }
         
-        //draw piece in the cell
+        // draw cross if this is in the moveList
+        if (moveList != null && moveList.contains(new IntVector2(cx, 7-cy))) {
+          draw(3 + cx * 6, 2 + cy * 4, '#');
+          draw(4 + cx * 6, 2 + cy * 4, '#');
+          draw(6 + cx * 6, 2 + cy * 4, '#');
+          draw(7 + cx * 6, 2 + cy * 4, '#');
+          draw(3 + cx * 6, 4 + cy * 4, '#');
+          draw(4 + cx * 6, 4 + cy * 4, '#');
+          draw(6 + cx * 6, 4 + cy * 4, '#');
+          draw(7 + cx * 6, 4 + cy * 4, '#');
+        }
+        
+        // draw piece in the cell
         Piece piece = board.get(cx, 7-cy);
         draw(5 + cx * 6, 3 + cy * 4, getPieceLetter(piece));
         
@@ -181,6 +282,8 @@ public final class StandardChess {
       draw(0, 3 + cy * 4, (char)('8' - cy));
       draw(BUF_WIDTH - 1, 3 + cy * 4, (char)('8' - cy));
     }
+    
+    sb.append('\n');
     
     // add to StringBuilder and print to screen
     for (int y = 0; y < BUF_HEIGHT; y++) {

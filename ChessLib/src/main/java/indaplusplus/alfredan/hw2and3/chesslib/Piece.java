@@ -23,7 +23,6 @@ public abstract class Piece {
   /**
    * Returns a list of all the possible squares that this piece can move to.
    * This method must be overridden by all subclasses to define the piece's behavior.
-   * getAvailableMoves() will convert the returned list to a MoveSet and cache it for the duration of the turn.
    */
   protected abstract List<IntVector2> getAvailableMoves(Board board, int xPos, int yPos);
   
@@ -31,7 +30,11 @@ public abstract class Piece {
    * Returns whether this piece can move to the specified square.
    */
   public boolean isValidMove(Board board, int xPos, int yPos, int moveX, int moveY) {
-    for (IntVector2 validMove : getAvailableMoves(board, xPos, yPos)) {
+    List<IntVector2> moveList = getAvailableMoves(board, xPos, yPos);
+    
+    for (int i = 0; i < moveList.size(); i++) {
+      IntVector2 validMove = moveList.get(i);
+      
       if (validMove.x == moveX && validMove.y == moveY) {
         return true;
       }

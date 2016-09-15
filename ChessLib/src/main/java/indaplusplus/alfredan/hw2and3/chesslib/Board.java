@@ -2,6 +2,7 @@ package indaplusplus.alfredan.hw2and3.chesslib;
 
 import indaplusplus.alfredan.hw2and3.chesslib.pieces.King;
 import indaplusplus.alfredan.hw2and3.chesslib.util.IntVector2;
+import indaplusplus.alfredan.hw2and3.chesslib.util.MutableBoardPool;
 import java.util.List;
 
 /**
@@ -57,12 +58,35 @@ public final class Board {
    * @throws IllegalArgumentException If the specified location is empty.
    */
   public List<IntVector2> getAvailableMoves(int x, int y) {
+    return getAvailableMoves(x, y, true);
+  }
+  
+  /**
+   * Returns a list of all the available moves from the piece at location (x, y).
+   * @param x The x position of the piece.
+   * @param y The y position of the piece.
+   * @param testIfKingChecked Whether to remove moves that would result in the king being checked.
+   * @param team The team whose king to check.
+   * @throws IllegalArgumentException If the specified location is empty.
+   */
+  private List<IntVector2> getAvailableMoves(int x, int y, boolean testIfKingChecked) {
     Piece piece = get(x, y);
     if (piece == null) {
       throw new IllegalArgumentException("No piece at this location!");
-    } else {
-      return piece.getAvailableMoves(this, x, y);
     }
+    
+    List<IntVector2> moveList = piece.getAvailableMoves(this, x, y);
+    
+    if (testIfKingChecked) {
+      // set all filtered elements to null and then remove them all in one go
+      for (int i = 0; i < moveList.size(); i++) {
+        IntVector2 move = moveList.get(i);
+        
+        //Board tempBoard = makeMoveNoCheck(x, y, )
+      }
+    }
+    
+    return moveList;
   }
   
   /**
@@ -71,15 +95,41 @@ public final class Board {
    * @param fromY The y coordinate of the piece to move.
    * @param toX The x coordinate to move to.
    * @param toY The y coordinate to move to.
-   * @param mutableBoard An arbitrary MutableBoard instance. This will be used
-   * as temporary storage and can thus be reused later.
    * @return A new Board with an updated game state.
+   * @throws IllegalArgumentException If the piece doesn't exist or if the move is invalid.
    */
-  public Board makeMove(int fromX, int fromY, int toX, int toY, MutableBoard mutableBoard) {
+  public Board makeMove(int fromX, int fromY, int toX, int toY) {
     Piece piece = get(fromX, fromY);
     if (piece == null) {
       throw new IllegalArgumentException("No piece here!");
     }
+    
+    if (piece.isValidMove(this, fromX, fromY, toX, toY)) {
+      return makeMoveNoCheck(fromX, fromY, toX, toY);
+    } else {
+      throw new IllegalArgumentException("Illegal move!");
+    }
+  }
+  
+  /**
+   * Makes a move and returns a new Board with the updated game state.
+   * This method doesn't check if the move is valid before making it.
+   * @param fromX The x coordinate of the piece to move.
+   * @param fromY The y coordinate of the piece to move.
+   * @param toX The x coordinate to move to.
+   * @param toY The y coordinate to move to.
+   * @param mutableBoard An arbitrary MutableBoard instance. This will be used
+   * as temporary storage and can thus be reused later.
+   * @return A new Board with an updated game state.
+   * @throws IllegalArgumentException If the piece doesn't exist.
+   */
+  private Board makeMoveNoCheck(int fromX, int fromY, int toX, int toY) {
+    Piece piece = get(fromX, fromY);
+    if (piece == null) {
+      throw new IllegalArgumentException("No piece here!");
+    }
+    
+    MutableBoard mutableBoard = MutableBoardPool.obtain(getWidth(), getHeight());
     
     mutableBoard.set(this);
     

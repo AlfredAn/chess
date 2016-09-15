@@ -109,8 +109,8 @@ public final class Board {
         
         // temporarily make the move to see if it would lead to a check
         Board tempBoard = makeMoveNoCheck(x, y, move.x, move.y);
-        if ((piece instanceof King && tempBoard.isDangerous(move.x, move.y, piece.team, !testIfKingChecked))
-                || ((!(piece instanceof King)) && tempBoard.isDangerous(kingX, kingY, piece.team, !testIfKingChecked))) {
+        if ((piece instanceof King && tempBoard.isDangerous(move.x, move.y, piece.team, false))
+                || ((!(piece instanceof King)) && tempBoard.isDangerous(kingX, kingY, piece.team, false))) {
           moveList.remove(i);
           i--;
         }

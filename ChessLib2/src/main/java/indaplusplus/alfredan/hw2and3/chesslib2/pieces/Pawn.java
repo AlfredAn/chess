@@ -125,7 +125,6 @@ public final class Pawn extends TemplatePiece {
     if (isCapture && pieceAtDestination == null) {
       // must be an en passant capture
       board.set(moveX, moveY - getForwardYDirection(), null);
-    } else {
     }
     
     boolean newHasMoved = true;

@@ -109,8 +109,8 @@ public final class Board {
         
         // temporarily make the move to see if it would lead to a check
         Board tempBoard = makeMoveNoCheck(x, y, move.x, move.y);
-        if ((piece instanceof King && tempBoard.isDangerous(move.x, move.y, piece.team))
-                || ((!(piece instanceof King)) && tempBoard.isDangerous(kingX, kingY, piece.team))) {
+        if ((piece instanceof King && tempBoard.isDangerous(move.x, move.y, piece.team, !testIfKingChecked))
+                || ((!(piece instanceof King)) && tempBoard.isDangerous(kingX, kingY, piece.team, !testIfKingChecked))) {
           moveList.remove(i);
           i--;
         }
@@ -205,19 +205,18 @@ public final class Board {
    * Note that this doesn't support moves that can capture at a different place
    * than they move to, such as the pawn's "en passant" capture.
    */
-  public boolean isDangerous(int x, int y, int team) {
+  public boolean isDangerous(int x, int y, int team, boolean dontRecurse) {
+    if (dontRecurse) {
+      return false;
+    }
+    
     for (int xx = 0; xx < getWidth(); xx++) {
       for (int yy = 0; yy < getHeight(); yy++) {
         Piece attacker = get(xx, yy);
         
         if (attacker != null && team != attacker.team) {
           
-          // special case to avoid infinite recursion in some situations
-          if (attacker instanceof King && Math.min(Math.abs(xx - x), Math.abs(yy - y)) > 1) {
-            continue;
-          }
-          
-          List<IntVector2> moveList = attacker.getAvailableMoves(this, xx, yy);
+          List<IntVector2> moveList = getAvailableMoves(xx, yy, false);
           
           for (int i = 0; i < moveList.size(); i++) {
             IntVector2 move = moveList.get(i);
@@ -257,7 +256,7 @@ public final class Board {
       return false;
     }
     
-    return isDangerous(kingX, kingY, team);
+    return isDangerous(kingX, kingY, team, false);
   }
   
   /**

@@ -49,13 +49,13 @@ public final class King extends TemplatePiece {
      * 4. The king and the rook must be on the same rank (y position).
      */
     
-    if (!hasMoved && !board.isDangerous(xPos, yPos, team)) {
+    if (!hasMoved && !board.isDangerous(xPos, yPos, team, true)) {
       // to the right
       if (xPos < board.getWidth() - 3
               && board.get(xPos + 1, yPos) == null
               && board.get(xPos + 2, yPos) == null
-              && !board.isDangerous(xPos + 1, yPos, team)
-              && !board.isDangerous(xPos + 2, yPos, team)) {
+              && !board.isDangerous(xPos + 1, yPos, team, true)
+              && !board.isDangerous(xPos + 2, yPos, team, true)) {
         // check if there is an eligible rook
         for (int x = xPos + 3; x < board.getWidth(); x++) {
           Piece piece = board.get(x, yPos);
@@ -80,8 +80,8 @@ public final class King extends TemplatePiece {
       if (xPos >= 3
               && board.get(xPos - 1, yPos) == null
               && board.get(xPos - 2, yPos) == null
-              && !board.isDangerous(xPos - 1, yPos, team)
-              && !board.isDangerous(xPos - 2, yPos, team)) {
+              && !board.isDangerous(xPos - 1, yPos, team, true)
+              && !board.isDangerous(xPos - 2, yPos, team, true)) {
         // check if there is an eligible rook
         for (int x = xPos - 3; x >= 0; x--) {
           Piece piece = board.get(x, yPos);

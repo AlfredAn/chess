@@ -41,4 +41,13 @@ public abstract class Piece {
     board.set(xPos, yPos, null);
     board.set(moveX, moveY, this);
   }
+  
+  /**
+   * Called immediately after a turn is made.
+   * @param board The board that is currently being processed.
+   * @param xPos The x position of this piece.
+   * @param yPos The y position of this piece.
+   * @param teamThatMoved The team that just made a move.
+   */
+  protected void endOfTurn(MutableBoard board, int xPos, int yPos, int teamThatMoved) {}
 }

@@ -57,7 +57,18 @@ public final class Board {
     }
     
     mutableBoard.set(this);
+    
     piece.makeMove(mutableBoard, fromX, fromY, toX, toY);
+    
+    // call endOfTurn() on all pieces
+    for (int x = 0; x < getWidth(); x++) {
+      for (int y = 0; y < getHeight(); y++) {
+        Piece pieceToUpdate = mutableBoard.get(x, y);
+        if (pieceToUpdate != null) {
+          pieceToUpdate.endOfTurn(mutableBoard, x, y, piece.team);
+        }
+      }
+    }
     
     return new Board(mutableBoard);
   }

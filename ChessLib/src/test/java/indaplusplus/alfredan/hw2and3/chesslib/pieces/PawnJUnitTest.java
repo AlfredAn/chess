@@ -4,7 +4,6 @@ import indaplusplus.alfredan.hw2and3.chesslib.Board;
 import indaplusplus.alfredan.hw2and3.chesslib.MutableBoard;
 import indaplusplus.alfredan.hw2and3.chesslib.Team;
 import indaplusplus.alfredan.hw2and3.chesslib.util.IntVector2;
-import indaplusplus.alfredan.hw2and3.chesslib.util.MutableBoardPool;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,13 +12,12 @@ public class PawnJUnitTest {
   
   @Test
   public void testWhiteFirstMove() {
-    MutableBoard mBoard = MutableBoardPool.obtain(8, 8);
+    MutableBoard mBoard = new MutableBoard(8, 8);
     Pawn pawn = new Pawn(Team.WHITE);
     
     mBoard.set(1, 1, pawn);
     
     Board board = new Board(mBoard);
-    MutableBoardPool.free(mBoard);
     
     List<IntVector2> moveList = board.getAvailableMoves(1, 1);
     
@@ -30,13 +28,12 @@ public class PawnJUnitTest {
   
   @Test
   public void testBlackFirstMove() {
-    MutableBoard mBoard = MutableBoardPool.obtain(8, 8);
+    MutableBoard mBoard = new MutableBoard(8, 8);
     Pawn pawn = new Pawn(Team.BLACK);
     
     mBoard.set(1, 6, pawn);
     
     Board board = new Board(mBoard);
-    MutableBoardPool.free(mBoard);
     
     List<IntVector2> moveList = board.getAvailableMoves(1, 6);
     
@@ -47,13 +44,12 @@ public class PawnJUnitTest {
   
   @Test
   public void testSecondMove() {
-    MutableBoard mBoard = MutableBoardPool.obtain(8, 8);
+    MutableBoard mBoard = new MutableBoard(8, 8);
     Pawn pawn = new Pawn(Team.WHITE);
     
     mBoard.set(1, 1, pawn);
     
     Board board = new Board(mBoard);
-    MutableBoardPool.free(mBoard);
     
     board = board.makeMove(1, 1, 1, 3);
     
@@ -65,7 +61,7 @@ public class PawnJUnitTest {
   
   @Test
   public void testCapture1() {
-    MutableBoard mBoard = MutableBoardPool.obtain(8, 8);
+    MutableBoard mBoard = new MutableBoard(8, 8);
     Pawn pawn1 = new Pawn(Team.WHITE);
     Pawn pawn2 = new Pawn(Team.BLACK);
     
@@ -73,7 +69,6 @@ public class PawnJUnitTest {
     mBoard.set(2, 2, pawn2);
     
     Board board = new Board(mBoard);
-    MutableBoardPool.free(mBoard);
     
     List<IntVector2> moveList1 = board.getAvailableMoves(1, 1);
     
@@ -92,7 +87,7 @@ public class PawnJUnitTest {
   
   @Test
   public void testCapture2() {
-    MutableBoard mBoard = MutableBoardPool.obtain(8, 8);
+    MutableBoard mBoard = new MutableBoard(8, 8);
     Pawn pawn1 = new Pawn(Team.WHITE);
     Pawn pawn2 = new Pawn(Team.BLACK);
     
@@ -100,7 +95,6 @@ public class PawnJUnitTest {
     mBoard.set(1, 2, pawn2);
     
     Board board = new Board(mBoard);
-    MutableBoardPool.free(mBoard);
     
     List<IntVector2> moveList1 = board.getAvailableMoves(2, 1);
     
@@ -119,7 +113,7 @@ public class PawnJUnitTest {
   
   @Test
   public void testEnPassant() {
-    MutableBoard mBoard = MutableBoardPool.obtain(8, 8);
+    MutableBoard mBoard = new MutableBoard(8, 8);
     Pawn pawn1 = new Pawn(Team.WHITE);
     Pawn pawn2 = new Pawn(Team.BLACK);
     
@@ -127,7 +121,6 @@ public class PawnJUnitTest {
     mBoard.set(1, 3, pawn2);
     
     Board board = new Board(mBoard);
-    MutableBoardPool.free(mBoard);
     
     board = board.makeMove(0, 1, 0, 3);
     
@@ -146,7 +139,7 @@ public class PawnJUnitTest {
   
   @Test
   public void testEnPassantTooLate() {
-    MutableBoard mBoard = MutableBoardPool.obtain(8, 8);
+    MutableBoard mBoard = new MutableBoard(8, 8);
     Pawn pawn1 = new Pawn(Team.WHITE);
     Pawn pawn2 = new Pawn(Team.BLACK);
     
@@ -154,7 +147,6 @@ public class PawnJUnitTest {
     mBoard.set(1, 4, pawn2);
     
     Board board = new Board(mBoard);
-    MutableBoardPool.free(mBoard);
     
     board = board.makeMove(0, 1, 0, 3).makeMove(1, 4, 1, 3);
     

@@ -6,7 +6,6 @@ import indaplusplus.alfredan.hw2and3.chesslib.Piece;
 import indaplusplus.alfredan.hw2and3.chesslib.Team;
 import indaplusplus.alfredan.hw2and3.chesslib.util.IntVector2;
 import indaplusplus.alfredan.hw2and3.chesslib.util.MoveSet;
-import indaplusplus.alfredan.hw2and3.chesslib.util.MutableBoardPool;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
@@ -37,14 +36,13 @@ public class TemplatePieceJUnitTest {
   
   @Test
   public void testSingleMoves() {
-    MutableBoard mBoard = MutableBoardPool.obtain(8, 8);
+    MutableBoard mBoard = new MutableBoard(8, 8);
     
     Piece piece = new TestPiece(Team.BLACK, new MoveSet(new int[][] {{0, 1}, {-1, 0}}), null);
     
     mBoard.set(3, 4, piece);
     
     Board board = new Board(mBoard);
-    MutableBoardPool.free(mBoard);
     
     List<IntVector2> moveList = board.getAvailableMoves(3, 4);
     
@@ -55,14 +53,13 @@ public class TemplatePieceJUnitTest {
   
   @Test
   public void testSingleMovesOutOfBounds() {
-    MutableBoard mBoard = MutableBoardPool.obtain(8, 8);
+    MutableBoard mBoard = new MutableBoard(8, 8);
     
     Piece piece = new TestPiece(Team.BLACK, new MoveSet(new int[][] {{0, 1}, {-1, 0}}), null);
     
     mBoard.set(0, 0, piece);
     
     Board board = new Board(mBoard);
-    MutableBoardPool.free(mBoard);
     
     List<IntVector2> moveList = board.getAvailableMoves(0, 0);
     
@@ -72,7 +69,7 @@ public class TemplatePieceJUnitTest {
   
   @Test
   public void testSingleMoveOntoEnemy() {
-    MutableBoard mBoard = MutableBoardPool.obtain(8, 8);
+    MutableBoard mBoard = new MutableBoard(8, 8);
     
     Piece piece1 = new TestPiece(Team.BLACK, new MoveSet(new int[][] {{0, 1}, {-1, 0}}), null);
     Piece piece2 = new TestPiece(Team.WHITE, new MoveSet(new int[][] {{0, 1}, {-1, 0}}), null);
@@ -81,7 +78,6 @@ public class TemplatePieceJUnitTest {
     mBoard.set(3, 5, piece2);
     
     Board board = new Board(mBoard);
-    MutableBoardPool.free(mBoard);
     
     List<IntVector2> moveList1 = board.getAvailableMoves(3, 4);
     
@@ -99,7 +95,7 @@ public class TemplatePieceJUnitTest {
   
   @Test
   public void testSingleMoveOntoFriend() {
-    MutableBoard mBoard = MutableBoardPool.obtain(8, 8);
+    MutableBoard mBoard = new MutableBoard(8, 8);
     
     Piece piece1 = new TestPiece(Team.BLACK, new MoveSet(new int[][] {{0, 1}, {-1, 0}}), null);
     Piece piece2 = new TestPiece(Team.BLACK, new MoveSet(new int[][] {{0, 1}, {-1, 0}}), null);
@@ -108,7 +104,6 @@ public class TemplatePieceJUnitTest {
     mBoard.set(3, 5, piece2);
     
     Board board = new Board(mBoard);
-    MutableBoardPool.free(mBoard);
     
     List<IntVector2> moveList1 = board.getAvailableMoves(3, 4);
     
@@ -125,14 +120,13 @@ public class TemplatePieceJUnitTest {
   
   @Test
   public void testRepeatableMove() {
-    MutableBoard mBoard = MutableBoardPool.obtain(8, 8);
+    MutableBoard mBoard = new MutableBoard(8, 8);
     
     Piece piece = new TestPiece(Team.BLACK, null, new MoveSet(new int[][] {{1, 1}, {1, -1}}));
     
     mBoard.set(1, 3, piece);
     
     Board board = new Board(mBoard);
-    MutableBoardPool.free(mBoard);
     
     List<IntVector2> moveList = board.getAvailableMoves(1, 3);
     
@@ -157,7 +151,7 @@ public class TemplatePieceJUnitTest {
   
   @Test
   public void testRepeatableMoveOntoEnemy() {
-    MutableBoard mBoard = MutableBoardPool.obtain(8, 8);
+    MutableBoard mBoard = new MutableBoard(8, 8);
     
     Piece piece1 = new TestPiece(Team.BLACK, null, new MoveSet(new int[][] {{1, 1}, {1, -1}}));
     Piece piece2 = new TestPiece(Team.WHITE, null, null);
@@ -166,7 +160,6 @@ public class TemplatePieceJUnitTest {
     mBoard.set(4, 6, piece2);
     
     Board board = new Board(mBoard);
-    MutableBoardPool.free(mBoard);
     
     List<IntVector2> moveList = board.getAvailableMoves(1, 3);
     
@@ -190,7 +183,7 @@ public class TemplatePieceJUnitTest {
   
   @Test
   public void testRepeatableMoveOntoFriend() {
-    MutableBoard mBoard = MutableBoardPool.obtain(8, 8);
+    MutableBoard mBoard = new MutableBoard(8, 8);
     
     Piece piece1 = new TestPiece(Team.BLACK, null, new MoveSet(new int[][] {{1, 1}, {1, -1}}));
     Piece piece2 = new TestPiece(Team.BLACK, null, null);
@@ -199,7 +192,6 @@ public class TemplatePieceJUnitTest {
     mBoard.set(4, 6, piece2);
     
     Board board = new Board(mBoard);
-    MutableBoardPool.free(mBoard);
     
     List<IntVector2> moveList = board.getAvailableMoves(1, 3);
     

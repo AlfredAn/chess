@@ -2,7 +2,6 @@ package indaplusplus.alfredan.hw2and3.chesslib;
 
 import indaplusplus.alfredan.hw2and3.chesslib.pieces.King;
 import indaplusplus.alfredan.hw2and3.chesslib.util.IntVector2;
-import indaplusplus.alfredan.hw2and3.chesslib.util.MutableBoardPool;
 import java.util.List;
 
 /**
@@ -82,7 +81,8 @@ public final class Board {
       for (int i = 0; i < moveList.size(); i++) {
         IntVector2 move = moveList.get(i);
         
-        //Board tempBoard = makeMoveNoCheck(x, y, )
+        Board tempBoard = makeMoveNoCheck(x, y, move.x, move.y);
+        
       }
     }
     
@@ -129,9 +129,7 @@ public final class Board {
       throw new IllegalArgumentException("No piece here!");
     }
     
-    MutableBoard mutableBoard = MutableBoardPool.obtain(getWidth(), getHeight());
-    
-    mutableBoard.set(this);
+    MutableBoard mutableBoard = new MutableBoard(this);
     
     piece.makeMove(mutableBoard, fromX, fromY, toX, toY);
     

@@ -71,6 +71,7 @@ public final class MutableBoardPool {
   
   private void freeBoard(MutableBoard board) {
     if (pool.size() < max) {
+      board.clear();
       pool.add(board);
     }
   }

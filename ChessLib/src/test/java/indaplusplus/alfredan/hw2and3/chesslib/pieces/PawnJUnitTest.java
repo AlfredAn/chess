@@ -19,6 +19,7 @@ public class PawnJUnitTest {
     mBoard.set(1, 1, pawn);
     
     Board board = new Board(mBoard);
+    MutableBoardPool.free(mBoard);
     
     List<IntVector2> moveList = board.getAvailableMoves(1, 1);
     
@@ -35,6 +36,7 @@ public class PawnJUnitTest {
     mBoard.set(1, 6, pawn);
     
     Board board = new Board(mBoard);
+    MutableBoardPool.free(mBoard);
     
     List<IntVector2> moveList = board.getAvailableMoves(1, 6);
     
@@ -51,6 +53,7 @@ public class PawnJUnitTest {
     mBoard.set(1, 1, pawn);
     
     Board board = new Board(mBoard);
+    MutableBoardPool.free(mBoard);
     
     board = board.makeMove(1, 1, 1, 3);
     
@@ -70,6 +73,7 @@ public class PawnJUnitTest {
     mBoard.set(2, 2, pawn2);
     
     Board board = new Board(mBoard);
+    MutableBoardPool.free(mBoard);
     
     List<IntVector2> moveList1 = board.getAvailableMoves(1, 1);
     
@@ -96,6 +100,7 @@ public class PawnJUnitTest {
     mBoard.set(1, 2, pawn2);
     
     Board board = new Board(mBoard);
+    MutableBoardPool.free(mBoard);
     
     List<IntVector2> moveList1 = board.getAvailableMoves(2, 1);
     
@@ -122,6 +127,7 @@ public class PawnJUnitTest {
     mBoard.set(1, 3, pawn2);
     
     Board board = new Board(mBoard);
+    MutableBoardPool.free(mBoard);
     
     board = board.makeMove(0, 1, 0, 3);
     
@@ -148,6 +154,7 @@ public class PawnJUnitTest {
     mBoard.set(1, 4, pawn2);
     
     Board board = new Board(mBoard);
+    MutableBoardPool.free(mBoard);
     
     board = board.makeMove(0, 1, 0, 3).makeMove(1, 4, 1, 3);
     

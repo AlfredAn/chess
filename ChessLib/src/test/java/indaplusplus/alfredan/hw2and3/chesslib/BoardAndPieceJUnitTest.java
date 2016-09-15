@@ -38,6 +38,7 @@ public class BoardAndPieceJUnitTest {
     mBoard.set(1, 1, piece);
     
     Board board = new Board(mBoard);
+    MutableBoardPool.free(mBoard);
     
     Assert.assertEquals("board.get(1, 1)", board.get(1, 1), piece);
   }
@@ -51,6 +52,7 @@ public class BoardAndPieceJUnitTest {
     mBoard.set(1, 1, piece);
     
     Board board = new Board(mBoard);
+    MutableBoardPool.free(mBoard);
     
     List<IntVector2> moveSet = piece.getAvailableMoves(board, 1, 1);
     
@@ -67,6 +69,7 @@ public class BoardAndPieceJUnitTest {
     mBoard.set(1, 7, piece);
     
     Board board = new Board(mBoard);
+    MutableBoardPool.free(mBoard);
     
     List<IntVector2> moveSet = piece.getAvailableMoves(board, 1, 7);
     
@@ -82,6 +85,7 @@ public class BoardAndPieceJUnitTest {
     mBoard.set(1, 1, piece);
     
     Board board = new Board(mBoard);
+    MutableBoardPool.free(mBoard);
     
     board = board.makeMove(1, 1, 1, 2);
     
@@ -100,6 +104,7 @@ public class BoardAndPieceJUnitTest {
     mBoard.set(1, 2, piece2);
     
     Board board = new Board(mBoard);
+    MutableBoardPool.free(mBoard);
     
     board = board.makeMove(1, 1, 1, 2);
     
@@ -118,6 +123,7 @@ public class BoardAndPieceJUnitTest {
     mBoard.set(6, 6, queen);
     
     Board board = new Board(mBoard);
+    MutableBoardPool.free(mBoard);
     
     Assert.assertTrue(board.isChecked(Team.BLACK));
   }
@@ -133,6 +139,7 @@ public class BoardAndPieceJUnitTest {
     mBoard.set(7, 6, queen);
     
     Board board = new Board(mBoard);
+    MutableBoardPool.free(mBoard);
     
     Assert.assertFalse(board.isChecked(Team.BLACK));
   }

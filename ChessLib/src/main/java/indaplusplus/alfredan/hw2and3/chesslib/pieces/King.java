@@ -49,19 +49,19 @@ public final class King extends TemplatePiece {
      * 4. The king and the rook must be on the same rank (y position).
      */
     
-    if (!hasMoved && !board.isDangerous(xPos, yPos, team, true)) {
+    if (!hasMoved) {
       // to the right
       if (xPos < board.getWidth() - 3
               && board.get(xPos + 1, yPos) == null
-              && board.get(xPos + 2, yPos) == null
-              && !board.isDangerous(xPos + 1, yPos, team, true)
-              && !board.isDangerous(xPos + 2, yPos, team, true)) {
+              && board.get(xPos + 2, yPos) == null) {
         // check if there is an eligible rook
         for (int x = xPos + 3; x < board.getWidth(); x++) {
           Piece piece = board.get(x, yPos);
           if (piece instanceof Rook && piece.team == team) {
             Rook rook = (Rook)piece;
-            if (!rook.hasMoved) {
+            if (!rook.hasMoved
+                    && !board.isDangerous(xPos, yPos, team, false)
+                    && !board.isDangerous(xPos + 1, yPos, team, false)) {
               // all conditions met
               moveList.add(new IntVector2(xPos + 2, yPos));
               break;
@@ -79,15 +79,15 @@ public final class King extends TemplatePiece {
       // to the left
       if (xPos >= 3
               && board.get(xPos - 1, yPos) == null
-              && board.get(xPos - 2, yPos) == null
-              && !board.isDangerous(xPos - 1, yPos, team, true)
-              && !board.isDangerous(xPos - 2, yPos, team, true)) {
+              && board.get(xPos - 2, yPos) == null) {
         // check if there is an eligible rook
         for (int x = xPos - 3; x >= 0; x--) {
           Piece piece = board.get(x, yPos);
           if (piece instanceof Rook && piece.team == team) {
             Rook rook = (Rook)piece;
-            if (!rook.hasMoved) {
+            if (!rook.hasMoved
+                    && !board.isDangerous(xPos, yPos, team, false)
+                    && !board.isDangerous(xPos - 1, yPos, team, false)) {
               // all conditions met
               moveList.add(new IntVector2(xPos - 2, yPos));
               break;

@@ -58,7 +58,7 @@ public final class Pawn extends TemplatePiece {
    * Whether this pawn has ever moved. Used to determine whether a double move
    * can be made.
    */
-  private final boolean hasMoved;
+  public final boolean hasMoved;
   
   /**
    * Greater than zero if the piece has just made a double move and is thus vulnerable to an
@@ -66,7 +66,7 @@ public final class Pawn extends TemplatePiece {
    * This is set to 2 when a double move is made, but is immediately decremented
    * to 1 in the endOfTurn() method. It will thus only remain positive for one turn.
    */
-  private final int enPassantVulnerable;
+  public final int enPassantVulnerable;
   
   public Pawn(int team) {
     this(team, false, 0);

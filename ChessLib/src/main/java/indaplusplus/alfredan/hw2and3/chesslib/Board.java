@@ -77,12 +77,42 @@ public final class Board {
     List<IntVector2> moveList = piece.getAvailableMoves(this, x, y);
     
     if (testIfKingChecked) {
-      // set all filtered elements to null and then remove them all in one go
+      // find the king
+      int kingX = -1, kingY = -1;
+      
+      if (piece instanceof King) {
+        kingX = x;
+        kingY = y;
+      } else {
+        outer: for (int xx = 0; xx < getWidth(); xx++) {
+          for (int yy = 0; yy < getHeight(); yy++) {
+            Piece isItKing = get(xx, yy);
+            
+            if (isItKing != null && isItKing.team == piece.team && isItKing instanceof King) {
+              kingX = xx;
+              kingY = yy;
+              break outer;
+            }
+          }
+        }
+      }
+      
+      if (kingX == -1) {
+        // no king, just return
+        // this is often the case in tests
+        return moveList;
+      }
+      
+      // remove all invalid moves from the list
       for (int i = 0; i < moveList.size(); i++) {
         IntVector2 move = moveList.get(i);
         
         Board tempBoard = makeMoveNoCheck(x, y, move.x, move.y);
-        
+        if ((piece instanceof King && tempBoard.isDangerous(move.x, move.y, piece.team))
+                || ((!(piece instanceof King)) && tempBoard.isDangerous(kingX, kingY, piece.team))) {
+          moveList.remove(i);
+          i--;
+        }
       }
     }
     
@@ -192,7 +222,9 @@ public final class Board {
     }
     
     if (kingX == -1) {
-      throw new IllegalStateException("Team " + team + " has no king.");
+      // no king, just return false
+      // this is often the case in tests
+      return false;
     }
     
     return isDangerous(kingX, kingY, team);

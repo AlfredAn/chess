@@ -24,13 +24,6 @@ public final class Board {
   }
   
   /**
-   * Creates an empty Board with the given dimensions.
-   */
-  public Board(int width, int height) {
-    board = new Piece[width][height];
-  }
-  
-  /**
    * Returns the piece at the specified position, or null if there is none.
    */
   public Piece get(int x, int y) {

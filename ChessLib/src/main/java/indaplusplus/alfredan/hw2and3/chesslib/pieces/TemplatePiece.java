@@ -24,10 +24,18 @@ public abstract class TemplatePiece extends Piece {
     super(team);
   }
   
+  /**
+   * Returns the MoveSet that is used for single moves. This is usually stored as
+   * a constant in the class.
+   */
   protected MoveSet getSingleMoveSet() {
     return MoveSet.EMPTY;
   }
   
+  /**
+   * Returns the MoveSet that is used for repeatable moves. This is usually stored as
+   * a constant in the class.
+   */
   protected MoveSet getRepeatableMoveSet() {
     return MoveSet.EMPTY;
   }

@@ -3,10 +3,16 @@ package indaplusplus.alfredan.hw2and3.chesslib;
 import indaplusplus.alfredan.hw2and3.chesslib.util.IntVector2;
 import java.util.List;
 
+/**
+ * Defines a chess piece. This class and all subclasses must be immutable.
+ */
 public abstract class Piece {
   
   public final int team;
   
+  /**
+   * Creates a new Piece with the specified team.
+   */
   public Piece(int team) {
     this.team = team;
   }

@@ -5,6 +5,9 @@ import java.util.List;
 
 /**
  * Defines a chess piece. This class and all subclasses must be immutable.
+ * <p>The only restriction on what you can do is that no piece can be able to
+ * capture the king without directly moving to him, as that isn't supported
+ * right now.
  */
 public abstract class Piece {
   

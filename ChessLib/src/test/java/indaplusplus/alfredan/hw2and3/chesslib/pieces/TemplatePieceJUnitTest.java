@@ -98,7 +98,7 @@ public class TemplatePieceJUnitTest {
     MutableBoard mBoard = new MutableBoard(8, 8);
     
     Piece piece1 = new TestPiece(Team.BLACK, new MoveSet(new int[][] {{0, 1}, {-1, 0}}), null);
-    Piece piece2 = new TestPiece(Team.WHITE, new MoveSet(new int[][] {{0, 1}, {-1, 0}}), null);
+    Piece piece2 = new TestPiece(Team.BLACK, new MoveSet(new int[][] {{0, 1}, {-1, 0}}), null);
     
     mBoard.set(3, 4, piece1);
     mBoard.set(3, 5, piece2);
@@ -186,7 +186,7 @@ public class TemplatePieceJUnitTest {
     MutableBoard mBoard = new MutableBoard(8, 8);
     
     Piece piece1 = new TestPiece(Team.BLACK, null, new MoveSet(new int[][] {{1, 1}, {1, -1}}));
-    Piece piece2 = new TestPiece(Team.WHITE, null, null);
+    Piece piece2 = new TestPiece(Team.BLACK, null, null);
     
     mBoard.set(1, 3, piece1);
     mBoard.set(4, 6, piece2);

@@ -37,6 +37,16 @@ public abstract class Piece {
     return isValidMove(board, xPos, yPos, destination.x, destination.y);
   }
   
+  /**
+   * Makes a move. Intended to be overridden by subclasses for custom behavior.
+   * @param board The board that is currently being processed.
+   * @param xPos The x position of this piece.
+   * @param yPos The y position of this piece.
+   * @param moveX The x position that the piece is supposed to move to.
+   * Guaranteed to be within bounds.
+   * @param moveY The y position that the piece is supposed to move to.
+   * Guaranteed to be within bounds.
+   */
   protected void makeMove(MutableBoard board, int xPos, int yPos, int moveX, int moveY) {
     board.set(xPos, yPos, null);
     board.set(moveX, moveY, this);

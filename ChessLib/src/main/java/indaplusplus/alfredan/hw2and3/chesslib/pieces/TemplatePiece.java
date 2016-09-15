@@ -15,7 +15,7 @@ import java.util.List;
 public abstract class TemplatePiece extends Piece {
   
   /**
-   * Creates a TemplatePiece with the specified MoveSets.
+   * Creates a TemplatePiece for the specified team.
    * If either of the parameters are null, they will be replaced by MoveSet.EMPTY.
    * 
    * @param team The team that this piece belongs to

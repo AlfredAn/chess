@@ -44,5 +44,6 @@ public final class King extends TemplatePiece {
     }
     
     board.set(moveX, moveY, newState);
+    board.set(xPos, yPos, null);
   }
 }

@@ -43,5 +43,6 @@ public final class Rook extends TemplatePiece {
     }
     
     board.set(moveX, moveY, newState);
+    board.set(xPos, yPos, null);
   }
 }

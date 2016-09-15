@@ -30,7 +30,7 @@ public abstract class Piece {
    * Returns whether this piece can move to the specified square.
    */
   public boolean isValidMove(Board board, int xPos, int yPos, int moveX, int moveY) {
-    List<IntVector2> moveList = getAvailableMoves(board, xPos, yPos);
+    List<IntVector2> moveList = board.getAvailableMoves(xPos, yPos);
     
     for (int i = 0; i < moveList.size(); i++) {
       IntVector2 validMove = moveList.get(i);

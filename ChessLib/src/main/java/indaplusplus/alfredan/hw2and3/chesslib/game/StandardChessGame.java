@@ -10,6 +10,7 @@ import indaplusplus.alfredan.hw2and3.chesslib.pieces.Knight;
 import indaplusplus.alfredan.hw2and3.chesslib.pieces.Pawn;
 import indaplusplus.alfredan.hw2and3.chesslib.pieces.Queen;
 import indaplusplus.alfredan.hw2and3.chesslib.pieces.Rook;
+import indaplusplus.alfredan.hw2and3.chesslib.util.IntVector2;
 
 public final class StandardChessGame {
   
@@ -59,26 +60,73 @@ public final class StandardChessGame {
   
   public static final Board STARTING_BOARD;
   
-  private Board board = STARTING_BOARD;
+  private Board board;
   
   private int turn = Team.WHITE;
   
-  public StandardChessGame() {}
+  private IntVector2 pendingPawnPromotion;
+  
+  public StandardChessGame() {
+    this(STARTING_BOARD);
+  }
+  
+  public StandardChessGame(Board startingBoard) {
+    board = startingBoard;
+  }
   
   /**
    * Try to move the piece at (fromX, fromY) to position (toX, toY).
    * @return Whether the move was successful.
    */
   public boolean move(int fromX, int fromY, int toX, int toY) {
+    if (canPromotePawn()) {
+      return false;
+    }
+    
     Piece piece = board.get(fromX, fromY);
     
     if (piece != null && piece.team == turn && board.isValidMove(fromX, fromY, toX, toY)) {
-      board.makeMove(fromX, fromY, toX, toY);
+      board = board.makeMove(fromX, fromY, toX, toY);
+      
+      if (piece instanceof Pawn
+              && ((piece.team == Team.WHITE && toY == 7)
+               || (piece.team == Team.BLACK && toY == 0))) {
+        pendingPawnPromotion = new IntVector2(toX, toY);
+        return true;
+      }
       turn = 1 - turn;
       return true;
     } else {
       return false;
     }
+  }
+  
+  public boolean canPromotePawn() {
+    return pendingPawnPromotion != null;
+  }
+  
+  public void promotePawn(Class<? extends Piece> pieceType) {
+    Piece promoted;
+    
+    if (pieceType.equals(Queen.class)) {
+      promoted = new Queen(turn);
+    } else if (pieceType.equals(Rook.class)) {
+      promoted = new Rook(turn);
+    } else if (pieceType.equals(Bishop.class)) {
+      promoted = new Bishop(turn);
+    } else if (pieceType.equals(Knight.class)) {
+      promoted = new Knight(turn);
+    } else {
+      throw new IllegalArgumentException();
+    }
+    
+    MutableBoard mBoard = new MutableBoard(board);
+    
+    mBoard.set(pendingPawnPromotion.x, pendingPawnPromotion.y, promoted);
+    
+    board = new Board(mBoard);
+    
+    turn = 1 - turn;
   }
   
   /**

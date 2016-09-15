@@ -9,4 +9,15 @@ public final class Team {
   private Team() {}
   
   public static final int BLACK = 0, WHITE = 1;
+  
+  public static String getTeamName(int team) {
+    switch (team) {
+      case BLACK:
+        return "Black";
+      case WHITE:
+        return "White";
+      default:
+        return "Unknown";
+    }
+  }
 }

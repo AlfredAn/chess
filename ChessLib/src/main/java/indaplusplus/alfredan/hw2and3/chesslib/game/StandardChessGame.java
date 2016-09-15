@@ -29,7 +29,7 @@ public final class StandardChessGame {
     
     for (int y = 0; y < 8; y++) {
       for (int x = 0; x < 8; x++) {
-        int team = x < 2 ? Team.WHITE : Team.BLACK;
+        int team = y < 2 ? Team.WHITE : Team.BLACK;
         
         switch (standardBoardStr[y].charAt(x)) {
           case 'K':

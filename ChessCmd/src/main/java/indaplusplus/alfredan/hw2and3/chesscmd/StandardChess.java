@@ -10,6 +10,11 @@ import indaplusplus.alfredan.hw2and3.chesslib.pieces.Knight;
 import indaplusplus.alfredan.hw2and3.chesslib.pieces.Pawn;
 import indaplusplus.alfredan.hw2and3.chesslib.pieces.Queen;
 import indaplusplus.alfredan.hw2and3.chesslib.pieces.Rook;
+import indaplusplus.alfredan.hw2and3.chesslib.util.IntVector2;
+import indaplusplus.alfredan.hw2and3.chesslib.util.TextUtil;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Locale;
 
 public final class StandardChess {
@@ -22,18 +27,109 @@ public final class StandardChess {
   private final char[][] buf = new char[BUF_HEIGHT][BUF_WIDTH];
   private final StringBuilder sb = new StringBuilder();
   
+  private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+  
   private final StandardChessGame game = new StandardChessGame();
   
   public void run() {
     System.out.println("\n\n-----Standard Chess-----\n");
     
-    doTurn();
+    while (true) {
+      doTurn();
+      
+      switch (game.getGameStatus()) {
+        case BLACK_WIN:
+          System.out.println("\nCheckmate! Black wins.");
+          return;
+        case WHITE_WIN:
+          System.out.println("\nCheckmate! White wins.");
+          return;
+        case DRAW:
+          System.out.println("\nThe game ended in a draw.");
+          return;
+      }
+    }
   }
   
   private void doTurn() {
-    System.out.println("\nIt's " + Team.getTeamName(game.getTurn()).toLowerCase(Locale.ENGLISH) + "'s turn!\n");
-    
     printChessBoard();
+    
+    System.out.print("\nIt's " + Team.getTeamName(game.getTurn()).toLowerCase(Locale.ENGLISH) + "'s turn!\n> ");
+    
+    outer: while (true) {
+      try {
+        String[] input = reader.readLine().split(" ");
+        if (input.length == 0) continue;
+        
+        // parse command
+        switch (input[0]) {
+          case "move":
+            if (input.length != 3) {
+              System.out.print("\nUsage: move xx yy\nWhere xx and yy are positions on the board, such as c1 or h5\n> ");
+              break;
+            }
+            try {
+              IntVector2 from = TextUtil.readSquareText(input[1]);
+              IntVector2 to = TextUtil.readSquareText(input[2]);
+              if (!game.getBoard().isValidPosition(from.x, from.y)
+                      || !game.getBoard().isValidPosition(to.x, to.y)) {
+                System.out.print("\nUsage: move xx yy\nWhere xx and yy are positions on the board, such as c1 or h5\n> ");
+                break;
+              }
+              boolean succeeded = game.move(from.x, from.y, to.x, to.y);
+              if (succeeded) {
+                break outer;
+              } else {
+                System.out.print("\nThat move isn't valid.\n> ");
+              }
+            } catch (IllegalArgumentException e) {
+              System.out.print("\nUsage: move xx yy\nWhere xx and yy are positions on the board, such as c1 or h5\n> ");
+              break;
+            }
+            break;
+          default:
+            System.out.print("\nUnknown command: " + input[0] + "\n> ");
+            break;
+        }
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+    
+    if (game.canPromotePawn()) {
+      printChessBoard();
+    }
+    outer: while (game.canPromotePawn()) {
+      System.out.print("\nPawn promotion! Type one of the following letters to choose your piece:\n"
+              + "Q: Queen\n"
+              + "R: Rook\n"
+              + "B: Bishop\n"
+              + "N: Knight\n> ");
+      try {
+        String[] input = reader.readLine().split(" ");
+        if (input.length == 0) {
+          continue;
+        }
+        switch (input[0].toLowerCase(Locale.ENGLISH)) {
+          case "q":
+            game.promotePawn(Queen.class);
+            break outer;
+          case "r":
+            game.promotePawn(Rook.class);
+            break outer;
+          case "b":
+            game.promotePawn(Bishop.class);
+            break outer;
+          case "n":
+            game.promotePawn(Knight.class);
+            break outer;
+          default:
+            break;
+        }
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
   }
   
   private void printChessBoard() {
@@ -83,7 +179,7 @@ public final class StandardChess {
     // draw the numbers on the left and right
     for (int cy = 0; cy < 8; cy++) {
       draw(0, 3 + cy * 4, (char)('8' - cy));
-      draw(BUF_WIDTH - 1, 3 + cy * 4, (char)('0' + cy));
+      draw(BUF_WIDTH - 1, 3 + cy * 4, (char)('8' - cy));
     }
     
     // add to StringBuilder and print to screen

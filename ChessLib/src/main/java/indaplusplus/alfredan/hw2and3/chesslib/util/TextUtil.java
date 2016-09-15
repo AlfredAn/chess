@@ -1,5 +1,7 @@
 package indaplusplus.alfredan.hw2and3.chesslib.util;
 
+import java.util.Locale;
+
 public final class TextUtil {
   
   private TextUtil() {}
@@ -54,5 +56,77 @@ public final class TextUtil {
     }
     
     return String.valueOf(buf);
+  }
+  
+  /**
+   * Decodes a String into an IntVector2 using the same format as getSquareText().
+   * @param s The String to decode.
+   * @return The decoded IntVector2.
+   * @throws IllegalArgumentException If the format is wrong.
+   */
+  public static IntVector2 readSquareText(String s) {
+    s = s.toLowerCase(Locale.ENGLISH);
+    
+    // find out where the letters stop and the numbers start
+    int split = -1;
+    for (int i = 0; i < s.length(); i++) {
+      char c = s.charAt(i);
+      
+      if (c < 'a' || c > 'z') {
+        if (c >= '0' && c <= '9') {
+          split = i;
+          break;
+        } else {
+          throw new IllegalArgumentException("invalid symbol");
+        }
+      }
+    }
+    
+    if (split == -1 || split == 0) {
+      throw new IllegalArgumentException("invalid format");
+    }
+    
+    int x = readNumber(s.substring(0, split), 26, 'a');
+    int y = readNumber(s.substring(split, s.length()), 10, '0') - 1;
+    
+    if (y == -1) {
+      throw new IllegalArgumentException("invalid format");
+    }
+    
+    return new IntVector2(x, y);
+  }
+  
+  /**
+   * Reads a number in the same format that formatNumber uses to format them.
+   * See TextUtil.formatNumber() for more information.
+   * @param s The string to read from.
+   * @param radix The radix.
+   * @param firstChar The character to be used for zero.
+   * @return The decoded number.
+   * @throws IllegalArgumentException If the number is too large (greater than 2^31-1),
+   * if an invalid symbol is used, or if radix &lt;= 0.
+   */
+  public static int readNumber(String s, int radix, char firstChar) {
+    if (radix <= 0) {
+      throw new IllegalArgumentException();
+    }
+    
+    int num = 0;
+    
+    int unit = 1;
+    for (int i = s.length() - 1; i >= 0; i--) {
+      char c = s.charAt(i);
+      int units = c - firstChar;
+      
+      if (units < 0 || units >= radix || unit <= 0) {
+        throw new IllegalArgumentException();
+      }
+      
+      num += units * unit;
+      
+      unit *= radix;
+    }
+    
+    return num;
   }
 }

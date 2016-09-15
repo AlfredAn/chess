@@ -14,6 +14,13 @@ import indaplusplus.alfredan.hw2and3.chesslib.util.IntVector2;
 
 public final class StandardChessGame {
   
+  public enum GameStatus {
+    NORMAL,
+    BLACK_WIN,
+    WHITE_WIN,
+    DRAW
+  }
+  
   private static final String[] standardBoardStr = new String[] {
     "RNBQKBNR",
     "PPPPPPPP",
@@ -62,9 +69,11 @@ public final class StandardChessGame {
   
   private Board board;
   
-  private int turn = Team.WHITE;
+  private int turn;
   
   private IntVector2 pendingPawnPromotion;
+  
+  private GameStatus gameStatus = GameStatus.NORMAL;
   
   public StandardChessGame() {
     this(STARTING_BOARD);
@@ -72,6 +81,8 @@ public final class StandardChessGame {
   
   public StandardChessGame(Board startingBoard) {
     board = startingBoard;
+    turnFinished();
+    turn = Team.WHITE;
   }
   
   /**
@@ -79,7 +90,7 @@ public final class StandardChessGame {
    * @return Whether the move was successful.
    */
   public boolean move(int fromX, int fromY, int toX, int toY) {
-    if (canPromotePawn()) {
+    if (canPromotePawn() || gameStatus != GameStatus.NORMAL) {
       return false;
     }
     
@@ -94,10 +105,31 @@ public final class StandardChessGame {
         pendingPawnPromotion = new IntVector2(toX, toY);
         return true;
       }
-      turn = 1 - turn;
+      turnFinished();
       return true;
     } else {
       return false;
+    }
+  }
+  
+  private void turnFinished() {
+    turn = 1 - turn;
+    
+    boolean gameOver = !board.canMove(turn);
+    
+    System.out.println("gameOver = " + gameOver);
+    
+    if (gameOver) {
+      // is it checkmate?
+      boolean checkmate = board.isChecked(turn);
+      
+      if (checkmate) {
+        gameStatus = turn == Team.BLACK ? GameStatus.WHITE_WIN : GameStatus.BLACK_WIN;
+      } else {
+        gameStatus = GameStatus.DRAW;
+      }
+    } else {
+      gameStatus = GameStatus.NORMAL;
     }
   }
   
@@ -126,7 +158,18 @@ public final class StandardChessGame {
     
     board = new Board(mBoard);
     
-    turn = 1 - turn;
+    turnFinished();
+  }
+  
+  /**
+   * Returns the game status. It is:
+   * NORMAL if the game is still going,
+   * BLACK_WIN if black has won,
+   * WHITE_WIN if white has won, or
+   * DRAW if the game has ended in a draw.
+   */
+  public GameStatus getGameStatus() {
+    return gameStatus;
   }
   
   /**

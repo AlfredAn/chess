@@ -211,6 +211,12 @@ public final class Board {
         Piece attacker = get(xx, yy);
         
         if (attacker != null && team != attacker.team) {
+          
+          // special case to avoid infinite recursion in some situations
+          if (attacker instanceof King && Math.min(Math.abs(xx - x), Math.abs(yy - y)) > 1) {
+            continue;
+          }
+          
           List<IntVector2> moveList = attacker.getAvailableMoves(this, xx, yy);
           
           for (int i = 0; i < moveList.size(); i++) {
@@ -252,5 +258,27 @@ public final class Board {
     }
     
     return isDangerous(kingX, kingY, team);
+  }
+  
+  /**
+   * Returns whether the specified team can make any moves at all.
+   * If this method returns false for the team whose turn it currently is,
+   * the game has ended, either in a checkmate or a draw. You can check which
+   * it is using the isChecked() method.
+   */
+  public boolean canMove(int team) {
+    for (int x = 0; x < getWidth(); x++) {
+      for (int y = 0; y < getHeight(); y++) {
+        Piece piece = get(x, y);
+        
+        if (piece != null && piece.team == team) {
+          List<IntVector2> moveList = getAvailableMoves(x, y);
+          if (moveList.size() > 0) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
   }
 }

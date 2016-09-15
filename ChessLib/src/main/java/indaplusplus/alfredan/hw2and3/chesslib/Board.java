@@ -135,7 +135,7 @@ public final class Board {
       throw new IllegalArgumentException("No piece here!");
     }
     
-    if (piece.isValidMove(this, fromX, fromY, toX, toY)) {
+    if (isValidMove(fromX, fromY, toX, toY)) {
       return makeMoveNoCheck(fromX, fromY, toX, toY);
     } else {
       throw new IllegalArgumentException("Illegal move!");
@@ -178,11 +178,34 @@ public final class Board {
   }
   
   /**
+   * Returns whether the piece on the specified position can move to the specified square.
+   */
+  public boolean isValidMove(int fromX, int fromY, int toX, int toY) {
+    List<IntVector2> moveList = getAvailableMoves(fromX, fromY);
+    
+    for (int i = 0; i < moveList.size(); i++) {
+      IntVector2 validMove = moveList.get(i);
+      
+      if (validMove.x == toX && validMove.y == toY) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  /**
+   * Returns whether the piece on the specified position can move to the specified square.
+   */
+  public final boolean isValidMove(int fromX, int fromY, IntVector2 destination) {
+    return isValidMove(fromX, fromY, destination.x, destination.y);
+  }
+  
+  /**
    * Returns whether a piece at the specified square belonging to the specified team would be vulnerable to attack.
    * Note that this doesn't support moves that can capture at a different place
    * than they move to, such as the pawn's "en passant" capture.
    */
-  private boolean isDangerous(int x, int y, int team) {
+  public boolean isDangerous(int x, int y, int team) {
     for (int xx = 0; xx < getWidth(); xx++) {
       for (int yy = 0; yy < getHeight(); yy++) {
         Piece attacker = get(xx, yy);

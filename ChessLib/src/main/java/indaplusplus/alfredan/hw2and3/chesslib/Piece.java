@@ -27,29 +27,6 @@ public abstract class Piece {
   protected abstract List<IntVector2> getAvailableMoves(Board board, int xPos, int yPos);
   
   /**
-   * Returns whether this piece can move to the specified square.
-   */
-  public boolean isValidMove(Board board, int xPos, int yPos, int moveX, int moveY) {
-    List<IntVector2> moveList = board.getAvailableMoves(xPos, yPos);
-    
-    for (int i = 0; i < moveList.size(); i++) {
-      IntVector2 validMove = moveList.get(i);
-      
-      if (validMove.x == moveX && validMove.y == moveY) {
-        return true;
-      }
-    }
-    return false;
-  }
-  
-  /**
-   * Returns whether this piece can move to the specified square.
-   */
-  public final boolean isValidMove(Board board, int xPos, int yPos, IntVector2 destination) {
-    return isValidMove(board, xPos, yPos, destination.x, destination.y);
-  }
-  
-  /**
    * Makes a move. Intended to be overridden by subclasses for custom behavior.
    * @param board The board that is currently being processed.
    * @param xPos The x position of this piece.

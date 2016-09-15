@@ -196,8 +196,8 @@ public abstract class TemplatePiece extends Piece {
   
   /**
    * <p>This is called before all the moves from the standard MoveSets are added.
-   * <p>It is intended to allow for more advanced custom behaviour, but is not used
-   * by the standard chess pieces.
+   * <p>It is intended to allow for more advanced custom behaviour.
+   * Out of the standard pieces, it is only used by the king, for castling.
    */
   protected void addCustomMoves(Board board, int xPos, int yPos, List<IntVector2> moveList) {}
 }

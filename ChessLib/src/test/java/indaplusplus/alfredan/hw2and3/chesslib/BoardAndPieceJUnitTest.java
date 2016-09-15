@@ -1,5 +1,7 @@
 package indaplusplus.alfredan.hw2and3.chesslib;
 
+import indaplusplus.alfredan.hw2and3.chesslib.pieces.King;
+import indaplusplus.alfredan.hw2and3.chesslib.pieces.Queen;
 import indaplusplus.alfredan.hw2and3.chesslib.util.IntVector2;
 import java.util.ArrayList;
 import java.util.List;
@@ -102,5 +104,35 @@ public class BoardAndPieceJUnitTest {
     
     Assert.assertEquals("board.get(1, 2)", piece1, board.get(1, 2));
     Assert.assertNull("board.get(1, 1)", board.get(1, 1));
+  }
+  
+  @Test
+  public void testCheck() {
+    MutableBoard mBoard = new MutableBoard(8, 8);
+    
+    King king = new King(Team.BLACK);
+    Queen queen = new Queen(Team.WHITE);
+    
+    mBoard.set(1, 1, king);
+    mBoard.set(6, 6, queen);
+    
+    Board board = new Board(mBoard);
+    
+    Assert.assertTrue(board.isChecked(Team.BLACK));
+  }
+  
+  @Test
+  public void testNoCheck() {
+    MutableBoard mBoard = new MutableBoard(8, 8);
+    
+    King king = new King(Team.BLACK);
+    Queen queen = new Queen(Team.WHITE);
+    
+    mBoard.set(1, 1, king);
+    mBoard.set(7, 6, queen);
+    
+    Board board = new Board(mBoard);
+    
+    Assert.assertFalse(board.isChecked(Team.BLACK));
   }
 }

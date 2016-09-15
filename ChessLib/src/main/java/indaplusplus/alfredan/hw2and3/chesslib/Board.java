@@ -1,5 +1,6 @@
 package indaplusplus.alfredan.hw2and3.chesslib;
 
+import indaplusplus.alfredan.hw2and3.chesslib.pieces.King;
 import indaplusplus.alfredan.hw2and3.chesslib.util.IntVector2;
 import java.util.List;
 
@@ -95,5 +96,57 @@ public final class Board {
     }
     
     return new Board(mutableBoard);
+  }
+  
+  /**
+   * Returns whether a piece at the specified square belonging to the specified team would be vulnerable to attack.
+   * Note that this doesn't support moves that can capture at a different place
+   * than they move to, such as the pawn's "en passant" capture.
+   */
+  private boolean isDangerous(int x, int y, int team) {
+    for (int xx = 0; xx < getWidth(); xx++) {
+      for (int yy = 0; yy < getHeight(); yy++) {
+        Piece attacker = get(xx, yy);
+        
+        if (attacker != null && team != attacker.team) {
+          List<IntVector2> moveList = attacker.getAvailableMoves(this, xx, yy);
+          
+          for (int i = 0; i < moveList.size(); i++) {
+            IntVector2 move = moveList.get(i);
+            
+            if (move.x == x && move.y == y) {
+              return true;
+            }
+          }
+        }
+      }
+    }
+    return false;
+  }
+  
+  /**
+   * Returns whether the specified team's king is in check.
+   */
+  public boolean isChecked(int team) {
+    // find the king
+    int kingX = -1, kingY = -1;
+    
+    outer: for (int x = 0; x < getWidth(); x++) {
+      for (int y = 0; y < getHeight(); y++) {
+        Piece piece = get(x, y);
+        
+        if (piece != null && piece.team == team && piece instanceof King) {
+          kingX = x;
+          kingY = y;
+          break outer;
+        }
+      }
+    }
+    
+    if (kingX == -1) {
+      throw new IllegalStateException("Team " + team + " has no king.");
+    }
+    
+    return isDangerous(kingX, kingY, team);
   }
 }

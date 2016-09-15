@@ -117,8 +117,6 @@ public final class StandardChessGame {
     
     boolean gameOver = !board.canMove(turn);
     
-    System.out.println("gameOver = " + gameOver);
-    
     if (gameOver) {
       // is it checkmate?
       boolean checkmate = board.isChecked(turn);

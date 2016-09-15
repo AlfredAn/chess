@@ -104,7 +104,6 @@ public final class Pawn extends TemplatePiece {
         if (pieceAtEnPassantLocation instanceof Pawn) {
           Pawn enemyPawn = (Pawn)pieceAtEnPassantLocation;
           if (enemyPawn.enPassantVulnerable > 0) {
-            System.out.println("en passant");
             return true;
           }
         }

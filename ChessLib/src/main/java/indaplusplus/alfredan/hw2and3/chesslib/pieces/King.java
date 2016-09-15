@@ -49,19 +49,19 @@ public final class King extends TemplatePiece {
      * 4. The king and the rook must be on the same rank (y position).
      */
     
-    if (!hasMoved) {
+    if (!hasMoved && !board.isDangerous(xPos, yPos, team)) {
       // to the right
       if (xPos < board.getWidth() - 3
               && board.get(xPos + 1, yPos) == null
-              && board.get(xPos + 2, yPos) == null) {
+              && board.get(xPos + 2, yPos) == null
+              && !board.isDangerous(xPos + 1, yPos, team)
+              && !board.isDangerous(xPos + 2, yPos, team)) {
         // check if there is an eligible rook
         for (int x = xPos + 3; x < board.getWidth(); x++) {
           Piece piece = board.get(x, yPos);
           if (piece instanceof Rook && piece.team == team) {
             Rook rook = (Rook)piece;
-            if (!rook.hasMoved
-                    && !board.isDangerous(xPos, yPos, team, false)
-                    && !board.isDangerous(xPos + 1, yPos, team, false)) {
+            if (!rook.hasMoved) {
               // all conditions met
               moveList.add(new IntVector2(xPos + 2, yPos));
               break;
@@ -79,15 +79,15 @@ public final class King extends TemplatePiece {
       // to the left
       if (xPos >= 3
               && board.get(xPos - 1, yPos) == null
-              && board.get(xPos - 2, yPos) == null) {
+              && board.get(xPos - 2, yPos) == null
+              && !board.isDangerous(xPos - 1, yPos, team)
+              && !board.isDangerous(xPos - 2, yPos, team)) {
         // check if there is an eligible rook
         for (int x = xPos - 3; x >= 0; x--) {
           Piece piece = board.get(x, yPos);
           if (piece instanceof Rook && piece.team == team) {
             Rook rook = (Rook)piece;
-            if (!rook.hasMoved
-                    && !board.isDangerous(xPos, yPos, team, false)
-                    && !board.isDangerous(xPos - 1, yPos, team, false)) {
+            if (!rook.hasMoved) {
               // all conditions met
               moveList.add(new IntVector2(xPos - 2, yPos));
               break;
@@ -141,7 +141,7 @@ public final class King extends TemplatePiece {
       // find the rook
       for (int x = moveX - 1; x >= 0; x--) {
         Piece piece = board.get(x, yPos);
-        System.out.println("x: " + x + ", piece: " + piece);
+        
         if (piece instanceof Rook) {
           // found it!
           rookX = x;

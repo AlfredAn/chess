@@ -96,7 +96,7 @@ public final class Pawn extends TemplatePiece {
       case M_NORMAL:
         return pieceAtDestination == null;
       case M_DOUBLE:
-        return pieceAtDestination == null && !hasMoved;
+        return pieceAtDestination == null && board.get(moveX, moveY - getForwardYDirection()) == null && !hasMoved;
       case M_CAPTURE_LEFT:
       case M_CAPTURE_RIGHT:
         // this location has to be valid because y == getYPos() and x == moveX

@@ -43,6 +43,22 @@ public class PawnJUnitTest {
   }
   
   @Test
+  public void testCantDoubleMoveThroghPiece() {
+    MutableBoard mBoard = new MutableBoard(8, 8);
+    Pawn pawn1 = new Pawn(Team.BLACK);
+    Pawn pawn2 = new Pawn(Team.WHITE);
+    
+    mBoard.set(1, 6, pawn1);
+    mBoard.set(1, 5, pawn2);
+    
+    Board board = new Board(mBoard);
+    
+    List<IntVector2> moveList = board.getAvailableMoves(1, 6);
+    
+    Assert.assertEquals("moveList.size()", 0, moveList.size());
+  }
+  
+  @Test
   public void testSecondMove() {
     MutableBoard mBoard = new MutableBoard(8, 8);
     Pawn pawn = new Pawn(Team.WHITE);

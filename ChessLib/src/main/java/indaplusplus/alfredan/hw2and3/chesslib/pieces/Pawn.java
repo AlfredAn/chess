@@ -99,7 +99,7 @@ public final class Pawn extends TemplatePiece {
         return pieceAtDestination == null && board.get(moveX, moveY - getForwardYDirection()) == null && !hasMoved;
       case M_CAPTURE_LEFT:
       case M_CAPTURE_RIGHT:
-        // this location has to be valid because y == getYPos() and x == moveX
+        // this location has to be valid because y == (this piece's y position) and x == moveX
         Piece pieceAtEnPassantLocation = board.get(moveX, moveY - getForwardYDirection());
         if (pieceAtEnPassantLocation instanceof Pawn) {
           Pawn enemyPawn = (Pawn)pieceAtEnPassantLocation;

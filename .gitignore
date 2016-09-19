@@ -1,0 +1,8 @@
+/ChessCmd/target/
+/ChessLib/target/
+/ChessLib/nbproject/
+/ChessCmd/nbactions.xml
+/ChessGame/.nb-gradle/
+/ChessGame/core/build/
+/ChessGame/desktop/build/
+/ChessGame/html/build/

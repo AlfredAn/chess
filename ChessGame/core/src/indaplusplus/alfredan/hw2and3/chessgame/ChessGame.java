@@ -3,10 +3,8 @@ package indaplusplus.alfredan.hw2and3.chessgame;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import indaplusplus.alfredan.hw2and3.chesslib.game.StandardChessGame;
 
 public class ChessGame extends ApplicationAdapter {
@@ -90,11 +88,13 @@ public class ChessGame extends ApplicationAdapter {
     Gdx.gl.glClearColor(.75f, .75f, .75f, 1.0f);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     
-    draw.shapes.setProjectionMatrix(cam.combined);
+    /*draw.shapes.setProjectionMatrix(cam.combined);
     draw.shapes.begin(ShapeRenderer.ShapeType.Filled);
     draw.shapes.setColor(Color.BLUE);
     draw.shapes.box(boardX, boardY, 0, boardCellW * 8, boardCellH * 8, 0);
-    draw.shapes.end();
+    draw.shapes.end();*/
+    
+    ChessBoardDrawer.drawChessBoard(draw, cam, game.getBoard(), boardX, boardY, boardCellW, boardCellH);
   }
   
   @Override

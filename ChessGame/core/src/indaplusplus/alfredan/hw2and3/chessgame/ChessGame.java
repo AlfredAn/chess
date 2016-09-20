@@ -7,9 +7,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import indaplusplus.alfredan.hw2and3.chesslib.Team;
+import indaplusplus.alfredan.hw2and3.chesslib.Piece;
 import indaplusplus.alfredan.hw2and3.chesslib.game.StandardChessGame;
-import indaplusplus.alfredan.hw2and3.chesslib.pieces.Rook;
 
 public class ChessGame extends ApplicationAdapter {
   
@@ -29,16 +28,15 @@ public class ChessGame extends ApplicationAdapter {
   
   private int mouseX, mouseY;
   private int mouseBoardX = -1, mouseBoardY = -1;
-  private int grabState = ST_OUTSIDE;
+  private int grabX = -1, grabY = -1;
+  private boolean grabbing;
+  
+  private int grabMouseDX = 0;
+  private int grabMouseDY = 0;
   
   private boolean leftPressed, leftDown;
   
   private StandardChessGame game = new StandardChessGame();
-  
-  private static final int
-          ST_OUTSIDE = 0,
-          ST_HOVER = 1,
-          ST_GRABBING = 2;
   
   @Override
   public void create() {
@@ -56,29 +54,31 @@ public class ChessGame extends ApplicationAdapter {
     boolean mouseOnBoard = mouseX >= boardX && mouseX < boardX + boardWidth
             && mouseY >= boardY && mouseY < boardY + boardHeight;
     
-    if (grabState != ST_GRABBING) {
-      if (mouseOnBoard) {
-        mouseBoardX = (mouseX - boardX) / boardCellW;
-        mouseBoardY = (mouseY - boardY) / boardCellH;
-
-        if (game.getBoard().get(mouseBoardX, mouseBoardY) != null) {
-          grabState = ST_HOVER;
-        } else {
-          grabState = ST_OUTSIDE;
-        }
-      } else {
-        mouseBoardX = -1;
-        mouseBoardY = -1;
-        grabState = ST_OUTSIDE;
-      }
+    if (mouseOnBoard) {
+      mouseBoardX = (mouseX - boardX) / boardCellW;
+      mouseBoardY = (mouseY - boardY) / boardCellH;
+    } else {
+      mouseBoardX = -1;
+      mouseBoardY = -1;
     }
     
-    if (grabState == ST_HOVER && leftPressed) {
-      grabState = ST_GRABBING;
-    }
+    boolean hovering = !grabbing && mouseOnBoard && game.getBoard().get(mouseBoardX, mouseBoardY) != null;
     
-    if (grabState == ST_GRABBING) {
+    if (hovering && leftPressed) {
+      grabbing = true;
+      grabX = mouseBoardX;
+      grabY = mouseBoardY;
       
+      grabMouseDX = boardX + boardCellW * grabX - mouseX;
+      grabMouseDY = boardY + boardCellH * grabY - mouseY;
+      
+    } else if (grabbing && leftPressed) {
+      // releasing piece
+      if (mouseOnBoard) {
+        // try to move the piece
+        game.move(grabX, grabY, mouseBoardX, mouseBoardY);
+      }
+      grabbing = false;
     }
   }
   
@@ -100,11 +100,15 @@ public class ChessGame extends ApplicationAdapter {
     
     ChessBoardDrawer.drawChessBoard(draw, cam, game.getBoard(), boardX, boardY, boardCellW, boardCellH);
     
-    draw.sprites.setProjectionMatrix(cam.combined);
-    draw.sprites.begin();
-    draw.sprites.enableBlending();
-    draw.sprites.draw(Sprites.getChessPiece(new Rook(Team.WHITE)), 0, 0);
-    draw.sprites.end();
+    if (grabbing) {
+      Piece grabbedPiece = game.getBoard().get(grabX, grabY);
+      
+      draw.sprites.setProjectionMatrix(cam.combined);
+      draw.sprites.begin();
+      draw.sprites.enableBlending();
+      draw.sprites.draw(Sprites.getChessPiece(grabbedPiece), mouseX + grabMouseDX, mouseY + grabMouseDY);
+      draw.sprites.end();
+    }
   }
   
   @Override

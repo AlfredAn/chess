@@ -13,7 +13,7 @@ final class ChessBoardDrawer {
 
   private ChessBoardDrawer() {}
 
-  public static void drawChessBoard(Draw draw, OrthographicCamera cam, Board board, int x, int y, int width, int height, int mouseX, int mouseY) {
+  public static void drawChessBoard(Draw draw, OrthographicCamera cam, Board board, int x, int y, int width, int height, int mouseX, int mouseY, int hiddenX, int hiddenY) {
 
     draw.shapes.setProjectionMatrix(cam.combined);
 
@@ -30,7 +30,13 @@ final class ChessBoardDrawer {
           draw.shapes.setColor(Color.valueOf("D18B47"));
           isWhite = true;
         }
-        draw.shapes.rect(x + k * 64, y + i * 64, 64, 64);
+        
+        if (hiddenX == k && hiddenY == i) {
+            //Hidden
+        } else {
+            draw.shapes.rect(x + k * 64, y + i * 64, 64, 64); 
+        }
+        
         draw.shapes.end();
         draw.sprites.begin();
         if (board.get(k, 7 - i) != null) {
@@ -66,7 +72,7 @@ final class ChessBoardDrawer {
     for (int i = 0; i < vectorList.size(); i++) {
       IntVector2 vectorItem = vectorList.get(i);
       draw.shapes.begin(ShapeRenderer.ShapeType.Filled);
-      draw.shapes.setColor(0.9f, 0.2f, 0.2f, 0.8f);
+      draw.shapes.setColor(0.9f, 0.2f, 0.2f, 0.6f);
       draw.shapes.rect(x + vectorItem.x * 64, y + (7 - vectorItem.y) * 64, 64, 64);
       draw.shapes.end();
     }

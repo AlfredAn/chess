@@ -6,24 +6,26 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.utils.Align;
 import indaplusplus.alfredan.hw2and3.chesslib.Piece;
 import indaplusplus.alfredan.hw2and3.chesslib.Team;
 import indaplusplus.alfredan.hw2and3.chesslib.game.StandardChessGame;
+import java.util.ArrayList;
 
 public class ChessGame extends ApplicationAdapter {
   
-  public static final int WIDTH = 576, HEIGHT = 640;
+  public static final int WIDTH = 512, HEIGHT = 640;
   
   private Draw draw;
   
   public final OrthographicCamera cam = new OrthographicCamera();
   
+  private final ArrayList<Button> buttons = new ArrayList<>();
+  
   private static final int
-          boardX = 32,
-          boardY = 48,
+          boardX = 0,
+          boardY = 32,
           boardCellW = 64,
           boardCellH = 64,
           boardWidth = boardCellW * 8,
@@ -37,7 +39,7 @@ public class ChessGame extends ApplicationAdapter {
   private int grabMouseDX;
   private int grabMouseDY;
   
-  private boolean leftPressed, leftDown;
+  private boolean leftPressed, leftDown, rightPressed, rightDown;
   
   private StandardChessGame game = new StandardChessGame();
   
@@ -50,6 +52,10 @@ public class ChessGame extends ApplicationAdapter {
     boolean newLeftDown = Gdx.input.isButtonPressed(Input.Buttons.LEFT);
     leftPressed = newLeftDown && !leftDown;
     leftDown = newLeftDown;
+    
+    boolean newrightDown = Gdx.input.isButtonPressed(Input.Buttons.RIGHT);
+    rightPressed = newrightDown && !rightDown;
+    rightDown = newrightDown;
     
     mouseX = Gdx.input.getX();
     mouseY = Gdx.input.getY();
@@ -82,6 +88,13 @@ public class ChessGame extends ApplicationAdapter {
         game.move(grabX, grabY, mouseBoardX, mouseBoardY);
       }
       grabbing = false;
+    } else if (grabbing && rightPressed) {
+      grabbing = false;
+    }
+    
+    if (!grabbing) {
+      grabX = -1;
+      grabY = -1;
     }
   }
   
@@ -95,14 +108,8 @@ public class ChessGame extends ApplicationAdapter {
     Gdx.gl.glClearColor(.75f, .75f, .75f, 1.0f);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     
-    draw.shapes.setProjectionMatrix(cam.combined);
-    draw.shapes.begin(ShapeRenderer.ShapeType.Filled);
-    draw.shapes.setColor(Color.BLUE);
-    draw.shapes.rect(boardX, boardY, boardCellW * 8, boardCellH * 8);
-    draw.shapes.end();
-    
     ChessBoardDrawer.drawChessBoard(draw, cam, game.getBoard(), boardX, boardY, boardCellW, boardCellH,
-            grabbing ? grabX : mouseBoardX, grabbing ? grabY : mouseBoardY);
+            grabbing ? grabX : mouseBoardX, grabbing ? grabY : mouseBoardY, grabX, grabY);
     
     drawHeader(draw);
     
@@ -159,7 +166,7 @@ public class ChessGame extends ApplicationAdapter {
     draw.shapes.begin(ShapeType.Filled);
     
     draw.shapes.setColor(col);
-    draw.shapes.rect(8, 8, WIDTH - 16, boardY - 16);
+    draw.shapes.rect(0, 0, WIDTH, boardY);
     
     draw.shapes.end();
     

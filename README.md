@@ -4,4 +4,4 @@ This repository contains two projects - ChessLib and ChessCmd. ChessLib is the l
 
 ## Building instructions
 
-Ensure that you have Gradle installed and working properly. First build and clean the ChessLib project, and then run the program from the DesktopLauncher class in the desktop subproject of ChessGame.
+Ensure that you have Gradle installed and working properly. First build and clean the ChessLib project, then run the program from the DesktopLauncher class in the desktop subproject of ChessGame.

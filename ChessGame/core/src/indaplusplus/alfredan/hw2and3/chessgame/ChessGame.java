@@ -55,8 +55,8 @@ public class ChessGame extends ApplicationAdapter {
             && mouseY >= boardY && mouseY < boardY + boardHeight;
     
     if (mouseOnBoard) {
-      mouseBoardX = (mouseX - boardX) / boardCellW;
-      mouseBoardY = (mouseY - boardY) / boardCellH;
+      mouseBoardX =  7 - (mouseX - boardX) / boardCellW;
+      mouseBoardY = 7 - (mouseY - boardY) / boardCellH;
     } else {
       mouseBoardX = -1;
       mouseBoardY = -1;
@@ -69,8 +69,8 @@ public class ChessGame extends ApplicationAdapter {
       grabX = mouseBoardX;
       grabY = mouseBoardY;
       
-      grabMouseDX = boardX + boardCellW * grabX - mouseX;
-      grabMouseDY = boardY + boardCellH * grabY - mouseY;
+      grabMouseDX = boardX + boardCellW * (7 - grabX) - mouseX;
+      grabMouseDY = boardY + boardCellH * (7 - grabY) - mouseY;
       
     } else if (grabbing && leftPressed) {
       // releasing piece

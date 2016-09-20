@@ -30,16 +30,10 @@ final class ChessBoardDrawer {
           draw.shapes.setColor(Color.valueOf("D18B47"));
           isWhite = true;
         }
-        
-        if (hiddenX == k && hiddenY == i) {
-            //Hidden
-        } else {
-            draw.shapes.rect(x + k * 64, y + i * 64, 64, 64); 
-        }
-        
+        draw.shapes.rect(x + k * 64, y + i * 64, 64, 64);
         draw.shapes.end();
         draw.sprites.begin();
-        if (board.get(k, 7 - i) != null) {
+        if (board.get(k, 7 - i) != null && hiddenX != k && hiddenY != i) {
           draw.sprites.draw(Sprites.getChessPiece(board.get(k, 7 - i)), x + k * 64 + 2, y + i * 64 - 2, 60, 60);
         }
         draw.sprites.end();

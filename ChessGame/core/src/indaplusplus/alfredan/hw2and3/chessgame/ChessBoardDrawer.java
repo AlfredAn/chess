@@ -34,7 +34,7 @@ final class ChessBoardDrawer {
         draw.shapes.end();
         draw.sprites.begin();
         if (board.get(k, 7 - i) != null && (hiddenX != k || hiddenY != 7 - i)) {
-          draw.sprites.draw(Sprites.getChessPiece(board.get(k, 7 - i)), x + k * 64 + 2, y + i * 64 - 2, 60, 60);
+          draw.sprites.draw(Sprites.getChessPiece(board.get(k, 7 - i)), x + k * 64 + 1, y + i * 64 + 1, 60, 60);
         }
         draw.sprites.end();
 

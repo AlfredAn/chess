@@ -46,7 +46,10 @@ final class ChessBoardDrawer {
       }
 
     }
-
+    
+    
+    draw.shapes.end();
+    
     drawPossibleMoves(draw, board, x, y, mouseX, mouseY);
 
   }
@@ -57,15 +60,19 @@ final class ChessBoardDrawer {
       return;
     }
 
-    draw.shapes.begin(ShapeRenderer.ShapeType.Filled);
     draw.enableBlending();
-    List<IntVector2> vectorList = board.getAvailableMoves(mouseX, mouseY);
+    if (board.get(mouseX, 7 - mouseY) != null) {
+    List<IntVector2> vectorList = board.getAvailableMoves(mouseX, 7- mouseY);
     for (int i = 0; i < vectorList.size(); i++) {
       IntVector2 vectorItem = vectorList.get(i);
-      draw.shapes.setColor(200.0f, 200.0f, 200.0f, 0.4f);
+      draw.shapes.begin(ShapeRenderer.ShapeType.Filled);
+      draw.shapes.setColor(0.5f, 0.5f, 0.5f, 0.4f);
       draw.shapes.rect(x + vectorItem.x * 64, y + vectorItem.y * 64, 64, 64);
+      draw.shapes.end();
     }
-    draw.shapes.end();
+    
+    
+    }
 
   }
 }

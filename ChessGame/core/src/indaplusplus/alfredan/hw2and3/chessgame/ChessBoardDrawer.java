@@ -4,9 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import indaplusplus.alfredan.hw2and3.chesslib.Board;
-import indaplusplus.alfredan.hw2and3.chesslib.Team;
-import indaplusplus.alfredan.hw2and3.chesslib.game.StandardChessGame;
-import indaplusplus.alfredan.hw2and3.chesslib.pieces.Rook;
 
 final class ChessBoardDrawer {
 

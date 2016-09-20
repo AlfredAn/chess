@@ -58,7 +58,7 @@ public class ChessGame extends ApplicationAdapter {
             && mouseY >= boardY && mouseY < boardY + boardHeight;
     
     if (mouseOnBoard) {
-      mouseBoardX =  7 - (mouseX - boardX) / boardCellW;
+      mouseBoardX = (mouseX - boardX) / boardCellW;
       mouseBoardY = 7 - (mouseY - boardY) / boardCellH;
     } else {
       mouseBoardX = -1;
@@ -72,7 +72,7 @@ public class ChessGame extends ApplicationAdapter {
       grabX = mouseBoardX;
       grabY = mouseBoardY;
       
-      grabMouseDX = boardX + boardCellW * (7 - grabX) - mouseX;
+      grabMouseDX = boardX + boardCellW * grabX - mouseX;
       grabMouseDY = boardY + boardCellH * (7 - grabY) - mouseY;
       
     } else if (grabbing && leftPressed) {
@@ -95,15 +95,16 @@ public class ChessGame extends ApplicationAdapter {
     Gdx.gl.glClearColor(.75f, .75f, .75f, 1.0f);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     
-    drawHeader(draw);
-    
     draw.shapes.setProjectionMatrix(cam.combined);
     draw.shapes.begin(ShapeRenderer.ShapeType.Filled);
     draw.shapes.setColor(Color.BLUE);
     draw.shapes.rect(boardX, boardY, boardCellW * 8, boardCellH * 8);
     draw.shapes.end();
     
-    ChessBoardDrawer.drawChessBoard(draw, cam, game.getBoard(), boardX, boardY, boardCellW, boardCellH);
+    ChessBoardDrawer.drawChessBoard(draw, cam, game.getBoard(), boardX, boardY, boardCellW, boardCellH,
+            grabbing ? grabX : mouseBoardX, grabbing ? grabY : mouseBoardY);
+    
+    drawHeader(draw);
     
     if (grabbing) {
       Piece grabbedPiece = game.getBoard().get(grabX, grabY);
@@ -163,11 +164,11 @@ public class ChessGame extends ApplicationAdapter {
     draw.shapes.end();
     
     draw.sprites.setProjectionMatrix(cam.combined);
-    draw.sprites.begin();
     draw.enableBlending();
+    draw.sprites.begin();
     
-    Fonts.arial32.setColor(Color.WHITE);
-    Fonts.arial32.draw(draw.sprites, text, WIDTH / 2, boardY / 2, 0, Align.center, false);
+    Fonts.arial32.setColor(textCol);
+    Fonts.arial32.draw(draw.sprites, text, WIDTH / 2, boardY / 2 - 9, 0, Align.center, false);
     
     draw.sprites.end();
   }

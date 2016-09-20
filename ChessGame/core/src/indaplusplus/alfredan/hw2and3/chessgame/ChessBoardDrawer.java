@@ -66,7 +66,7 @@ final class ChessBoardDrawer {
     for (int i = 0; i < vectorList.size(); i++) {
       IntVector2 vectorItem = vectorList.get(i);
       draw.shapes.begin(ShapeRenderer.ShapeType.Filled);
-      draw.shapes.setColor(0.6f, 0.6f, 0.6f, 0.7f);
+      draw.shapes.setColor(0.9f, 0.2f, 0.2f, 0.8f);
       draw.shapes.rect(x + vectorItem.x * 64, y + (7 - vectorItem.y) * 64, 64, 64);
       draw.shapes.end();
     }

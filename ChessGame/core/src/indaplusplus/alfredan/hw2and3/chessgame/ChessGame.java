@@ -7,7 +7,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.utils.Align;
 import indaplusplus.alfredan.hw2and3.chesslib.Piece;
+import indaplusplus.alfredan.hw2and3.chesslib.Team;
 import indaplusplus.alfredan.hw2and3.chesslib.game.StandardChessGame;
 
 public class ChessGame extends ApplicationAdapter {
@@ -20,7 +23,7 @@ public class ChessGame extends ApplicationAdapter {
   
   private static final int
           boardX = 32,
-          boardY = 32,
+          boardY = 48,
           boardCellW = 64,
           boardCellH = 64,
           boardWidth = boardCellW * 8,
@@ -31,8 +34,8 @@ public class ChessGame extends ApplicationAdapter {
   private int grabX = -1, grabY = -1;
   private boolean grabbing;
   
-  private int grabMouseDX = 0;
-  private int grabMouseDY = 0;
+  private int grabMouseDX;
+  private int grabMouseDY;
   
   private boolean leftPressed, leftDown;
   
@@ -55,8 +58,8 @@ public class ChessGame extends ApplicationAdapter {
             && mouseY >= boardY && mouseY < boardY + boardHeight;
     
     if (mouseOnBoard) {
-      mouseBoardX = (mouseX - boardX) / boardCellW;
-      mouseBoardY = (mouseY - boardY) / boardCellH;
+      mouseBoardX =  7 - (mouseX - boardX) / boardCellW;
+      mouseBoardY = 7 - (mouseY - boardY) / boardCellH;
     } else {
       mouseBoardX = -1;
       mouseBoardY = -1;
@@ -69,8 +72,8 @@ public class ChessGame extends ApplicationAdapter {
       grabX = mouseBoardX;
       grabY = mouseBoardY;
       
-      grabMouseDX = boardX + boardCellW * grabX - mouseX;
-      grabMouseDY = boardY + boardCellH * grabY - mouseY;
+      grabMouseDX = boardX + boardCellW * (7 - grabX) - mouseX;
+      grabMouseDY = boardY + boardCellH * (7 - grabY) - mouseY;
       
     } else if (grabbing && leftPressed) {
       // releasing piece
@@ -92,10 +95,12 @@ public class ChessGame extends ApplicationAdapter {
     Gdx.gl.glClearColor(.75f, .75f, .75f, 1.0f);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     
+    drawHeader(draw);
+    
     draw.shapes.setProjectionMatrix(cam.combined);
     draw.shapes.begin(ShapeRenderer.ShapeType.Filled);
     draw.shapes.setColor(Color.BLUE);
-    draw.shapes.box(boardX, boardY, 0, boardCellW * 8, boardCellH * 8, 0);
+    draw.shapes.rect(boardX, boardY, boardCellW * 8, boardCellH * 8);
     draw.shapes.end();
     
     ChessBoardDrawer.drawChessBoard(draw, cam, game.getBoard(), boardX, boardY, boardCellW, boardCellH);
@@ -109,6 +114,62 @@ public class ChessGame extends ApplicationAdapter {
       draw.sprites.draw(Sprites.getChessPiece(grabbedPiece), mouseX + grabMouseDX, mouseY + grabMouseDY);
       draw.sprites.end();
     }
+  }
+  
+  private void drawHeader(Draw draw) {
+    String text = "undefined";
+    Color col, textCol;
+    
+    if (game.getTurn() == Team.BLACK) {
+      col = Color.BLACK;
+      textCol = Color.WHITE;
+    } else {
+      col = Color.WHITE;
+      textCol = Color.BLACK;
+    }
+    
+    switch (game.getGameStatus()) {
+      case NORMAL:
+        if (game.getBoard().isChecked(game.getTurn())) {
+          text = "Check!";
+        } else if (game.getTurn() == Team.BLACK) {
+          text = "It's black's turn!";
+        } else {
+          text = "It's white's turn!";
+        }
+        break;
+      case BLACK_WIN:
+        text = "Checkmate for black!";
+        col = Color.BLACK;
+        textCol = Color.WHITE;
+        break;
+      case WHITE_WIN:
+        text = "Checkmate for white!";
+        col = Color.WHITE;
+        textCol = Color.BLACK;
+        break;
+      case DRAW:
+        text = "Draw!";
+        col = Color.GRAY;
+        textCol = Color.BLACK;
+        break;
+    }
+    
+    draw.shapes.begin(ShapeType.Filled);
+    
+    draw.shapes.setColor(col);
+    draw.shapes.rect(8, 8, WIDTH - 16, boardY - 16);
+    
+    draw.shapes.end();
+    
+    draw.sprites.setProjectionMatrix(cam.combined);
+    draw.sprites.begin();
+    draw.enableBlending();
+    
+    Fonts.arial32.setColor(Color.WHITE);
+    Fonts.arial32.draw(draw.sprites, text, WIDTH / 2, boardY / 2, 0, Align.center, false);
+    
+    draw.sprites.end();
   }
   
   @Override

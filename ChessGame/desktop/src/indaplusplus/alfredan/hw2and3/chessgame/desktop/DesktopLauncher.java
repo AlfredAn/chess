@@ -15,6 +15,10 @@ public class DesktopLauncher {
     config.resizable = false;
     config.title = "ChessGame";
     
+    config.foregroundFPS = 0;
+    config.backgroundFPS = 0;
+    config.vSyncEnabled = false;
+    
     new LwjglApplication(new ChessGame(), config);
   }
 }

@@ -13,7 +13,7 @@ import indaplusplus.alfredan.hw2and3.chesslib.pieces.Rook;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Sprites {
+public final class Sprites {
   
   private Sprites() {}
   

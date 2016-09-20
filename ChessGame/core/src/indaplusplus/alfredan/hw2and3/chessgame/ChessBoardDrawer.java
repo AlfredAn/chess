@@ -47,7 +47,7 @@ final class ChessBoardDrawer {
 
     }
     
-    
+  
     draw.shapes.end();
     
     drawPossibleMoves(draw, board, x, y, mouseX, mouseY);
@@ -61,13 +61,13 @@ final class ChessBoardDrawer {
     }
 
     draw.enableBlending();
-    if (board.get(mouseX, 7 - mouseY) != null) {
-    List<IntVector2> vectorList = board.getAvailableMoves(mouseX, 7- mouseY);
+    if (board.get(mouseX, mouseY) != null) {
+    List<IntVector2> vectorList = board.getAvailableMoves(mouseX,  mouseY);
     for (int i = 0; i < vectorList.size(); i++) {
       IntVector2 vectorItem = vectorList.get(i);
       draw.shapes.begin(ShapeRenderer.ShapeType.Filled);
-      draw.shapes.setColor(0.5f, 0.5f, 0.5f, 0.4f);
-      draw.shapes.rect(x + vectorItem.x * 64, y + vectorItem.y * 64, 64, 64);
+      draw.shapes.setColor(0.6f, 0.6f, 0.6f, 0.7f);
+      draw.shapes.rect(x + vectorItem.x * 64, y + (7 - vectorItem.y) * 64, 64, 64);
       draw.shapes.end();
     }
     

@@ -47,18 +47,18 @@ final class ChessBoardDrawer {
 
     for (int i = 0; i < 8; i++) {
         draw.sprites.begin();
-        Fonts.arial32.setColor(Color.BLACK);
-        Fonts.arial32.draw(draw.sprites, numbers[i], 16 , i * 64 + (y + 24),  0, Align.center, false);
-        Fonts.arial32.draw(draw.sprites, numbers[i], 16 + x + 8 * 64 , i * 64 + (y + 24),  0, Align.center, false);
+        Fonts.boardLabels.setColor(Color.BLACK);
+        Fonts.boardLabels.draw(draw.sprites, numbers[i], 16 , i * 64 + (y + 24),  0, Align.center, false);
+        Fonts.boardLabels.draw(draw.sprites, numbers[i], 16 + x + 8 * 64 , i * 64 + (y + 24),  0, Align.center, false);
         draw.sprites.end();
       for (int k = 0; k < 8; k++) {
         if (i == 0 || i == 7) {
         draw.sprites.begin();
-        Fonts.arial32.setColor(Color.BLACK);
+        Fonts.boardLabels.setColor(Color.BLACK);
         if (i == 0) {
-            Fonts.arial32.draw(draw.sprites, letters[k], 32 + x + k * 64 ,  y + i * 64 - 24, 0, Align.center, false);
+            Fonts.boardLabels.draw(draw.sprites, letters[k], 32 + x + k * 64 ,  y + i * 64 - 24, 0, Align.center, false);
         } else {
-            Fonts.arial32.draw(draw.sprites, letters[k], 32 + x + k * 64 ,  y + i * 64 + 72, 0, Align.center, false);
+            Fonts.boardLabels.draw(draw.sprites, letters[k], 32 + x + k * 64 ,  y + i * 64 + 72, 0, Align.center, false);
         }
         draw.sprites.end();
         }

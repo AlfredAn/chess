@@ -163,15 +163,11 @@ public final class StandardChessGame {
       turnsSinceCaptureOrPawnMove = 0;
     }
     
-    System.out.println(turnsSinceCaptureOrPawnMove);
-    
     // one move per standard chess definition is two turns on this counter
     if (turnsSinceCaptureOrPawnMove >= 100) {
       gameStatus = GameStatus.DRAW;
       return;
     }
-    
-    
     
     // threefold repetition rule, draw the game if the same position is reached 3 times
     if (counter.count >= 3) {

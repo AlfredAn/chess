@@ -14,7 +14,7 @@ import indaplusplus.alfredan.hw2and3.chesslib.Team;
 import indaplusplus.alfredan.hw2and3.chesslib.game.StandardChessGame;
 import java.util.ArrayList;
 
-public class ChessGame extends ApplicationAdapter {
+public class ChessGame extends ApplicationAdapter implements ButtonListener {
   
   public static final int WIDTH = 512 + 64, HEIGHT = 640 + 32;
   
@@ -51,7 +51,7 @@ public class ChessGame extends ApplicationAdapter {
     draw = new Draw();
     draw.cam = cam;
     
-    buttons.add(new Button("Test", Fonts.arial32, boardX, boardY + boardHeight + 16, boardWidth, 32));
+    buttons.add(new Button(this, "Test", Fonts.arial32, boardX, boardY + boardHeight + 16, boardWidth, 32));
   }
   
   private void update() {
@@ -109,6 +109,9 @@ public class ChessGame extends ApplicationAdapter {
       button.update(leftDown, leftPressed);
     }
   }
+  
+  @Override
+  public void press(Button button) {}
   
   @Override
   public void render() {

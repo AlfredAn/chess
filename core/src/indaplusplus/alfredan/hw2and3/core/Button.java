@@ -8,6 +8,8 @@ import com.badlogic.gdx.utils.Align;
 
 public class Button {
   
+  private final ButtonListener listener;
+  
   public final int x, y, width, height;
   
   public final BitmapFont font;
@@ -15,7 +17,9 @@ public class Button {
   
   private boolean hovering, pressing;
   
-  public Button(String text, BitmapFont font, int x, int y, int width, int height) {
+  public Button(ButtonListener listener, String text, BitmapFont font, int x, int y, int width, int height) {
+    this.listener = listener;
+    
     this.x = x;
     this.y = y;
     this.width = width;
@@ -39,14 +43,13 @@ public class Button {
     if (pressing && !leftDown) {
       if (hovering) {
         press();
+        listener.press(this);
       }
       pressing = false;
     }
   }
   
-  private void press() {
-    
-  }
+  protected void press() {}
   
   public void draw(Draw d) {
     d.shapes.setProjectionMatrix(d.cam.combined);

@@ -83,6 +83,8 @@ public final class StandardChessGame {
   private int lastTurnPieceCount;
   private int turnsSinceCaptureOrPawnMove;
   
+  private int turnCounter;
+  
   public StandardChessGame() {
     this(STARTING_BOARD);
   }
@@ -90,8 +92,10 @@ public final class StandardChessGame {
   public StandardChessGame(Board startingBoard) {
     board = startingBoard;
     turnFinished();
+    
     turn = Team.WHITE;
     turnsSinceCaptureOrPawnMove = 0;
+    turnCounter = 0;
   }
   
   /**
@@ -128,6 +132,8 @@ public final class StandardChessGame {
   
   private void turnFinished() {
     turn = 1 - turn;
+    
+    turnCounter++;
     
     // check if the board state has been seen before
     BoardState newState = new BoardState(board, turn);
@@ -231,6 +237,15 @@ public final class StandardChessGame {
    */
   public int getTurn() {
     return turn;
+  }
+  
+  /**
+   * Returns the total number of moves that have been made.
+   * A move is defined as white making a move, followed by black.
+   * @return 
+   */
+  public int getMoveCounter() {
+    return turnCounter / 2;
   }
   
   private static final class BoardStateCount {

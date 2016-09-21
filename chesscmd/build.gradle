@@ -4,7 +4,6 @@ sourceCompatibility = 1.7
 sourceSets.main.java.srcDirs = [ "src/" ]
 
 project.ext.mainClassName = "indaplusplus.alfredan.hw2and3.chesscmd.ChessCmd"
-project.ext.assetsDir = new File("../core/assets");
 
 task run(dependsOn: classes, type: JavaExec) {
   main = project.mainClassName

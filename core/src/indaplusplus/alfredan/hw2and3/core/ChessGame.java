@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class ChessGame extends ApplicationAdapter implements ButtonListener {
   
-  public static final int WIDTH = 512 + 64, HEIGHT = 768 + 32;
+  public static final int WIDTH = 576, HEIGHT = 768;
   
   private Draw draw;
   
@@ -57,9 +57,9 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
     draw = new Draw();
     draw.cam = cam;
     
-    menu = new Menu(this);
+    //menu = new Menu(this);
     
-    buttons.add(resignButton = new Button(this, "Resign", Fonts.arial32, boardX, boardY + boardHeight + 16 + 64, 128, 32));
+    buttons.add(resignButton = new Button(this, "Resign", Fonts.arial32, boardX, boardY + boardHeight + 16 + 96, boardWidth / 2, 48));
   }
   
   private void update() {

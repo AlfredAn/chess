@@ -10,4 +10,4 @@ This repository contains five projects:
 Ensure that you have Gradle installed and working properly. The following applies to the desktop and chesscmd subprojects:  
 
 *   To run the project, execute `gradle run`.  
-*   To make the runnable jar, execute `gradle dist`.
+*   To make a runnable jar, execute `gradle dist`.

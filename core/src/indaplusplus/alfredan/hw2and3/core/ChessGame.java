@@ -46,6 +46,10 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
   
   private String gameOverMsg = "undefined";
   
+  private Button resignButton;
+  
+  private Menu menu;
+  
   public ChessGame() {}
   
   @Override
@@ -53,7 +57,9 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
     draw = new Draw();
     draw.cam = cam;
     
-    buttons.add(new Button(this, "Resign", Fonts.arial32, boardX, boardY + boardHeight + 16 + 64, 128, 32));
+    menu = new Menu(this);
+    
+    buttons.add(resignButton = new Button(this, "Resign", Fonts.arial32, boardX, boardY + boardHeight + 16 + 64, 128, 32));
   }
   
   private void update() {
@@ -64,6 +70,11 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
     boolean newrightDown = Gdx.input.isButtonPressed(Input.Buttons.RIGHT);
     rightPressed = newrightDown && !rightDown;
     rightDown = newrightDown;
+    
+    if (menu != null) {
+      menu.update(leftDown, leftPressed);
+      return;
+    }
     
     mouseX = Gdx.input.getX();
     mouseY = Gdx.input.getY();
@@ -123,6 +134,11 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
     
     Gdx.gl.glClearColor(.75f, .75f, .75f, 1.0f);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    
+    if (menu != null) {
+      menu.draw(draw);
+      return;
+    }
     
     ChessBoardDrawer.drawChessBoard(draw, cam, game.getBoard(), boardX, boardY, boardCellW, boardCellH,
             grabbing ? grabX : mouseBoardX, grabbing ? grabY : mouseBoardY, grabX, grabY, game.getTurn());

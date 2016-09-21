@@ -1,6 +1,5 @@
 package indaplusplus.alfredan.hw2and3.core;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -117,7 +116,7 @@ final class ChessBoardDrawer {
       IntVector2 vectorItem = vectorList.get(i);
       draw.shapes.begin(ShapeRenderer.ShapeType.Filled);
       Piece piece = board.get(mouseX,mouseY);
-      if ((piece.team == Team.WHITE && turn == Team.WHITE) || (piece.team == Team.BLACK && turn == Team.BLACK)) {
+      if (((piece.team == Team.WHITE && turn == Team.WHITE) || (piece.team == Team.BLACK && turn == Team.BLACK)) && turn != -1) {
           draw.shapes.setColor(0.9f, 0.2f, 0.2f, 0.6f);
       } else {
           draw.shapes.setColor(0.3f, 0.3f, 0.3f, 0.3f);

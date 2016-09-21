@@ -130,6 +130,16 @@ public final class StandardChessGame {
     }
   }
   
+  /**
+   * Causes the player whose turn it currently is to resign.
+   */
+  public void resign() {
+    if (gameStatus != GameStatus.NORMAL) {
+      return;
+    }
+    gameStatus = turn == Team.WHITE ? GameStatus.BLACK_WIN : GameStatus.WHITE_WIN;
+  }
+  
   private void turnFinished() {
     turn = 1 - turn;
     

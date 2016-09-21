@@ -42,11 +42,11 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
   
   private boolean leftPressed, leftDown, rightPressed, rightDown;
   
-  private StandardChessGame game = new StandardChessGame();
+  private StandardChessGame game;
   
-  private String gameOverMsg = "undefined";
+  private String gameOverMsg;
   
-  private Button resignButton;
+  private Button resignButton, restartButton, exitToMenuButton;
   
   private Menu menu;
   
@@ -59,7 +59,28 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
     
     //menu = new Menu(this);
     
-    buttons.add(resignButton = new Button(this, "Resign", Fonts.arial32, boardX, boardY + boardHeight + 16 + 96, boardWidth / 2, 48));
+    startGame();
+    
+    resignButton = new Button(this, "Resign", Fonts.arial32, boardX, boardY + boardHeight + 112, boardWidth, 48);
+    
+    restartButton = new Button(this, "Restart", Fonts.arial32, boardX, boardY + boardHeight + 112, boardWidth / 2 - 8, 48);
+    exitToMenuButton = new Button(this, "Exit to menu", Fonts.arial32, boardX + boardWidth / 2 + 8, boardY + boardHeight + 112, boardWidth / 2 - 8, 48);
+  }
+  
+  private void startGame() {
+    game = new StandardChessGame();
+    gameOverMsg = null;
+  }
+  
+  private void addIngameUI() {
+    buttons.clear();
+    buttons.add(resignButton);
+  }
+  
+  private void addGameOverUI() {
+    buttons.clear();
+    buttons.add(restartButton);
+    buttons.add(exitToMenuButton);
   }
   
   private void update() {
@@ -117,13 +138,28 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
       grabY = -1;
     }
     
+    if (game.getGameStatus() != StandardChessGame.GameStatus.NORMAL) {
+      addGameOverUI();
+    } else {
+      addIngameUI();
+    }
+    
     for (Button button : buttons) {
       button.update(leftDown, leftPressed);
     }
   }
   
   @Override
-  public void press(Button button) {}
+  public void press(Button button) {
+    if (button == resignButton) {
+      game.resign();
+      gameOverMsg = Team.getTeamName(1 - game.getTurn()) + " wins by resignation!";
+    } else if (button == restartButton) {
+      startGame();
+    } else if (button == exitToMenuButton) {
+      menu = new Menu(this);
+    }
+  }
   
   @Override
   public void render() {
@@ -141,7 +177,8 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
     }
     
     ChessBoardDrawer.drawChessBoard(draw, cam, game.getBoard(), boardX, boardY, boardCellW, boardCellH,
-            grabbing ? grabX : mouseBoardX, grabbing ? grabY : mouseBoardY, grabX, grabY, game.getTurn());
+            grabbing ? grabX : mouseBoardX, grabbing ? grabY : mouseBoardY, grabX, grabY,
+            game.getGameStatus() == StandardChessGame.GameStatus.NORMAL ? game.getTurn() : -1);
     
     drawHeader(draw);
     
@@ -156,6 +193,13 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
       spr.draw(draw.sprites);
       draw.sprites.end();
     }
+    
+    // draw turn count
+    draw.sprites.begin();
+    draw.sprites.enableBlending();
+    Fonts.arial32.setColor(Color.BLACK);
+    Fonts.arial32.draw(draw.sprites, "Turn " + (game.getMoveCounter() + 1) + ", " + Team.getTeamName(game.getTurn()).toLowerCase(), boardX + boardWidth / 2, boardY + boardHeight + 56, 0, Align.center, false);
+    draw.sprites.end();
     
     for (Button button : buttons) {
       button.draw(draw);
@@ -199,6 +243,12 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
         col = Color.GRAY;
         textCol = Color.BLACK;
         break;
+    }
+    
+    if (gameOverMsg == null && game.getGameStatus() != StandardChessGame.GameStatus.NORMAL) {
+      gameOverMsg = text;
+    } else if (gameOverMsg != null) {
+      text = gameOverMsg;
     }
     
     draw.shapes.begin(ShapeType.Filled);

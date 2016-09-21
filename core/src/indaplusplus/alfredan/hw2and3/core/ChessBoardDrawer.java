@@ -18,7 +18,7 @@ final class ChessBoardDrawer {
 
   private static boolean isWhite = true;
   
-  private static String text = "Test";
+  private static String text = "111111111111";
 
   private ChessBoardDrawer() {}
 
@@ -34,7 +34,7 @@ final class ChessBoardDrawer {
 
     
     String[] letters = { "A", "B", "C", "D", "E", "F", "G", "H"};
-    String[] numbers = { "1", "2", "3", "4", "5", "6", "7", "8"};
+    String[] numbers = { "8", "7", "6", "5", "4", "3", "2", "1"};
 
     
    
@@ -46,14 +46,22 @@ final class ChessBoardDrawer {
     
 
     for (int i = 0; i < 8; i++) {
-      for (int k = 0; k < 8; k++) {
-        
-          
         draw.sprites.begin();
         Fonts.arial32.setColor(Color.BLACK);
-        Fonts.arial32.draw(draw.sprites, text, WIDTH / 2, 100, 100, Align.center, false);
-    
+        Fonts.arial32.draw(draw.sprites, numbers[i], 16 , i * 64 + (y + 24),  0, Align.center, false);
+        Fonts.arial32.draw(draw.sprites, numbers[i], 16 + x + 8 * 64 , i * 64 + (y + 24),  0, Align.center, false);
         draw.sprites.end();
+      for (int k = 0; k < 8; k++) {
+        if (i == 0 || i == 7) {
+        draw.sprites.begin();
+        Fonts.arial32.setColor(Color.BLACK);
+        if (i == 0) {
+            Fonts.arial32.draw(draw.sprites, letters[k], 32 + x + k * 64 ,  y + i * 64 - 24, 0, Align.center, false);
+        } else {
+            Fonts.arial32.draw(draw.sprites, letters[k], 32 + x + k * 64 ,  y + i * 64 + 72, 0, Align.center, false);
+        }
+        draw.sprites.end();
+        }
 
         draw.shapes.begin(ShapeRenderer.ShapeType.Filled);
         if (isWhite) {
@@ -74,6 +82,9 @@ final class ChessBoardDrawer {
         draw.sprites.end();
 
       }
+      
+        
+      
       if (i % 2 == 1) {
         isWhite = true;
       } else {

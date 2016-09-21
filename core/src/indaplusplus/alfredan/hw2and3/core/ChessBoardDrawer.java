@@ -1,5 +1,6 @@
 package indaplusplus.alfredan.hw2and3.core;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -7,6 +8,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import indaplusplus.alfredan.hw2and3.chesslib.Board;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Align;
+import indaplusplus.alfredan.hw2and3.chesslib.Piece;
+import indaplusplus.alfredan.hw2and3.chesslib.Team;
 
 
 import indaplusplus.alfredan.hw2and3.chesslib.util.IntVector2;
@@ -18,12 +21,12 @@ final class ChessBoardDrawer {
 
   private static boolean isWhite = true;
   
-  private static String text = "111111111111";
 
   private ChessBoardDrawer() {}
 
-  public static void drawChessBoard(Draw draw, OrthographicCamera cam, Board board, int x, int y, int width, int height, int mouseX, int mouseY, int hiddenX, int hiddenY) {
+  public static void drawChessBoard(Draw draw, OrthographicCamera cam, Board board, int x, int y, int width, int height, int mouseX, int mouseY, int hiddenX, int hiddenY, int turn) {
 
+      
     draw.shapes.setProjectionMatrix(cam.combined);
     draw.enableBlending();
     draw.sprites.setProjectionMatrix(cam.combined);
@@ -40,25 +43,25 @@ final class ChessBoardDrawer {
    
     
     draw.shapes.begin(ShapeRenderer.ShapeType.Filled);    
-    draw.shapes.setColor(Color.valueOf("#5EA1D4"));
+    draw.shapes.setColor(Color.valueOf("#bad877"));
     draw.shapes.rect(0, 0, WIDTH, HEIGHT);
     draw.shapes.end();
     
 
     for (int i = 0; i < 8; i++) {
         draw.sprites.begin();
-        Fonts.arial32.setColor(Color.BLACK);
-        Fonts.arial32.draw(draw.sprites, numbers[i], 16 , i * 64 + (y + 24),  0, Align.center, false);
-        Fonts.arial32.draw(draw.sprites, numbers[i], 16 + x + 8 * 64 , i * 64 + (y + 24),  0, Align.center, false);
+        Fonts.boardLabels.setColor(Color.BLACK);
+        Fonts.boardLabels.draw(draw.sprites, numbers[i], 16 , i * 64 + (y + 24),  0, Align.center, false);
+        Fonts.boardLabels.draw(draw.sprites, numbers[i], 16 + x + 8 * 64 , i * 64 + (y + 24),  0, Align.center, false);
         draw.sprites.end();
       for (int k = 0; k < 8; k++) {
         if (i == 0 || i == 7) {
         draw.sprites.begin();
-        Fonts.arial32.setColor(Color.BLACK);
+        Fonts.boardLabels.setColor(Color.BLACK);
         if (i == 0) {
-            Fonts.arial32.draw(draw.sprites, letters[k], 32 + x + k * 64 ,  y + i * 64 - 24, 0, Align.center, false);
+            Fonts.boardLabels.draw(draw.sprites, letters[k], 32 + x + k * 64 ,  y + i * 64 - 24, 0, Align.center, false);
         } else {
-            Fonts.arial32.draw(draw.sprites, letters[k], 32 + x + k * 64 ,  y + i * 64 + 72, 0, Align.center, false);
+            Fonts.boardLabels.draw(draw.sprites, letters[k], 32 + x + k * 64 ,  y + i * 64 + 72, 0, Align.center, false);
         }
         draw.sprites.end();
         }
@@ -96,12 +99,13 @@ final class ChessBoardDrawer {
   
     draw.shapes.end();
     
-    drawPossibleMoves(draw, board, x, y, mouseX, mouseY);
+    drawPossibleMoves(draw, board, x, y, mouseX, mouseY, turn);
 
   }
 
-  private static void drawPossibleMoves(Draw draw, Board board, int x, int y, int mouseX, int mouseY) {
+  private static void drawPossibleMoves(Draw draw, Board board, int x, int y, int mouseX, int mouseY, int turn) {
 
+    
     if (mouseX == -1 || mouseY == -1) {
       return;
     }
@@ -112,7 +116,12 @@ final class ChessBoardDrawer {
     for (int i = 0; i < vectorList.size(); i++) {
       IntVector2 vectorItem = vectorList.get(i);
       draw.shapes.begin(ShapeRenderer.ShapeType.Filled);
-      draw.shapes.setColor(0.9f, 0.2f, 0.2f, 0.6f);
+      Piece piece = board.get(mouseX,mouseY);
+      if ((piece.team == Team.WHITE && turn == Team.WHITE) || (piece.team == Team.BLACK && turn == Team.BLACK)) {
+          draw.shapes.setColor(0.9f, 0.2f, 0.2f, 0.6f);
+      } else {
+          draw.shapes.setColor(0.3f, 0.3f, 0.3f, 0.3f);
+      }
       draw.shapes.rect(x + vectorItem.x * 64, y + (7 - vectorItem.y) * 64, 64, 64);
       draw.shapes.end();
     }

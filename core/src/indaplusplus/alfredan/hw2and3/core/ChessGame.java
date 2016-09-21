@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class ChessGame extends ApplicationAdapter implements ButtonListener {
   
-  public static final int WIDTH = 512 + 64, HEIGHT = 640 + 32;
+  public static final int WIDTH = 512 + 64, HEIGHT = 768 + 32;
   
   private Draw draw;
   
@@ -51,7 +51,7 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
     draw = new Draw();
     draw.cam = cam;
     
-    buttons.add(new Button(this, "Test", Fonts.arial32, boardX, boardY + boardHeight + 16, boardWidth, 32));
+    //buttons.add(new Button(this, "Test", Fonts.arial32, boardX, boardY + boardHeight + 16, boardWidth, 32));
   }
   
   private void update() {
@@ -124,7 +124,7 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     
     ChessBoardDrawer.drawChessBoard(draw, cam, game.getBoard(), boardX, boardY, boardCellW, boardCellH,
-            grabbing ? grabX : mouseBoardX, grabbing ? grabY : mouseBoardY, grabX, grabY);
+            grabbing ? grabX : mouseBoardX, grabbing ? grabY : mouseBoardY, grabX, grabY, game.getTurn());
     
     drawHeader(draw);
     

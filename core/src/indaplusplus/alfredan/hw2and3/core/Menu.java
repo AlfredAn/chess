@@ -1,5 +1,7 @@
 package indaplusplus.alfredan.hw2and3.core;
 
+import indaplusplus.alfredan.hw2and3.chesslib.Team;
+import static indaplusplus.alfredan.hw2and3.core.ChessGame.WIDTH;
 import java.util.ArrayList;
 
 public class Menu implements ButtonListener {
@@ -8,8 +10,26 @@ public class Menu implements ButtonListener {
   
   private final ChessGame game;
   
-  public Menu(ChessGame game) {
+ 
+  private int marked;
+  
+  private Draw draw;
+  
+  public Menu(ChessGame game, Draw draw) {
     this.game = game;
+    this.draw = draw;
+    
+    Button start = new Button(this, "START", Fonts.arial32, WIDTH/2 - 128, 200, 256, 32);
+    Button playerWhiteButton = new Button(this, "WHITE", Fonts.arial32, WIDTH/2 , 232, 128, 32);
+    Button playerBlackButton = new Button(this, "BLACK", Fonts.arial32, WIDTH/2 - 128, 232, 128, 32);
+    Button exit = new Button(this, "EXIT", Fonts.arial32, WIDTH/2 - 128, 264, 256, 32);
+
+    buttons.add(start);
+    buttons.add(playerWhiteButton);
+    buttons.add(playerBlackButton);
+    buttons.add(exit);
+    
+    draw(draw);
   }
   
   void update(boolean leftDown, boolean leftPressed) {
@@ -20,12 +40,22 @@ public class Menu implements ButtonListener {
   
   void draw(Draw d) {
     for (Button button : buttons) {
-      button.draw(d);
+        if (button.text.equals("WHITE") && marked == Team.WHITE || button.text.equals("BLACK") && marked == Team.BLACK) {
+            button.marked = true;
+        } else {
+            button.marked = false;
+        }
+        button.draw(draw);
     }
   }
   
   @Override
   public void press(Button button) {
-    
+      if (button.text.equals("WHITE")) {
+          marked = Team.WHITE;
+      } else if (button.text.equals("BLACK")) {
+          marked = Team.BLACK;
+      }
+      button.draw(draw);
   }
 }

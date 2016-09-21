@@ -74,7 +74,9 @@ public class ChessGame extends ApplicationAdapter {
     
     boolean hovering = !grabbing && mouseOnBoard && game.getBoard().get(mouseBoardX, mouseBoardY) != null;
     
-    if (hovering && leftPressed) {
+    if (hovering && leftPressed
+            && game.getTurn() == game.getBoard().get(mouseBoardX, mouseBoardY).team
+            && !game.getBoard().getAvailableMoves(mouseBoardX, mouseBoardY).isEmpty()) {
       grabbing = true;
       grabX = mouseBoardX;
       grabY = mouseBoardY;

@@ -80,8 +80,6 @@ public final class StandardChessGame {
   
   private final Map<BoardState, BoardStateCount> seenStates = new HashMap<>();
   
-  private boolean canCurrentPlayerDeclareDraw = false;
-  
   public StandardChessGame() {
     this(STARTING_BOARD);
   }
@@ -132,9 +130,11 @@ public final class StandardChessGame {
     }
     counter.count++;
     
-    // threefold repetition rule
-    canCurrentPlayerDeclareDraw = counter.count >= 3;
-    System.out.println(counter.count);
+    // threefold repetition rule, draw the game if the same position is reached 3 times
+    if (counter.count >= 3) {
+      gameStatus = GameStatus.DRAW;
+      return;
+    }
     
     boolean gameOver = !board.canMove(turn);
     
@@ -204,26 +204,6 @@ public final class StandardChessGame {
    */
   public int getTurn() {
     return turn;
-  }
-  
-  /**
-   * The current player attempts to declare draw.
-   * @return Whether the game was successfully drawn.
-   */
-  public boolean declareDraw() {
-    if (!canDeclareDraw()) {
-      return false;
-    }
-    gameStatus = GameStatus.DRAW;
-    
-    return true;
-  }
-  
-  /**
-   * Returns whether the current player is able to declare draw.
-   */
-  public boolean canDeclareDraw() {
-    return gameStatus == GameStatus.NORMAL && canCurrentPlayerDeclareDraw;
   }
   
   private static final class BoardStateCount {

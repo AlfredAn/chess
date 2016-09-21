@@ -69,9 +69,10 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
     menu = new Menu(this);
   }
   
-  private void startGame() {
+  void startGame() {
     game = new StandardChessGame();
     gameOverMsg = null;
+    menu = null;
   }
   
   private void addIngameUI() {

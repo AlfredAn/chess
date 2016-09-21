@@ -57,7 +57,7 @@ public class Button {
     d.shapes.begin(ShapeRenderer.ShapeType.Filled);
     
     if (marked) {
-      d.shapes.setColor(.5f, .25f, .25f, 1.0f);
+      d.shapes.setColor(.625f, .625f, .875f, 1.0f);
     } else {
       d.shapes.setColor(.25f, .25f, .75f, 1.0f);
     }

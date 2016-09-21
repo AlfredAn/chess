@@ -49,4 +49,21 @@ public abstract class Piece {
    * @param teamThatMoved The team that just made a move.
    */
   protected void endOfTurn(MutableBoard board, int xPos, int yPos, int teamThatMoved) {}
+  
+  /**
+   * Returns whether the other piece has the same type and team as this one.
+   * <p>This should be overridden if the piece has internal state.
+   */
+  @Override
+  public boolean equals(Object o) {
+    return o != null && o.getClass() == getClass() && ((Piece)o).team == team;
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 7;
+    hash = 17 * hash + team;
+    hash = 17 * hash + getClass().hashCode();
+    return hash;
+  }
 }

@@ -11,6 +11,9 @@ import indaplusplus.alfredan.hw2and3.chesslib.pieces.Pawn;
 import indaplusplus.alfredan.hw2and3.chesslib.pieces.Queen;
 import indaplusplus.alfredan.hw2and3.chesslib.pieces.Rook;
 import indaplusplus.alfredan.hw2and3.chesslib.util.IntVector2;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public final class StandardChessGame {
   
@@ -75,6 +78,10 @@ public final class StandardChessGame {
   
   private GameStatus gameStatus = GameStatus.NORMAL;
   
+  private final Map<BoardState, BoardStateCount> seenStates = new HashMap<>();
+  
+  private boolean canCurrentPlayerDeclareDraw = false;
+  
   public StandardChessGame() {
     this(STARTING_BOARD);
   }
@@ -114,6 +121,20 @@ public final class StandardChessGame {
   
   private void turnFinished() {
     turn = 1 - turn;
+    
+    // check if the board state has been seen before
+    BoardState newState = new BoardState(board, turn);
+    
+    BoardStateCount counter = seenStates.get(newState);
+    if (counter == null) {
+      counter = new BoardStateCount(newState);
+      seenStates.put(newState, counter);
+    }
+    counter.count++;
+    
+    // threefold repetition rule
+    canCurrentPlayerDeclareDraw = counter.count >= 3;
+    System.out.println(counter.count);
     
     boolean gameOver = !board.canMove(turn);
     
@@ -183,5 +204,62 @@ public final class StandardChessGame {
    */
   public int getTurn() {
     return turn;
+  }
+  
+  /**
+   * The current player attempts to declare draw.
+   * @return Whether the game was successfully drawn.
+   */
+  public boolean declareDraw() {
+    if (!canDeclareDraw()) {
+      return false;
+    }
+    gameStatus = GameStatus.DRAW;
+    
+    return true;
+  }
+  
+  /**
+   * Returns whether the current player is able to declare draw.
+   */
+  public boolean canDeclareDraw() {
+    return gameStatus == GameStatus.NORMAL && canCurrentPlayerDeclareDraw;
+  }
+  
+  private static final class BoardStateCount {
+    private final BoardState state;
+    private int count = 0;
+    
+    private BoardStateCount(BoardState state) {
+      this.state = state;
+    }
+  }
+  
+  private static final class BoardState {
+    private final Board board;
+    private final int turn;
+    
+    private BoardState(Board board, int turn) {
+      this.board = board;
+      this.turn = turn;
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+      if (o == this) return true;
+      if (!(o instanceof BoardState)) return false;
+      
+      BoardState other = (BoardState)o;
+      
+      return other.turn == turn && Objects.equals(other.board, board);
+    }
+
+    @Override
+    public int hashCode() {
+      int hash = 7;
+      hash = 53 * hash + turn;
+      hash = 53 * hash + Objects.hashCode(board);
+      return hash;
+    }
   }
 }

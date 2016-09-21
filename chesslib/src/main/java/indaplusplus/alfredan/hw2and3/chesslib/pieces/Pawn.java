@@ -149,4 +149,23 @@ public final class Pawn extends TemplatePiece {
       board.set(xPos, yPos, new Pawn(team, hasMoved, enPassantVulnerable - 1));
     }
   }
+  
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) return true;
+    if (!(o instanceof King)) return false;
+    
+    Pawn other = (Pawn)o;
+    
+    return other.team == team && other.hasMoved == hasMoved && other.enPassantVulnerable == enPassantVulnerable;
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 3;
+    hash = 43 * hash + team;
+    hash = 43 * hash + (hasMoved ? 1 : 0);
+    hash = 43 * hash + enPassantVulnerable;
+    return hash;
+  }
 }

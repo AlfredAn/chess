@@ -45,4 +45,22 @@ public final class Rook extends TemplatePiece {
     board.set(moveX, moveY, newState);
     board.set(xPos, yPos, null);
   }
+  
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) return true;
+    if (!(o instanceof King)) return false;
+    
+    Rook other = (Rook)o;
+    
+    return other.team == team && other.hasMoved == hasMoved;
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 7;
+    hash = 29 * hash + team;
+    hash = 29 * hash + (hasMoved ? 1 : 0);
+    return hash;
+  }
 }

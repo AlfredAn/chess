@@ -165,4 +165,22 @@ public final class King extends TemplatePiece {
     board.set(moveX, moveY, newState);
     board.set(xPos, yPos, null);
   }
+  
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) return true;
+    if (!(o instanceof King)) return false;
+    
+    King other = (King)o;
+    
+    return other.team == team && other.hasMoved == hasMoved;
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 5;
+    hash = 47 * hash + team;
+    hash = 47 * hash + (hasMoved ? 1 : 0);
+    return hash;
+  }
 }

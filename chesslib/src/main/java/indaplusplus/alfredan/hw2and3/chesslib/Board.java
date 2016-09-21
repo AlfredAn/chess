@@ -3,6 +3,7 @@ package indaplusplus.alfredan.hw2and3.chesslib;
 import indaplusplus.alfredan.hw2and3.chesslib.pieces.King;
 import indaplusplus.alfredan.hw2and3.chesslib.util.IntVector2;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Represents a chess board. This class is immutable.
@@ -275,5 +276,41 @@ public final class Board {
       }
     }
     return false;
+  }
+  
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) return true;
+    if (!(o instanceof Board)) return false;
+    
+    Board other = (Board)o;
+    
+    if (getWidth() != other.getWidth() || getHeight() != other.getHeight()) {
+      return false;
+    }
+    
+    for (int x = 0; x < getWidth(); x++) {
+      for (int y = 0; y < getHeight(); y++) {
+        Piece p1 = get(x, y);
+        Piece p2 = other.get(x, y);
+        
+        if (!Objects.equals(p1, p2)) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 7;
+    
+    for (int x = 0; x < getWidth(); x++) {
+      for (int y = 0; y < getHeight(); y++) {
+        hash = 31 * hash + Objects.hashCode(get(x, y));
+      }
+    }
+    return hash;
   }
 }

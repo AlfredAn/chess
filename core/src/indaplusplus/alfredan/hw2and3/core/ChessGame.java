@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class ChessGame extends ApplicationAdapter {
   
-  public static final int WIDTH = 512, HEIGHT = 640;
+  public static final int WIDTH = 512 + 64, HEIGHT = 640 + 32;
   
   private Draw draw;
   
@@ -25,8 +25,8 @@ public class ChessGame extends ApplicationAdapter {
   private final ArrayList<Button> buttons = new ArrayList<>();
   
   private static final int
-          boardX = 0,
-          boardY = 32,
+          boardX = 32,
+          boardY = 32 + 32,
           boardCellW = 64,
           boardCellH = 64,
           boardWidth = boardCellW * 8,
@@ -171,7 +171,7 @@ public class ChessGame extends ApplicationAdapter {
     draw.shapes.begin(ShapeType.Filled);
     
     draw.shapes.setColor(col);
-    draw.shapes.rect(0, 0, WIDTH, boardY);
+    draw.shapes.rect(0, 0, WIDTH, 32);
     
     draw.shapes.end();
     
@@ -180,7 +180,7 @@ public class ChessGame extends ApplicationAdapter {
     draw.sprites.begin();
     
     Fonts.arial32.setColor(textCol);
-    Fonts.arial32.draw(draw.sprites, text, WIDTH / 2, boardY / 2 - 9, 0, Align.center, false);
+    Fonts.arial32.draw(draw.sprites, text, WIDTH / 2, 16 - 9, 0, Align.center, false);
     
     draw.sprites.end();
   }

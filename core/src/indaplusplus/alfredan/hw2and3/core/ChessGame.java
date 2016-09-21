@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.utils.Align;
 import indaplusplus.alfredan.hw2and3.chesslib.Piece;
 import indaplusplus.alfredan.hw2and3.chesslib.Team;
+import indaplusplus.alfredan.hw2and3.chesslib.game.StandardChessAI;
 import indaplusplus.alfredan.hw2and3.chesslib.game.StandardChessGame;
 import java.util.ArrayList;
 
@@ -48,6 +49,8 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
   
   private Button resignButton, restartButton, exitToMenuButton;
   
+  StandardChessAI[] ai = new StandardChessAI[2];
+  
   private Menu menu;
   
   public ChessGame() {}
@@ -73,6 +76,14 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
     game = new StandardChessGame();
     gameOverMsg = null;
     menu = null;
+    
+    makeMoveIfAI();
+  }
+  
+  private void makeMoveIfAI() {
+    if (game.getGameStatus() == StandardChessGame.GameStatus.NORMAL && ai[game.getTurn()] != null) {
+      ai[game.getTurn()].makeMove(game);
+    }
   }
   
   private void addIngameUI() {
@@ -129,7 +140,10 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
       // releasing piece
       if (mouseOnBoard) {
         // try to move the piece
-        game.move(grabX, grabY, mouseBoardX, mouseBoardY);
+        if (game.move(grabX, grabY, mouseBoardX, mouseBoardY)) {
+          // if the move succeeded
+          makeMoveIfAI();
+        }
       }
       grabbing = false;
     } else if (grabbing && rightPressed) {

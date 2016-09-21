@@ -3,6 +3,7 @@ package indaplusplus.alfredan.hw2and3.core;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Align;
+import indaplusplus.alfredan.hw2and3.chesslib.game.RandomAI;
 import java.util.ArrayList;
 
 public class Menu implements ButtonListener {
@@ -13,7 +14,7 @@ public class Menu implements ButtonListener {
   
   private final ChessGame game;
   
-  private int blackPlayer = P_HUMAN, whitePlayer = P_AI;
+  private int blackPlayer = P_AI, whitePlayer = P_HUMAN;
   
   private final Button
           blackHumanButton,
@@ -88,6 +89,8 @@ public class Menu implements ButtonListener {
     } else if (button == whiteAiButton) {
       whitePlayer = P_AI;
     } else if (button == startGameButton) {
+      game.ai[0] = (blackPlayer == P_HUMAN) ? null : new RandomAI();
+      game.ai[1] = (whitePlayer == P_HUMAN) ? null : new RandomAI();
       game.startGame();
     } else if (button == exitButton) {
       Gdx.app.exit();

@@ -44,9 +44,14 @@ public class ChessGame extends ApplicationAdapter {
   
   private StandardChessGame game = new StandardChessGame();
   
+  public ChessGame() {}
+  
   @Override
   public void create() {
     draw = new Draw();
+    draw.cam = cam;
+    
+    buttons.add(new Button("Test", Fonts.arial32, boardX, boardY + boardHeight + 16, boardWidth, 32));
   }
   
   private void update() {
@@ -99,6 +104,10 @@ public class ChessGame extends ApplicationAdapter {
       grabX = -1;
       grabY = -1;
     }
+    
+    for (Button button : buttons) {
+      button.update(leftDown, leftPressed);
+    }
   }
   
   @Override
@@ -126,6 +135,10 @@ public class ChessGame extends ApplicationAdapter {
       spr.translate(mouseX + grabMouseDX, mouseY + grabMouseDY);
       spr.draw(draw.sprites);
       draw.sprites.end();
+    }
+    
+    for (Button button : buttons) {
+      button.draw(draw);
     }
   }
   

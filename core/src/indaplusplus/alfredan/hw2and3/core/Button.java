@@ -10,10 +10,10 @@ public class Button {
   
   private final ButtonListener listener;
   
-  public final int x, y, width, height;
+  public int x, y, width, height;
   
   public final BitmapFont font;
-  public final String text;
+  public String text;
   
   private boolean hovering, pressing;
   
@@ -70,9 +70,9 @@ public class Button {
       d.shapes.setProjectionMatrix(d.cam.combined);
       d.shapes.begin(ShapeRenderer.ShapeType.Filled);
       if (pressing) {
-        d.shapes.setColor(0, 0, 0, .4f);
+        d.shapes.setColor(0, 0, 0, .25f);
       } else {
-        d.shapes.setColor(1, 1, 1, .3f);
+        d.shapes.setColor(1, 1, 1, .2f);
       }
       d.shapes.rect(x, y, width, height);
       d.shapes.end();

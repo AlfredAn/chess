@@ -44,6 +44,8 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
   
   private StandardChessGame game = new StandardChessGame();
   
+  private String gameOverMsg = "undefined";
+  
   public ChessGame() {}
   
   @Override
@@ -51,7 +53,7 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
     draw = new Draw();
     draw.cam = cam;
     
-    //buttons.add(new Button(this, "Test", Fonts.arial32, boardX, boardY + boardHeight + 16, boardWidth, 32));
+    buttons.add(new Button(this, "Resign", Fonts.arial32, boardX, boardY + boardHeight + 16 + 64, 128, 32));
   }
   
   private void update() {
@@ -88,7 +90,6 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
       
       grabMouseDX = boardX + boardCellW * grabX - mouseX;
       grabMouseDY = boardY + boardCellH * (7 - grabY) - mouseY;
-      
     } else if (grabbing && leftPressed) {
       // releasing piece
       if (mouseOnBoard) {

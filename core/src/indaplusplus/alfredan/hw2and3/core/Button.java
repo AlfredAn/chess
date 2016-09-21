@@ -14,6 +14,7 @@ public class Button {
   
   public final BitmapFont font;
   public String text;
+  public boolean marked = false;
   
   private boolean hovering, pressing;
   
@@ -54,7 +55,11 @@ public class Button {
   public void draw(Draw d) {
     d.shapes.setProjectionMatrix(d.cam.combined);
     d.shapes.begin(ShapeRenderer.ShapeType.Filled);
-    d.shapes.setColor(.25f, .25f, .75f, 1.0f);
+    
+    if (marked) {
+      d.shapes.setColor(.25f, .25f, .75f, 1.0f);
+    }
+    
     d.shapes.rect(x, y, width, height);
     d.shapes.end();
     

@@ -80,6 +80,9 @@ public final class StandardChessGame {
   
   private final Map<BoardState, BoardStateCount> seenStates = new HashMap<>();
   
+  private int lastTurnPieceCount;
+  private int turnsSinceCaptureOrPawnMove;
+  
   public StandardChessGame() {
     this(STARTING_BOARD);
   }
@@ -88,6 +91,7 @@ public final class StandardChessGame {
     board = startingBoard;
     turnFinished();
     turn = Team.WHITE;
+    turnsSinceCaptureOrPawnMove = 0;
   }
   
   /**
@@ -103,6 +107,11 @@ public final class StandardChessGame {
     
     if (piece != null && piece.team == turn && board.isValidMove(fromX, fromY, toX, toY)) {
       board = board.makeMove(fromX, fromY, toX, toY);
+      
+      if (piece instanceof Pawn) {
+        // -1 since it will immediately be incremented
+        turnsSinceCaptureOrPawnMove = -1;
+      }
       
       if (piece instanceof Pawn
               && ((piece.team == Team.WHITE && toY == 7)
@@ -129,6 +138,24 @@ public final class StandardChessGame {
       seenStates.put(newState, counter);
     }
     counter.count++;
+    
+    // fifty move rule
+    turnsSinceCaptureOrPawnMove++;
+    
+    int pieceCount = board.countPieces();
+    if (pieceCount < lastTurnPieceCount) {
+      turnsSinceCaptureOrPawnMove = 0;
+    }
+    
+    System.out.println(turnsSinceCaptureOrPawnMove);
+    
+    // one move per standard chess definition is two turns on this counter
+    if (turnsSinceCaptureOrPawnMove >= 100) {
+      gameStatus = GameStatus.DRAW;
+      return;
+    }
+    
+    
     
     // threefold repetition rule, draw the game if the same position is reached 3 times
     if (counter.count >= 3) {

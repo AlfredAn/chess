@@ -8,13 +8,13 @@ import java.util.ArrayList;
 
 public class Menu implements ButtonListener {
   
-  private static final int P_HUMAN = 0, P_AI = 1;
+  public static final int P_HUMAN = 0, P_AI = 1;
+  
+  private static int blackPlayer = P_AI, whitePlayer = P_HUMAN;
   
   private final ArrayList<Button> buttons = new ArrayList<>();
   
   private final ChessGame game;
-  
-  private int blackPlayer = P_AI, whitePlayer = P_HUMAN;
   
   private final Button
           blackHumanButton,

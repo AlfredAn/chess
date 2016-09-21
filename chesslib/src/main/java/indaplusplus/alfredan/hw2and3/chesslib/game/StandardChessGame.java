@@ -140,6 +140,21 @@ public final class StandardChessGame {
     gameStatus = turn == Team.WHITE ? GameStatus.BLACK_WIN : GameStatus.WHITE_WIN;
   }
   
+  public void resignOther() {
+    if (gameStatus != GameStatus.NORMAL) {
+      return;
+    }
+    gameStatus = turn == Team.WHITE ? GameStatus.WHITE_WIN : GameStatus.BLACK_WIN;
+  }
+  
+  public void declareDraw() {
+    if (gameStatus != GameStatus.NORMAL) {
+      return;
+    }
+    
+    gameStatus = GameStatus.DRAW;
+  }
+  
   private void turnFinished() {
     turn = 1 - turn;
     

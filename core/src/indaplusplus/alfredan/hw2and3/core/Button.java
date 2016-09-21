@@ -15,6 +15,7 @@ public class Button {
   public final BitmapFont font;
   public String text;
   public boolean marked = false;
+  public boolean enabled = true;
   
   private boolean hovering, pressing;
   
@@ -31,6 +32,12 @@ public class Button {
   }
   
   public void update(boolean leftDown, boolean leftPressed) {
+    if (!enabled) {
+      hovering = false;
+      pressing = false;
+      return;
+    }
+    
     int mouseX = Gdx.input.getX();
     int mouseY = Gdx.input.getY();
     
@@ -81,6 +88,15 @@ public class Button {
       } else {
         d.shapes.setColor(1, 1, 1, .2f);
       }
+      d.shapes.rect(x, y, width, height);
+      d.shapes.end();
+    }
+    
+    if (!enabled) {
+      d.enableBlending();
+      d.shapes.setProjectionMatrix(d.cam.combined);
+      d.shapes.begin(ShapeRenderer.ShapeType.Filled);
+      d.shapes.setColor(.5f, .5f, .5f, .375f);
       d.shapes.rect(x, y, width, height);
       d.shapes.end();
     }

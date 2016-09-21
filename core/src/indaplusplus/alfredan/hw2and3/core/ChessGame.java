@@ -51,6 +51,8 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
   
   StandardChessAI[] ai = new StandardChessAI[2];
   
+  private double aiMoveTimer = 0;
+  
   private Menu menu;
   
   public ChessGame() {}
@@ -81,9 +83,14 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
   }
   
   private void makeMoveIfAI() {
-    if (game.getGameStatus() == StandardChessGame.GameStatus.NORMAL && ai[game.getTurn()] != null) {
-      ai[game.getTurn()].makeMove(game);
+    // delay AI moves by 500ms to give the player a chance to see what is going on
+    if (ai[game.getTurn()] == null || aiMoveTimer < 0.5 || game.getGameStatus() != StandardChessGame.GameStatus.NORMAL) {
+      return;
     }
+    
+    ai[game.getTurn()].makeMove(game);
+    grabbing = false;
+    aiMoveTimer = 0;
   }
   
   private void addIngameUI() {
@@ -127,7 +134,7 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
     
     boolean hovering = !grabbing && mouseOnBoard && game.getBoard().get(mouseBoardX, mouseBoardY) != null;
     
-    if (hovering && leftPressed
+    if (hovering && leftPressed && ai[game.getTurn()] == null
             && game.getTurn() == game.getBoard().get(mouseBoardX, mouseBoardY).team
             && !game.getBoard().getAvailableMoves(mouseBoardX, mouseBoardY).isEmpty()) {
       grabbing = true;
@@ -142,7 +149,7 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
         // try to move the piece
         if (game.move(grabX, grabY, mouseBoardX, mouseBoardY)) {
           // if the move succeeded
-          makeMoveIfAI();
+          aiMoveTimer = 0;
         }
       }
       grabbing = false;
@@ -161,6 +168,16 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
       addIngameUI();
     }
     
+    aiMoveTimer += Gdx.graphics.getDeltaTime();
+    
+    makeMoveIfAI();
+    
+    if (ai[0] == null || ai[1] == null) {
+      resignButton.text = "Resign";
+    } else {
+      resignButton.text = "Stop";
+    }
+    
     for (Button button : buttons) {
       button.update(leftDown, leftPressed);
     }
@@ -169,8 +186,18 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
   @Override
   public void press(Button button) {
     if (button == resignButton) {
-      game.resign();
-      gameOverMsg = Team.getTeamName(1 - game.getTurn()) + " wins by resignation!";
+      if (ai[0] == null || ai[1] == null) {
+        if (ai[game.getTurn()] == null) {
+          game.resign();
+          gameOverMsg = Team.getTeamName(1 - game.getTurn()) + " wins by resignation!";
+        } else {
+          game.resignOther();
+          gameOverMsg = Team.getTeamName(game.getTurn()) + " wins by resignation!";
+        }
+      } else {
+        game.declareDraw();
+        gameOverMsg = "Game stopped prematurely!";
+      }
     } else if (button == restartButton) {
       startGame();
     } else if (button == exitToMenuButton) {
@@ -195,7 +222,7 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
     
     ChessBoardDrawer.drawChessBoard(draw, cam, game.getBoard(), boardX, boardY, boardCellW, boardCellH,
             grabbing ? grabX : mouseBoardX, grabbing ? grabY : mouseBoardY, grabX, grabY,
-            game.getGameStatus() == StandardChessGame.GameStatus.NORMAL ? game.getTurn() : -1);
+            (game.getGameStatus() == StandardChessGame.GameStatus.NORMAL && ai[game.getTurn()] == null) ? game.getTurn() : -1);
     
     drawHeader(draw);
     

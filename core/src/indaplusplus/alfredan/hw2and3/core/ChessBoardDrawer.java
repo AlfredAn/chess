@@ -2,6 +2,7 @@ package indaplusplus.alfredan.hw2and3.core;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import indaplusplus.alfredan.hw2and3.chesslib.Board;
 import indaplusplus.alfredan.hw2and3.chesslib.util.IntVector2;
@@ -17,7 +18,7 @@ final class ChessBoardDrawer {
 
     draw.shapes.setProjectionMatrix(cam.combined);
 
-    draw.sprites.enableBlending();
+    draw.enableBlending();
     draw.sprites.setProjectionMatrix(cam.combined);
 
     for (int i = 0; i < 8; i++) {
@@ -34,7 +35,9 @@ final class ChessBoardDrawer {
         draw.shapes.end();
         draw.sprites.begin();
         if (board.get(k, 7 - i) != null && (hiddenX != k || hiddenY != 7 - i)) {
-          draw.sprites.draw(Sprites.getChessPiece(board.get(k, 7 - i)), x + k * 64 + 1, y + i * 64 + 1, 60, 60);
+          Sprite spr = Sprites.getChessPiece(board.get(k, 7 - i));
+          spr.translate(x + k * 64, y + i * 64);
+          spr.draw(draw.sprites);
         }
         draw.sprites.end();
 

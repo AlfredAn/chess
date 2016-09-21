@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.utils.Align;
 import indaplusplus.alfredan.hw2and3.chesslib.Piece;
@@ -119,7 +120,9 @@ public class ChessGame extends ApplicationAdapter {
       draw.sprites.setProjectionMatrix(cam.combined);
       draw.sprites.begin();
       draw.sprites.enableBlending();
-      draw.sprites.draw(Sprites.getChessPiece(grabbedPiece), mouseX + grabMouseDX, mouseY + grabMouseDY);
+      Sprite spr = Sprites.getChessPiece(grabbedPiece);
+      spr.translate(mouseX + grabMouseDX, mouseY + grabMouseDY);
+      spr.draw(draw.sprites);
       draw.sprites.end();
     }
   }

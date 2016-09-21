@@ -1,5 +1,6 @@
 package indaplusplus.alfredan.hw2and3.desktop;
 
+import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import indaplusplus.alfredan.hw2and3.core.ChessGame;
@@ -15,9 +16,11 @@ public class DesktopLauncher {
     config.resizable = false;
     config.title = "ChessGame";
     
-    config.foregroundFPS = 0;
-    config.backgroundFPS = 0;
-    config.vSyncEnabled = false;
+    DisplayMode dm = LwjglApplicationConfiguration.getDesktopDisplayMode();
+    
+    config.foregroundFPS = dm.refreshRate;
+    config.backgroundFPS = dm.refreshRate;
+    config.vSyncEnabled = true;
     
     new LwjglApplication(new ChessGame(), config);
   }

@@ -65,6 +65,8 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
     
     restartButton = new Button(this, "Restart", Fonts.arial32, boardX, boardY + boardHeight + 112, boardWidth / 2 - 8, 48);
     exitToMenuButton = new Button(this, "Exit to menu", Fonts.arial32, boardX + boardWidth / 2 + 8, boardY + boardHeight + 112, boardWidth / 2 - 8, 48);
+    
+    menu = new Menu(this);
   }
   
   private void startGame() {

@@ -41,7 +41,9 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
   private int grabMouseDX;
   private int grabMouseDY;
   
-  private boolean leftPressed, leftDown, rightPressed, rightDown;
+  private boolean
+          leftPressed, leftReleased, leftDown,
+          rightPressed, rightReleased, rightDown;
   
   private StandardChessGame game;
   
@@ -107,11 +109,13 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
   private void update() {
     boolean newLeftDown = Gdx.input.isButtonPressed(Input.Buttons.LEFT);
     leftPressed = newLeftDown && !leftDown;
+    leftReleased = !newLeftDown && leftDown;
     leftDown = newLeftDown;
     
-    boolean newrightDown = Gdx.input.isButtonPressed(Input.Buttons.RIGHT);
-    rightPressed = newrightDown && !rightDown;
-    rightDown = newrightDown;
+    boolean newRightDown = Gdx.input.isButtonPressed(Input.Buttons.RIGHT);
+    rightPressed = newRightDown && !rightDown;
+    rightReleased = !newRightDown && rightDown;
+    rightDown = newRightDown;
     
     if (menu != null) {
       menu.update(leftDown, leftPressed);
@@ -143,7 +147,7 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
       
       grabMouseDX = boardX + boardCellW * grabX - mouseX;
       grabMouseDY = boardY + boardCellH * (7 - grabY) - mouseY;
-    } else if (grabbing && leftPressed) {
+    } else if (grabbing && !leftDown) {
       // releasing piece
       if (mouseOnBoard) {
         // try to move the piece

@@ -44,7 +44,7 @@ final class ChessBoardDrawer {
     for (int i = 0; i < 8; i++) {
       draw.sprites.begin();
       Fonts.boardLabels.setColor(Color.BLACK);
-      Fonts.boardLabels.draw(draw.sprites, numbers[i], 16, i * 64 + (y + 24), 0, Align.center, false);
+      Fonts.boardLabels.draw(draw.sprites, numbers[i], x - 16, i * 64 + (y + 24), 0, Align.center, false);
       Fonts.boardLabels.draw(draw.sprites, numbers[i], 16 + x + 8 * 64, i * 64 + (y + 24), 0, Align.center, false);
       draw.sprites.end();
       

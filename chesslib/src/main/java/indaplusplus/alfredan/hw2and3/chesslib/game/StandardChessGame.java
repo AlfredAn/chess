@@ -231,6 +231,8 @@ public final class StandardChessGame {
     
     board = new Board(mBoard);
     
+    pendingPawnPromotion = null;
+    
     turnFinished();
   }
   

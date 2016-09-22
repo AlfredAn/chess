@@ -50,10 +50,14 @@ public final class Sprites {
   }
   
   public static Sprite getChessPiece(Piece piece) {
-    if (piece.team == Team.BLACK) {
-      return black.get(piece.getClass()).getSpr();
+    return getChessPiece(piece.getClass(), piece.team);
+  }
+  
+  public static Sprite getChessPiece(Class<? extends Piece> type, int team) {
+    if (team == Team.BLACK) {
+      return black.get(type).getSpr();
     } else {
-      return white.get(piece.getClass()).getSpr();
+      return white.get(type).getSpr();
     }
   }
   

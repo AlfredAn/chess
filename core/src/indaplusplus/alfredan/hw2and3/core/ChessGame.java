@@ -14,19 +14,20 @@ import indaplusplus.alfredan.hw2and3.chesslib.Team;
 import indaplusplus.alfredan.hw2and3.chesslib.game.StandardChessAI;
 import indaplusplus.alfredan.hw2and3.chesslib.game.StandardChessGame;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ChessGame extends ApplicationAdapter implements ButtonListener {
   
-  public static final int WIDTH = 576, HEIGHT = 768;
+  public static final int WIDTH = 608, HEIGHT = 768;
   
   private Draw draw;
   
   public final OrthographicCamera cam = new OrthographicCamera();
   
-  private final ArrayList<Button> buttons = new ArrayList<>();
+  private final List<Button> buttons = new ArrayList<>();
   
   private static final int
-          boardX = 32,
+          boardX = 32 + 16,
           boardY = 32 + 32,
           boardCellW = 64,
           boardCellH = 64,
@@ -56,6 +57,7 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
   private double aiMoveTimer = 0;
   
   private Menu menu;
+  PawnPromotionInterface pawnPromo;
   
   public ChessGame() {}
   
@@ -80,6 +82,7 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
     game = new StandardChessGame();
     gameOverMsg = null;
     menu = null;
+    pawnPromo = null;
     
     makeMoveIfAI();
   }
@@ -93,6 +96,8 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
     ai[game.getTurn()].makeMove(game);
     grabbing = false;
     aiMoveTimer = 0;
+    
+    pawnPromo = null;
   }
   
   private void addIngameUI() {
@@ -122,8 +127,7 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
       return;
     }
     
-    mouseX = Gdx.input.getX();
-    mouseY = Gdx.input.getY();
+    updateMouse();
     
     boolean mouseOnBoard = mouseX >= boardX && mouseX < boardX + boardWidth
             && mouseY >= boardY && mouseY < boardY + boardHeight;
@@ -140,13 +144,14 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
     
     if (hovering && leftPressed && ai[game.getTurn()] == null
             && game.getTurn() == game.getBoard().get(mouseBoardX, mouseBoardY).team
-            && !game.getBoard().getAvailableMoves(mouseBoardX, mouseBoardY).isEmpty()) {
+            && !game.getBoard().getAvailableMoves(mouseBoardX, mouseBoardY).isEmpty()
+            && !game.canPromotePawn()) {
       grabbing = true;
       grabX = mouseBoardX;
       grabY = mouseBoardY;
       
-      grabMouseDX = boardX + boardCellW * grabX - mouseX;
-      grabMouseDY = boardY + boardCellH * (7 - grabY) - mouseY;
+      grabMouseDX = boardX + boardCellW * grabX + 32 - mouseX;
+      grabMouseDY = boardY + boardCellH * (7 - grabY) + 32 - mouseY;
     } else if (grabbing && !leftDown) {
       // releasing piece
       if (mouseOnBoard) {
@@ -154,6 +159,17 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
         if (game.move(grabX, grabY, mouseBoardX, mouseBoardY)) {
           // if the move succeeded
           aiMoveTimer = 0;
+          
+          if (game.canPromotePawn()) {
+            pawnPromo = new PawnPromotionInterface(
+                    this,
+                    boardX + boardCellW / 2 + boardCellW * mouseBoardX,
+                    boardY + boardCellH / 2 + boardCellH * (7 - mouseBoardY),
+                    mouseBoardX,
+                    mouseBoardY);
+          } else {
+            pawnPromo = null;
+          }
         }
       }
       grabbing = false;
@@ -182,8 +198,31 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
       resignButton.text = "Stop";
     }
     
+    if (pawnPromo != null) {
+      pawnPromo.update(leftDown, leftPressed);
+    }
+    
     for (Button button : buttons) {
       button.update(leftDown, leftPressed);
+    }
+    
+    updateMouse();
+    
+    if (grabbing && !Gdx.input.isCursorCatched()) {
+      //Gdx.input.setCursorCatched(true);
+    } else if (!grabbing && Gdx.input.isCursorCatched()) {
+      //Gdx.input.setCursorCatched(false);
+      //Gdx.input.setCursorPosition(mouseX, mouseY);
+    }
+  }
+  
+  private void updateMouse() {
+    mouseX = Gdx.input.getX();
+    mouseY = Gdx.input.getY();
+    
+    if (grabbing) {
+      mouseX += grabMouseDX;
+      mouseY += grabMouseDY;
     }
   }
   
@@ -209,6 +248,10 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
     }
   }
   
+  StandardChessGame getGame() {
+    return game;
+  }
+  
   @Override
   public void render() {
     update();
@@ -226,21 +269,9 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
     
     ChessBoardDrawer.drawChessBoard(draw, cam, game.getBoard(), boardX, boardY, boardCellW, boardCellH,
             grabbing ? grabX : mouseBoardX, grabbing ? grabY : mouseBoardY, grabX, grabY,
-            (game.getGameStatus() == StandardChessGame.GameStatus.NORMAL && ai[game.getTurn()] == null) ? game.getTurn() : -1);
+            (game.getGameStatus() == StandardChessGame.GameStatus.NORMAL && ai[game.getTurn()] == null && !game.canPromotePawn()) ? game.getTurn() : -1);
     
     drawHeader(draw);
-    
-    if (grabbing) {
-      Piece grabbedPiece = game.getBoard().get(grabX, grabY);
-      
-      draw.sprites.setProjectionMatrix(cam.combined);
-      draw.sprites.begin();
-      draw.sprites.enableBlending();
-      Sprite spr = Sprites.getChessPiece(grabbedPiece);
-      spr.translate(mouseX + grabMouseDX, mouseY + grabMouseDY);
-      spr.draw(draw.sprites);
-      draw.sprites.end();
-    }
     
     // draw turn count
     draw.sprites.begin();
@@ -251,6 +282,22 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
     
     for (Button button : buttons) {
       button.draw(draw);
+    }
+    
+    if (pawnPromo != null) {
+      pawnPromo.draw(draw);
+    }
+    
+    if (grabbing) {
+      Piece grabbedPiece = game.getBoard().get(grabX, grabY);
+      
+      draw.sprites.setProjectionMatrix(cam.combined);
+      draw.sprites.begin();
+      draw.sprites.enableBlending();
+      Sprite spr = Sprites.getChessPiece(grabbedPiece);
+      spr.translate(mouseX - 32, mouseY - 32);
+      spr.draw(draw.sprites);
+      draw.sprites.end();
     }
   }
   
@@ -268,7 +315,9 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
     
     switch (game.getGameStatus()) {
       case NORMAL:
-        if (game.getBoard().isChecked(game.getTurn())) {
+        if (game.canPromotePawn()) {
+          text = "Pawn promotion!";
+        } else if (game.getBoard().isChecked(game.getTurn())) {
           text = "Check!";
         } else if (game.getTurn() == Team.BLACK) {
           text = "It's black's turn!";

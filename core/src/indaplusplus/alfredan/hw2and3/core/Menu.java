@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Align;
 import indaplusplus.alfredan.hw2and3.chesslib.game.RandomAI;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Menu implements ButtonListener {
   
@@ -12,7 +13,7 @@ public class Menu implements ButtonListener {
   
   private static int blackPlayer = P_AI, whitePlayer = P_HUMAN;
   
-  private final ArrayList<Button> buttons = new ArrayList<>();
+  private final List<Button> buttons = new ArrayList<>();
   
   private final ChessGame game;
   

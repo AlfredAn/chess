@@ -72,12 +72,7 @@ public class Button {
     d.shapes.rect(x, y, width, height);
     d.shapes.end();
     
-    d.enableBlending();
-    d.sprites.setProjectionMatrix(d.cam.combined);
-    d.sprites.begin();
-    font.setColor(Color.BLACK);
-    font.draw(d.sprites, text, x + width / 2, y + height / 2 - 9, 0, Align.center, false);
-    d.sprites.end();
+    drawContents(d);
     
     if (hovering) {
       d.enableBlending();
@@ -106,5 +101,14 @@ public class Button {
     d.shapes.setColor(0.0f, 0.0f, 0.0f, 1.0f);
     d.shapes.rect(x, y, width, height);
     d.shapes.end();
+  }
+  
+  protected void drawContents(Draw d) {
+    d.enableBlending();
+    d.sprites.setProjectionMatrix(d.cam.combined);
+    d.sprites.begin();
+    font.setColor(Color.BLACK);
+    font.draw(d.sprites, text, x + width / 2, y + height / 2 - 9, 0, Align.center, false);
+    d.sprites.end();
   }
 }

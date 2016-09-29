@@ -145,7 +145,8 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
     if (hovering && leftPressed && ai[game.getTurn()] == null
             && game.getTurn() == game.getBoard().get(mouseBoardX, mouseBoardY).team
             && !game.getBoard().getAvailableMoves(mouseBoardX, mouseBoardY).isEmpty()
-            && !game.canPromotePawn()) {
+            && !game.canPromotePawn()
+            && game.getGameStatus() == StandardChessGame.GameStatus.NORMAL) {
       grabbing = true;
       grabX = mouseBoardX;
       grabY = mouseBoardY;

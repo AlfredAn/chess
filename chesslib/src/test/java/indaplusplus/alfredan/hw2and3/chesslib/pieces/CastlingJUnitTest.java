@@ -61,6 +61,120 @@ public class CastlingJUnitTest {
   }
   
   @Test
+  public void testCantCastleRightIfChecked1() {
+    MutableBoard mBoard = new MutableBoard(8, 8);
+    
+    King king = new King(Team.WHITE);
+    Rook rook = new Rook(Team.WHITE);
+    Rook enemyRook = new Rook(Team.BLACK);
+    
+    mBoard.set(4, 0, king);
+    mBoard.set(7, 0, rook);
+    mBoard.set(4, 7, enemyRook);
+    
+    Board board = new Board(mBoard);
+    
+    List<IntVector2> moveList = board.getAvailableMoves(4, 0);
+    
+    Assert.assertFalse(moveList.contains(new IntVector2(6, 0)));
+  }
+  
+  @Test
+  public void testCantCastleRightIfChecked2() {
+    MutableBoard mBoard = new MutableBoard(8, 8);
+    
+    King king = new King(Team.WHITE);
+    Rook rook = new Rook(Team.WHITE);
+    Rook enemyRook = new Rook(Team.BLACK);
+    
+    mBoard.set(4, 0, king);
+    mBoard.set(7, 0, rook);
+    mBoard.set(5, 7, enemyRook);
+    
+    Board board = new Board(mBoard);
+    
+    List<IntVector2> moveList = board.getAvailableMoves(4, 0);
+    
+    Assert.assertFalse(moveList.contains(new IntVector2(6, 0)));
+  }
+  
+  @Test
+  public void testCantCastleRightIfChecked3() {
+    MutableBoard mBoard = new MutableBoard(8, 8);
+    
+    King king = new King(Team.WHITE);
+    Rook rook = new Rook(Team.WHITE);
+    Rook enemyRook = new Rook(Team.BLACK);
+    
+    mBoard.set(4, 0, king);
+    mBoard.set(7, 0, rook);
+    mBoard.set(6, 7, enemyRook);
+    
+    Board board = new Board(mBoard);
+    
+    List<IntVector2> moveList = board.getAvailableMoves(4, 0);
+    
+    Assert.assertFalse(moveList.contains(new IntVector2(6, 0)));
+  }
+  
+  @Test
+  public void testCantCastleLeftIfChecked1() {
+    MutableBoard mBoard = new MutableBoard(8, 8);
+    
+    King king = new King(Team.WHITE);
+    Rook rook = new Rook(Team.WHITE);
+    Rook enemyRook = new Rook(Team.BLACK);
+    
+    mBoard.set(4, 0, king);
+    mBoard.set(0, 0, rook);
+    mBoard.set(4, 7, enemyRook);
+    
+    Board board = new Board(mBoard);
+    
+    List<IntVector2> moveList = board.getAvailableMoves(4, 0);
+    
+    Assert.assertFalse(moveList.contains(new IntVector2(2, 0)));
+  }
+  
+  @Test
+  public void testCantCastleLeftIfChecked2() {
+    MutableBoard mBoard = new MutableBoard(8, 8);
+    
+    King king = new King(Team.WHITE);
+    Rook rook = new Rook(Team.WHITE);
+    Rook enemyRook = new Rook(Team.BLACK);
+    
+    mBoard.set(4, 0, king);
+    mBoard.set(0, 0, rook);
+    mBoard.set(3, 7, enemyRook);
+    
+    Board board = new Board(mBoard);
+    
+    List<IntVector2> moveList = board.getAvailableMoves(4, 0);
+    
+    Assert.assertFalse(moveList.contains(new IntVector2(2, 0)));
+  }
+  
+  @Test
+  public void testCantCastleLeftIfChecked3() {
+    MutableBoard mBoard = new MutableBoard(8, 8);
+    
+    King king = new King(Team.WHITE);
+    Rook rook = new Rook(Team.WHITE);
+    Rook enemyRook = new Rook(Team.BLACK);
+    
+    mBoard.set(4, 0, king);
+    mBoard.set(0, 0, rook);
+    mBoard.set(2, 7, enemyRook);
+    
+    Board board = new Board(mBoard);
+    
+    List<IntVector2> moveList = board.getAvailableMoves(4, 0);
+    
+    Assert.assertFalse(moveList.contains(new IntVector2(2, 0)));
+  }
+  
+  @Test
   public void testKingAlreadyMoved() {
     MutableBoard mBoard = new MutableBoard(8, 8);
     

@@ -53,5 +53,9 @@ public final class RandomAI extends StandardChessAI {
     if (game.canPromotePawn()) {
       game.promotePawn(Queen.class);
     }
+    
+    if (game.canDeclareDraw()) {
+      game.declareDraw();
+    }
   }
 }

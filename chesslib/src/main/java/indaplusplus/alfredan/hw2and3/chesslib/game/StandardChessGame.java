@@ -85,6 +85,11 @@ public final class StandardChessGame {
   
   private int turnCounter;
   
+  /**
+   * Whether the current player is able to declare draw. Returned by canDeclareDraw().
+   */
+  private boolean canDeclareDraw;
+  
   public StandardChessGame() {
     this(STARTING_BOARD);
   }
@@ -140,6 +145,9 @@ public final class StandardChessGame {
     gameStatus = turn == Team.WHITE ? GameStatus.BLACK_WIN : GameStatus.WHITE_WIN;
   }
   
+  /**
+   * Causes the player whose turn it currently isn't to resign.
+   */
   public void resignOther() {
     if (gameStatus != GameStatus.NORMAL) {
       return;
@@ -147,12 +155,22 @@ public final class StandardChessGame {
     gameStatus = turn == Team.WHITE ? GameStatus.WHITE_WIN : GameStatus.BLACK_WIN;
   }
   
+  /**
+   * Declares a draw. This should only be doable by a player if canDeclareDraw() returns true.
+   */
   public void declareDraw() {
     if (gameStatus != GameStatus.NORMAL) {
       return;
     }
     
     gameStatus = GameStatus.DRAW;
+  }
+  
+  /**
+   * Returns whether the current player is able to declare draw.
+   */
+  public boolean canDeclareDraw() {
+    return canDeclareDraw;
   }
   
   private void turnFinished() {
@@ -178,16 +196,16 @@ public final class StandardChessGame {
       turnsSinceCaptureOrPawnMove = 0;
     }
     
+    canDeclareDraw = false;
+    
     // one move per standard chess definition is two turns on this counter
     if (turnsSinceCaptureOrPawnMove >= 100) {
-      gameStatus = GameStatus.DRAW;
-      return;
+      canDeclareDraw = true;
     }
     
     // threefold repetition rule, draw the game if the same position is reached 3 times
     if (counter.count >= 3) {
-      gameStatus = GameStatus.DRAW;
-      return;
+      canDeclareDraw = true;
     }
     
     boolean gameOver = !board.canMove(turn);
@@ -197,8 +215,10 @@ public final class StandardChessGame {
       boolean checkmate = board.isChecked(turn);
       
       if (checkmate) {
+        // checkmate!
         gameStatus = turn == Team.BLACK ? GameStatus.WHITE_WIN : GameStatus.BLACK_WIN;
       } else {
+        // stalemate!
         gameStatus = GameStatus.DRAW;
       }
     } else {

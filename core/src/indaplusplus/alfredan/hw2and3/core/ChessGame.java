@@ -194,7 +194,11 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
     makeMoveIfAI();
     
     if (ai[0] == null || ai[1] == null) {
-      resignButton.text = "Resign";
+      if (ai[game.getTurn()] == null && game.canDeclareDraw()) {
+        resignButton.text = "Declare draw";
+      } else {
+        resignButton.text = "Resign";
+      }
     } else {
       resignButton.text = "Stop";
     }
@@ -232,13 +236,21 @@ public class ChessGame extends ApplicationAdapter implements ButtonListener {
     if (button == resignButton) {
       if (ai[0] == null || ai[1] == null) {
         if (ai[game.getTurn()] == null) {
-          game.resign();
-          gameOverMsg = Team.getTeamName(1 - game.getTurn()) + " wins by resignation!";
+          // Human's turn
+          if (game.canDeclareDraw()) {
+            game.declareDraw();
+            gameOverMsg = Team.getTeamName(game.getTurn()) + " declares draw!";
+          } else {
+            game.resign();
+            gameOverMsg = Team.getTeamName(1 - game.getTurn()) + " wins by resignation!";
+          }
         } else {
+          // AI vs human, AI's turn. Resign button acts as if it was the human's turn when it was pressed.
           game.resignOther();
           gameOverMsg = Team.getTeamName(game.getTurn()) + " wins by resignation!";
         }
       } else {
+        // Both players are AI, just stop the game without giving anyone the win.
         game.declareDraw();
         gameOverMsg = "Game stopped prematurely!";
       }

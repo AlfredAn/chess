@@ -78,4 +78,55 @@ public class StandardChessGameTest {
     
     assertEquals(GameStatus.DRAW, game.getGameStatus());
   }
+  
+  @Test
+  public void testThreefoldRepetition() {
+    StandardChessGame game = new StandardChessGame();
+    
+    // move the knights back and forth two times -
+    // the initial position will now be reached for the third time
+    for (int i = 0; i < 2; i++) {
+      assertFalse(game.canDeclareDraw());
+      assertTrue(game.move(1, 0, 2, 2));
+      assertFalse(game.canDeclareDraw());
+      assertTrue(game.move(1, 7, 2, 5));
+      assertFalse(game.canDeclareDraw());
+      assertTrue(game.move(2, 2, 1, 0));
+      assertFalse(game.canDeclareDraw());
+      assertTrue(game.move(2, 5, 1, 7));
+    }
+    
+    assertTrue(game.canDeclareDraw());
+  }
+  
+  @Test
+  public void testFiftyMoveRule() {
+    MutableBoard mBoard = new MutableBoard(8, 8);
+    
+    mBoard.set(0, 1, new Rook(Team.WHITE));
+    mBoard.set(0, 0, new Rook(Team.BLACK));
+    
+    StandardChessGame game = new StandardChessGame(new Board(mBoard));
+    
+    // move the rooks space invaders style for fifty moves
+    for (int i = 0, rookX = 0, rookY = 0, dir = 1; i < 50; i++) {
+      assertFalse(game.canDeclareDraw());
+      
+      if ((dir == 1 && rookX == 7) || (dir == -1 && rookX == 0)) {
+        dir = -dir;
+        // go down one square to avoid the threefold repetition rule
+        assertTrue(game.move(rookX, rookY + 1, rookX, rookY + 2));
+        assertFalse(game.canDeclareDraw());
+        assertTrue(game.move(rookX, rookY, rookX, rookY + 1));
+        rookY++;
+      } else {
+        assertTrue(game.move(rookX, rookY + 1, rookX + dir, rookY + 1));
+        assertFalse(game.canDeclareDraw());
+        assertTrue(game.move(rookX, rookY, rookX + dir, rookY));
+        rookX += dir;
+      }
+    }
+    
+    assertTrue(game.canDeclareDraw());
+  }
 }

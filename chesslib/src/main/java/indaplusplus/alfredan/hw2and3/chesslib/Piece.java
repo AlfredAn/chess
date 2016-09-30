@@ -24,7 +24,18 @@ public abstract class Piece {
    * Returns a list of all the possible squares that this piece can move to.
    * This method must be overridden by all subclasses to define the piece's behavior.
    */
-  protected abstract List<IntVector2> getAvailableMoves(Board board, int xPos, int yPos);
+  protected final List<IntVector2> getAvailableMoves(Board board, int xPos, int yPos) {
+    return getAvailableMoves(board, xPos, yPos, true);
+  }
+  
+  /**
+   * Returns a list of all the possible squares that this piece can move to.
+   * This method must be overridden by all subclasses to define the piece's behavior.
+   * @param testForCheck Whether to test for check when making the move.
+   * Should normally be ignored since this is performed automatically,
+   * this is only used by the king when checking whether it is possible to castle.
+   */
+  protected abstract List<IntVector2> getAvailableMoves(Board board, int xPos, int yPos, boolean testForCheck);
   
   /**
    * Makes a move. Intended to be overridden by subclasses for custom behavior.

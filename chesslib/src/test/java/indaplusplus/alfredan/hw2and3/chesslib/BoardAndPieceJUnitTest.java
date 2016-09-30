@@ -18,7 +18,7 @@ public class BoardAndPieceJUnitTest {
     }
     
     @Override
-    protected List<IntVector2> getAvailableMoves(Board board, int xPos, int yPos) {
+    protected List<IntVector2> getAvailableMoves(Board board, int xPos, int yPos, boolean testForCheck) {
       List<IntVector2> moveList = new ArrayList<>(1);
       
       if (board.isValidPosition(xPos, yPos+1)) {

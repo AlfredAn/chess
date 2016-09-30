@@ -75,7 +75,7 @@ public final class Board {
       throw new IllegalArgumentException("No piece at this location!");
     }
     
-    List<IntVector2> moveList = piece.getAvailableMoves(this, x, y);
+    List<IntVector2> moveList = piece.getAvailableMoves(this, x, y, testIfKingChecked);
     
     if (testIfKingChecked) {
       // find the king
@@ -211,7 +211,7 @@ public final class Board {
       for (int yy = 0; yy < getHeight(); yy++) {
         Piece attacker = get(xx, yy);
         
-        if (attacker != null && team != attacker.team && !(attacker instanceof King)) {
+        if (attacker != null && team != attacker.team) {
           
           List<IntVector2> moveList = getAvailableMoves(xx, yy, false);
           

@@ -41,10 +41,10 @@ public abstract class TemplatePiece extends Piece {
   }
   
   @Override
-  public final List<IntVector2> getAvailableMoves(Board board, int xPos, int yPos) {
+  public final List<IntVector2> getAvailableMoves(Board board, int xPos, int yPos, boolean testForCheck) {
     List<IntVector2> moveList = new ArrayList<>();
     
-    addCustomMoves(board, xPos, yPos, moveList);
+    addCustomMoves(board, xPos, yPos, moveList, testForCheck);
     
     // add all possible single moves
     for (int i = 0; i < getSingleMoveSet().size(); i++) {
@@ -55,7 +55,7 @@ public abstract class TemplatePiece extends Piece {
       
       // check if the move would lead to a valid position
       if (board.isValidPosition(moveX, moveY)
-              && canMoveSingle(board, xPos, yPos, delta, moveX, moveY, i)) {
+              && canMoveSingle(board, xPos, yPos, delta, moveX, moveY, i, testForCheck)) {
         
         IntVector2 move = new IntVector2(moveX, moveY);
         
@@ -85,7 +85,7 @@ public abstract class TemplatePiece extends Piece {
         
         // check if the move would lead to a valid position
         if (board.isValidPosition(moveX, moveY)) {
-          switch (canMoveRepeatable(board, xPos, yPos, delta, moveX, moveY, i, iteration)) {
+          switch (canMoveRepeatable(board, xPos, yPos, delta, moveX, moveY, i, iteration, testForCheck)) {
             case INVALID_STOP:
               break outer;
             case INVALID_CONTINUE:
@@ -127,8 +127,11 @@ public abstract class TemplatePiece extends Piece {
    * @param moveY The y position after making the move
    * @param index The index of this move in the MoveSet
    * @return Whether the move is valid
+   * @param testForCheck Whether to test for check when making the move.
+   * Should normally be ignored since this is performed automatically,
+   * this is only used by the king when checking whether it is possible to castle.
    */
-  protected boolean canMoveSingle(Board board, int xPos, int yPos, IntVector2 delta, int moveX, int moveY, int index) {
+  protected boolean canMoveSingle(Board board, int xPos, int yPos, IntVector2 delta, int moveX, int moveY, int index, boolean testForCheck) {
     Piece pieceAtDestination = board.get(moveX, moveY);
     
     return pieceAtDestination == null || pieceAtDestination.team != team;
@@ -147,13 +150,16 @@ public abstract class TemplatePiece extends Piece {
    * @param moveY The y position after making the move
    * @param index The index of this move in the MoveSet
    * @param iteration How many times the move has been repeated thus far
+   * @param testForCheck Whether to test for check when making the move.
+   * Should normally be ignored since this is performed automatically,
+   * this is only used by the king when checking whether it is possible to castle.
    * @return <p>The action that should be taken:
    * <p>INVALID_STOP: if the move is invalid and iteration should stop,
    * <p>INVALID_CONTINUE: if the move is invalid but iteration should continue,
    * <p>VALID_CONTINUE: if the move is valid and iteration should continue,
    * <p>VALID_STOP: if the move is valid but iteration should stop.
    */
-  protected RepeatableMoveResult canMoveRepeatable(Board board, int xPos, int yPos, IntVector2 delta, int moveX, int moveY, int index, int iteration) {
+  protected RepeatableMoveResult canMoveRepeatable(Board board, int xPos, int yPos, IntVector2 delta, int moveX, int moveY, int index, int iteration, boolean testForCheck) {
     Piece pieceAtDestination = board.get(moveX, moveY);
     
     if (pieceAtDestination == null) {
@@ -198,6 +204,9 @@ public abstract class TemplatePiece extends Piece {
    * <p>This is called before all the moves from the standard MoveSets are added.
    * <p>It is intended to allow for more advanced custom behaviour.
    * Out of the standard pieces, it is only used by the king, for castling.
+   * @param testForCheck Whether to test for check when making the move.
+   * Should normally be ignored since this is performed automatically,
+   * this is only used by the king when checking whether it is possible to castle.
    */
-  protected void addCustomMoves(Board board, int xPos, int yPos, List<IntVector2> moveList) {}
+  protected void addCustomMoves(Board board, int xPos, int yPos, List<IntVector2> moveList, boolean testForCheck) {}
 }

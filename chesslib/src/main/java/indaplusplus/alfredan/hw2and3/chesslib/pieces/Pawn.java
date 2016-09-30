@@ -89,7 +89,7 @@ public final class Pawn extends TemplatePiece {
   }
   
   @Override
-  protected boolean canMoveSingle(Board board, int xPos, int yPos, IntVector2 delta, int moveX, int moveY, int index) {
+  protected boolean canMoveSingle(Board board, int xPos, int yPos, IntVector2 delta, int moveX, int moveY, int index, boolean testForCheck) {
     Piece pieceAtDestination = board.get(moveX, moveY);
     
     switch (index) {

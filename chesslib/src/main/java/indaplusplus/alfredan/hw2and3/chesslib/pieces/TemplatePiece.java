@@ -126,10 +126,10 @@ public abstract class TemplatePiece extends Piece {
    * @param moveX The x position after making the move
    * @param moveY The y position after making the move
    * @param index The index of this move in the MoveSet
-   * @return Whether the move is valid
    * @param testForCheck Whether to test for check when making the move.
    * Should normally be ignored since this is performed automatically,
    * this is only used by the king when checking whether it is possible to castle.
+   * @return Whether the move is valid
    */
   protected boolean canMoveSingle(Board board, int xPos, int yPos, IntVector2 delta, int moveX, int moveY, int index, boolean testForCheck) {
     Piece pieceAtDestination = board.get(moveX, moveY);

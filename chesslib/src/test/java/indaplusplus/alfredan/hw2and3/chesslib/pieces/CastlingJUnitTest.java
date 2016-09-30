@@ -5,7 +5,7 @@ import indaplusplus.alfredan.hw2and3.chesslib.MutableBoard;
 import indaplusplus.alfredan.hw2and3.chesslib.Team;
 import indaplusplus.alfredan.hw2and3.chesslib.util.IntVector2;
 import java.util.List;
-import org.junit.Assert;
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class CastlingJUnitTest {
@@ -24,15 +24,15 @@ public class CastlingJUnitTest {
     
     List<IntVector2> moveList = board.getAvailableMoves(4, 0);
     
-    Assert.assertEquals("moveList.size()", 6, moveList.size());
-    Assert.assertTrue("contains (6, 0)", moveList.contains(new IntVector2(6, 0)));
+    assertEquals("moveList.size()", 6, moveList.size());
+    assertTrue("contains (6, 0)", moveList.contains(new IntVector2(6, 0)));
     
     board = board.makeMove(4, 0, 6, 0);
     
-    Assert.assertTrue("board.get(6, 0)", board.get(6, 0) instanceof King);
-    Assert.assertTrue("board.get(5, 0)", board.get(5, 0) instanceof Rook);
-    Assert.assertNull("board.get(4, 0)", board.get(4, 0));
-    Assert.assertNull("board.get(7, 0)", board.get(7, 0));
+    assertTrue("board.get(6, 0)", board.get(6, 0) instanceof King);
+    assertTrue("board.get(5, 0)", board.get(5, 0) instanceof Rook);
+    assertNull("board.get(4, 0)", board.get(4, 0));
+    assertNull("board.get(7, 0)", board.get(7, 0));
   }
   
   @Test
@@ -49,15 +49,15 @@ public class CastlingJUnitTest {
     
     List<IntVector2> moveList = board.getAvailableMoves(4, 0);
     
-    Assert.assertEquals("moveList.size()", 6, moveList.size());
-    Assert.assertTrue("contains (2, 0)", moveList.contains(new IntVector2(2, 0)));
+    assertEquals("moveList.size()", 6, moveList.size());
+    assertTrue("contains (2, 0)", moveList.contains(new IntVector2(2, 0)));
     
     board = board.makeMove(4, 0, 2, 0);
     
-    Assert.assertTrue("board.get(6, 0)", board.get(2, 0) instanceof King);
-    Assert.assertTrue("board.get(5, 0)", board.get(3, 0) instanceof Rook);
-    Assert.assertNull("board.get(4, 0)", board.get(4, 0));
-    Assert.assertNull("board.get(7, 0)", board.get(0, 0));
+    assertTrue("board.get(6, 0)", board.get(2, 0) instanceof King);
+    assertTrue("board.get(5, 0)", board.get(3, 0) instanceof Rook);
+    assertNull("board.get(4, 0)", board.get(4, 0));
+    assertNull("board.get(7, 0)", board.get(0, 0));
   }
   
   @Test
@@ -76,7 +76,7 @@ public class CastlingJUnitTest {
     
     List<IntVector2> moveList = board.getAvailableMoves(4, 0);
     
-    Assert.assertFalse(moveList.contains(new IntVector2(6, 0)));
+    assertFalse(moveList.contains(new IntVector2(6, 0)));
   }
   
   @Test
@@ -95,7 +95,7 @@ public class CastlingJUnitTest {
     
     List<IntVector2> moveList = board.getAvailableMoves(4, 0);
     
-    Assert.assertFalse(moveList.contains(new IntVector2(6, 0)));
+    assertFalse(moveList.contains(new IntVector2(6, 0)));
   }
   
   @Test
@@ -114,7 +114,7 @@ public class CastlingJUnitTest {
     
     List<IntVector2> moveList = board.getAvailableMoves(4, 0);
     
-    Assert.assertFalse(moveList.contains(new IntVector2(6, 0)));
+    assertFalse(moveList.contains(new IntVector2(6, 0)));
   }
   
   @Test
@@ -133,7 +133,7 @@ public class CastlingJUnitTest {
     
     List<IntVector2> moveList = board.getAvailableMoves(4, 0);
     
-    Assert.assertFalse(moveList.contains(new IntVector2(2, 0)));
+    assertFalse(moveList.contains(new IntVector2(2, 0)));
   }
   
   @Test
@@ -152,7 +152,7 @@ public class CastlingJUnitTest {
     
     List<IntVector2> moveList = board.getAvailableMoves(4, 0);
     
-    Assert.assertFalse(moveList.contains(new IntVector2(2, 0)));
+    assertFalse(moveList.contains(new IntVector2(2, 0)));
   }
   
   @Test
@@ -171,7 +171,7 @@ public class CastlingJUnitTest {
     
     List<IntVector2> moveList = board.getAvailableMoves(4, 0);
     
-    Assert.assertFalse(moveList.contains(new IntVector2(2, 0)));
+    assertFalse(moveList.contains(new IntVector2(2, 0)));
   }
   
   @Test
@@ -191,7 +191,7 @@ public class CastlingJUnitTest {
     
     List<IntVector2> moveList = board.getAvailableMoves(4, 0);
     
-    Assert.assertEquals(5, moveList.size());
+    assertEquals(5, moveList.size());
   }
   
   @Test
@@ -211,6 +211,6 @@ public class CastlingJUnitTest {
     
     List<IntVector2> moveList = board.getAvailableMoves(4, 0);
     
-    Assert.assertEquals(5, moveList.size());
+    assertEquals(5, moveList.size());
   }
 }

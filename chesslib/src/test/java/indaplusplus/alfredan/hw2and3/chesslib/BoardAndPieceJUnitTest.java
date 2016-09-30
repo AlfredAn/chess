@@ -6,7 +6,7 @@ import indaplusplus.alfredan.hw2and3.chesslib.pieces.Rook;
 import indaplusplus.alfredan.hw2and3.chesslib.util.IntVector2;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Assert;
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class BoardAndPieceJUnitTest {
@@ -39,7 +39,7 @@ public class BoardAndPieceJUnitTest {
     
     Board board = new Board(mBoard);
     
-    Assert.assertEquals("board.get(1, 1)", board.get(1, 1), piece);
+    assertEquals("board.get(1, 1)", board.get(1, 1), piece);
   }
   
   @Test
@@ -54,8 +54,8 @@ public class BoardAndPieceJUnitTest {
     
     List<IntVector2> moveSet = piece.getAvailableMoves(board, 1, 1);
     
-    Assert.assertEquals("moveSet.size()", 1, moveSet.size());
-    Assert.assertEquals("moveSet.get(0)", new IntVector2(1, 2), moveSet.get(0));
+    assertEquals("moveSet.size()", 1, moveSet.size());
+    assertEquals("moveSet.get(0)", new IntVector2(1, 2), moveSet.get(0));
   }
   
   @Test
@@ -70,7 +70,7 @@ public class BoardAndPieceJUnitTest {
     
     List<IntVector2> moveSet = piece.getAvailableMoves(board, 1, 7);
     
-    Assert.assertEquals("moveSet.size()", 0, moveSet.size());
+    assertEquals("moveSet.size()", 0, moveSet.size());
   }
   
   @Test
@@ -85,8 +85,8 @@ public class BoardAndPieceJUnitTest {
     
     board = board.makeMove(1, 1, 1, 2);
     
-    Assert.assertEquals("board.get(1, 2)", piece, board.get(1, 2));
-    Assert.assertNull("board.get(1, 1)", board.get(1, 1));
+    assertEquals("board.get(1, 2)", piece, board.get(1, 2));
+    assertNull("board.get(1, 1)", board.get(1, 1));
   }
   
   @Test
@@ -103,8 +103,8 @@ public class BoardAndPieceJUnitTest {
     
     board = board.makeMove(1, 1, 1, 2);
     
-    Assert.assertEquals("board.get(1, 2)", piece1, board.get(1, 2));
-    Assert.assertNull("board.get(1, 1)", board.get(1, 1));
+    assertEquals("board.get(1, 2)", piece1, board.get(1, 2));
+    assertNull("board.get(1, 1)", board.get(1, 1));
   }
   
   @Test
@@ -119,7 +119,7 @@ public class BoardAndPieceJUnitTest {
     
     Board board = new Board(mBoard);
     
-    Assert.assertTrue(board.isChecked(Team.BLACK));
+    assertTrue(board.isChecked(Team.BLACK));
   }
   
   @Test
@@ -134,7 +134,7 @@ public class BoardAndPieceJUnitTest {
     
     Board board = new Board(mBoard);
     
-    Assert.assertFalse(board.isChecked(Team.BLACK));
+    assertFalse(board.isChecked(Team.BLACK));
   }
   
   @Test
@@ -151,13 +151,13 @@ public class BoardAndPieceJUnitTest {
     
     List<IntVector2> moveList = board.getAvailableMoves(1, 1);
     
-    Assert.assertEquals(6, moveList.size());
-    Assert.assertTrue(moveList.contains(new IntVector2(1, 2))); // north
-    Assert.assertTrue(moveList.contains(new IntVector2(2, 2))); // north-east
-    Assert.assertTrue(moveList.contains(new IntVector2(2, 0))); // south-east
-    Assert.assertTrue(moveList.contains(new IntVector2(0, 0))); // south-west
-    Assert.assertTrue(moveList.contains(new IntVector2(0, 1))); // west
-    Assert.assertTrue(moveList.contains(new IntVector2(0, 2))); // north-west
+    assertEquals(6, moveList.size());
+    assertTrue(moveList.contains(new IntVector2(1, 2))); // north
+    assertTrue(moveList.contains(new IntVector2(2, 2))); // north-east
+    assertTrue(moveList.contains(new IntVector2(2, 0))); // south-east
+    assertTrue(moveList.contains(new IntVector2(0, 0))); // south-west
+    assertTrue(moveList.contains(new IntVector2(0, 1))); // west
+    assertTrue(moveList.contains(new IntVector2(0, 2))); // north-west
   }
   
   @Test
@@ -176,7 +176,7 @@ public class BoardAndPieceJUnitTest {
     
     List<IntVector2> moveList = board.getAvailableMoves(0, 4);
     
-    Assert.assertEquals(1, moveList.size());
-    Assert.assertTrue(moveList.contains(new IntVector2(4, 4)));
+    assertEquals(1, moveList.size());
+    assertTrue(moveList.contains(new IntVector2(4, 4)));
   }
 }

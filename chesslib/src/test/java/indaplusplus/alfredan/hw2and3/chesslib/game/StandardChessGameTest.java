@@ -9,7 +9,7 @@ import indaplusplus.alfredan.hw2and3.chesslib.pieces.King;
 import indaplusplus.alfredan.hw2and3.chesslib.pieces.Pawn;
 import indaplusplus.alfredan.hw2and3.chesslib.pieces.Queen;
 import indaplusplus.alfredan.hw2and3.chesslib.pieces.Rook;
-import org.junit.Assert;
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class StandardChessGameTest {
@@ -28,22 +28,22 @@ public class StandardChessGameTest {
     
     // the rook's moves are just for filler
     
-    Assert.assertTrue(game.move(1, 1, 1, 3));
-    Assert.assertTrue(game.move(6, 6, 6, 7));
-    Assert.assertTrue(game.move(1, 3, 1, 4));
-    Assert.assertTrue(game.move(6, 7, 6, 6));
-    Assert.assertTrue(game.move(1, 4, 1, 5));
-    Assert.assertTrue(game.move(6, 6, 6, 7));
-    Assert.assertTrue(game.move(1, 5, 1, 6));
-    Assert.assertTrue(game.move(6, 7, 6, 6));
-    Assert.assertTrue(game.move(1, 6, 1, 7));
+    assertTrue(game.move(1, 1, 1, 3));
+    assertTrue(game.move(6, 6, 6, 7));
+    assertTrue(game.move(1, 3, 1, 4));
+    assertTrue(game.move(6, 7, 6, 6));
+    assertTrue(game.move(1, 4, 1, 5));
+    assertTrue(game.move(6, 6, 6, 7));
+    assertTrue(game.move(1, 5, 1, 6));
+    assertTrue(game.move(6, 7, 6, 6));
+    assertTrue(game.move(1, 6, 1, 7));
     
-    Assert.assertTrue(game.canPromotePawn());
+    assertTrue(game.canPromotePawn());
     game.promotePawn(Queen.class);
     
     Board board = game.getBoard();
     
-    Assert.assertTrue(board.get(1, 7) instanceof Queen);
+    assertTrue(board.get(1, 7) instanceof Queen);
   }
   
   @Test
@@ -60,7 +60,7 @@ public class StandardChessGameTest {
     
     StandardChessGame game = new StandardChessGame(new Board(mBoard));
     
-    Assert.assertEquals(GameStatus.BLACK_WIN, game.getGameStatus());
+    assertEquals(GameStatus.BLACK_WIN, game.getGameStatus());
   }
   
   @Test
@@ -74,8 +74,8 @@ public class StandardChessGameTest {
     
     StandardChessGame game = new StandardChessGame(new Board(mBoard));
     
-    Assert.assertTrue(game.move(3, 5, 3, 4));
+    assertTrue(game.move(3, 5, 3, 4));
     
-    Assert.assertEquals(GameStatus.DRAW, game.getGameStatus());
+    assertEquals(GameStatus.DRAW, game.getGameStatus());
   }
 }

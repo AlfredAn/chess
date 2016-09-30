@@ -7,7 +7,7 @@ import indaplusplus.alfredan.hw2and3.chesslib.Team;
 import indaplusplus.alfredan.hw2and3.chesslib.util.IntVector2;
 import indaplusplus.alfredan.hw2and3.chesslib.util.MoveSet;
 import java.util.List;
-import org.junit.Assert;
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class TemplatePieceJUnitTest {
@@ -46,9 +46,9 @@ public class TemplatePieceJUnitTest {
     
     List<IntVector2> moveList = board.getAvailableMoves(3, 4);
     
-    Assert.assertEquals("moveList.size()", 2, moveList.size());
-    Assert.assertTrue("contains (3, 5)", moveList.contains(new IntVector2(3, 5)));
-    Assert.assertTrue("contains (2, 4)", moveList.contains(new IntVector2(2, 4)));
+    assertEquals("moveList.size()", 2, moveList.size());
+    assertTrue("contains (3, 5)", moveList.contains(new IntVector2(3, 5)));
+    assertTrue("contains (2, 4)", moveList.contains(new IntVector2(2, 4)));
   }
   
   @Test
@@ -63,8 +63,8 @@ public class TemplatePieceJUnitTest {
     
     List<IntVector2> moveList = board.getAvailableMoves(0, 0);
     
-    Assert.assertEquals("moveList.size()", 1, moveList.size());
-    Assert.assertTrue("contains (0, 1)", moveList.contains(new IntVector2(0, 1)));
+    assertEquals("moveList.size()", 1, moveList.size());
+    assertTrue("contains (0, 1)", moveList.contains(new IntVector2(0, 1)));
   }
   
   @Test
@@ -81,16 +81,16 @@ public class TemplatePieceJUnitTest {
     
     List<IntVector2> moveList1 = board.getAvailableMoves(3, 4);
     
-    Assert.assertEquals("moveList1.size()", 2, moveList1.size());
-    Assert.assertTrue("1 contains (3, 5)", moveList1.contains(new IntVector2(3, 5)));
-    Assert.assertTrue("1 contains (2, 4)", moveList1.contains(new IntVector2(2, 4)));
+    assertEquals("moveList1.size()", 2, moveList1.size());
+    assertTrue("1 contains (3, 5)", moveList1.contains(new IntVector2(3, 5)));
+    assertTrue("1 contains (2, 4)", moveList1.contains(new IntVector2(2, 4)));
     
     
     List<IntVector2> moveList2 = board.getAvailableMoves(3, 5);
     
-    Assert.assertEquals("moveList2.size()", 2, moveList2.size());
-    Assert.assertTrue("2 contains (3, 6)", moveList2.contains(new IntVector2(3, 6)));
-    Assert.assertTrue("2 contains (2, 5)", moveList2.contains(new IntVector2(2, 5)));
+    assertEquals("moveList2.size()", 2, moveList2.size());
+    assertTrue("2 contains (3, 6)", moveList2.contains(new IntVector2(3, 6)));
+    assertTrue("2 contains (2, 5)", moveList2.contains(new IntVector2(2, 5)));
   }
   
   @Test
@@ -107,15 +107,15 @@ public class TemplatePieceJUnitTest {
     
     List<IntVector2> moveList1 = board.getAvailableMoves(3, 4);
     
-    Assert.assertEquals("moveList1.size()", 1, moveList1.size());
-    Assert.assertTrue("1 contains (2, 4)", moveList1.contains(new IntVector2(2, 4)));
+    assertEquals("moveList1.size()", 1, moveList1.size());
+    assertTrue("1 contains (2, 4)", moveList1.contains(new IntVector2(2, 4)));
     
     
     List<IntVector2> moveList2 = board.getAvailableMoves(3, 5);
     
-    Assert.assertEquals("moveList2.size()", 2, moveList2.size());
-    Assert.assertTrue("2 contains (3, 6)", moveList2.contains(new IntVector2(3, 6)));
-    Assert.assertTrue("2 contains (2, 5)", moveList2.contains(new IntVector2(2, 5)));
+    assertEquals("moveList2.size()", 2, moveList2.size());
+    assertTrue("2 contains (3, 6)", moveList2.contains(new IntVector2(3, 6)));
+    assertTrue("2 contains (2, 5)", moveList2.contains(new IntVector2(2, 5)));
   }
   
   @Test
@@ -143,9 +143,9 @@ public class TemplatePieceJUnitTest {
       new IntVector2(4, 0)
     };
     
-    Assert.assertEquals("moveList.size()", referenceArray.length, moveList.size());
+    assertEquals("moveList.size()", referenceArray.length, moveList.size());
     for (IntVector2 move : referenceArray) {
-      Assert.assertTrue("moveList contains (" + move.x + ", " + move.y + ")", moveList.contains(move));
+      assertTrue("moveList contains (" + move.x + ", " + move.y + ")", moveList.contains(move));
     }
   }
   
@@ -175,9 +175,9 @@ public class TemplatePieceJUnitTest {
       new IntVector2(4, 0)
     };
     
-    Assert.assertEquals("moveList.size()", referenceArray.length, moveList.size());
+    assertEquals("moveList.size()", referenceArray.length, moveList.size());
     for (IntVector2 move : referenceArray) {
-      Assert.assertTrue("moveList contains (" + move.x + ", " + move.y + ")", moveList.contains(move));
+      assertTrue("moveList contains (" + move.x + ", " + move.y + ")", moveList.contains(move));
     }
   }
   
@@ -207,9 +207,9 @@ public class TemplatePieceJUnitTest {
       new IntVector2(4, 0)
     };
     
-    Assert.assertEquals("moveList.size()", referenceArray.length, moveList.size());
+    assertEquals("moveList.size()", referenceArray.length, moveList.size());
     for (IntVector2 move : referenceArray) {
-      Assert.assertTrue("moveList contains (" + move.x + ", " + move.y + ")", moveList.contains(move));
+      assertTrue("moveList contains (" + move.x + ", " + move.y + ")", moveList.contains(move));
     }
   }
 }

@@ -5,7 +5,7 @@ import indaplusplus.alfredan.hw2and3.chesslib.MutableBoard;
 import indaplusplus.alfredan.hw2and3.chesslib.Team;
 import indaplusplus.alfredan.hw2and3.chesslib.util.IntVector2;
 import java.util.List;
-import org.junit.Assert;
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class PawnJUnitTest {
@@ -21,9 +21,9 @@ public class PawnJUnitTest {
     
     List<IntVector2> moveList = board.getAvailableMoves(1, 1);
     
-    Assert.assertEquals("moveList.size()", 2, moveList.size());
-    Assert.assertTrue("moveList contains (1, 2)", moveList.contains(new IntVector2(1, 2)));
-    Assert.assertTrue("moveList contains (1, 3)", moveList.contains(new IntVector2(1, 3)));
+    assertEquals("moveList.size()", 2, moveList.size());
+    assertTrue("moveList contains (1, 2)", moveList.contains(new IntVector2(1, 2)));
+    assertTrue("moveList contains (1, 3)", moveList.contains(new IntVector2(1, 3)));
   }
   
   @Test
@@ -37,9 +37,9 @@ public class PawnJUnitTest {
     
     List<IntVector2> moveList = board.getAvailableMoves(1, 6);
     
-    Assert.assertEquals("moveList.size()", 2, moveList.size());
-    Assert.assertTrue("moveList contains (1, 5)", moveList.contains(new IntVector2(1, 5)));
-    Assert.assertTrue("moveList contains (1, 4)", moveList.contains(new IntVector2(1, 4)));
+    assertEquals("moveList.size()", 2, moveList.size());
+    assertTrue("moveList contains (1, 5)", moveList.contains(new IntVector2(1, 5)));
+    assertTrue("moveList contains (1, 4)", moveList.contains(new IntVector2(1, 4)));
   }
   
   @Test
@@ -55,7 +55,7 @@ public class PawnJUnitTest {
     
     List<IntVector2> moveList = board.getAvailableMoves(1, 6);
     
-    Assert.assertEquals("moveList.size()", 0, moveList.size());
+    assertEquals("moveList.size()", 0, moveList.size());
   }
   
   @Test
@@ -71,8 +71,8 @@ public class PawnJUnitTest {
     
     List<IntVector2> moveList = board.getAvailableMoves(1, 3);
     
-    Assert.assertEquals("moveList.size()", 1, moveList.size());
-    Assert.assertTrue("moveList contains (1, 4)", moveList.contains(new IntVector2(1, 4)));
+    assertEquals("moveList.size()", 1, moveList.size());
+    assertTrue("moveList contains (1, 4)", moveList.contains(new IntVector2(1, 4)));
   }
   
   @Test
@@ -88,17 +88,17 @@ public class PawnJUnitTest {
     
     List<IntVector2> moveList1 = board.getAvailableMoves(1, 1);
     
-    Assert.assertEquals("moveList1.size()", 3, moveList1.size());
-    Assert.assertTrue("moveList1 contains (2, 2)", moveList1.contains(new IntVector2(2, 2))); // capture
-    Assert.assertTrue("moveList1 contains (1, 2)", moveList1.contains(new IntVector2(1, 2))); // forward
-    Assert.assertTrue("moveList1 contains (1, 3)", moveList1.contains(new IntVector2(1, 3))); // double forward
+    assertEquals("moveList1.size()", 3, moveList1.size());
+    assertTrue("moveList1 contains (2, 2)", moveList1.contains(new IntVector2(2, 2))); // capture
+    assertTrue("moveList1 contains (1, 2)", moveList1.contains(new IntVector2(1, 2))); // forward
+    assertTrue("moveList1 contains (1, 3)", moveList1.contains(new IntVector2(1, 3))); // double forward
     
     List<IntVector2> moveList2 = board.getAvailableMoves(2, 2);
     
-    Assert.assertEquals("moveList2.size()", 3, moveList2.size());
-    Assert.assertTrue("moveList2 contains (1, 1)", moveList2.contains(new IntVector2(1, 1))); // capture
-    Assert.assertTrue("moveList2 contains (2, 1)", moveList2.contains(new IntVector2(2, 1))); // forward
-    Assert.assertTrue("moveList2 contains (2, 0)", moveList2.contains(new IntVector2(2, 0))); // double forward
+    assertEquals("moveList2.size()", 3, moveList2.size());
+    assertTrue("moveList2 contains (1, 1)", moveList2.contains(new IntVector2(1, 1))); // capture
+    assertTrue("moveList2 contains (2, 1)", moveList2.contains(new IntVector2(2, 1))); // forward
+    assertTrue("moveList2 contains (2, 0)", moveList2.contains(new IntVector2(2, 0))); // double forward
   }
   
   @Test
@@ -114,17 +114,17 @@ public class PawnJUnitTest {
     
     List<IntVector2> moveList1 = board.getAvailableMoves(2, 1);
     
-    Assert.assertEquals("moveList1.size()", 3, moveList1.size());
-    Assert.assertTrue("moveList1 contains (1, 2)", moveList1.contains(new IntVector2(1, 2))); // capture
-    Assert.assertTrue("moveList1 contains (2, 2)", moveList1.contains(new IntVector2(2, 2))); // forward
-    Assert.assertTrue("moveList1 contains (2, 3)", moveList1.contains(new IntVector2(2, 3))); // double forward
+    assertEquals("moveList1.size()", 3, moveList1.size());
+    assertTrue("moveList1 contains (1, 2)", moveList1.contains(new IntVector2(1, 2))); // capture
+    assertTrue("moveList1 contains (2, 2)", moveList1.contains(new IntVector2(2, 2))); // forward
+    assertTrue("moveList1 contains (2, 3)", moveList1.contains(new IntVector2(2, 3))); // double forward
     
     List<IntVector2> moveList2 = board.getAvailableMoves(1, 2);
     
-    Assert.assertEquals("moveList2.size()", 3, moveList2.size());
-    Assert.assertTrue("moveList2 contains (2, 1)", moveList2.contains(new IntVector2(2, 1))); // capture
-    Assert.assertTrue("moveList2 contains (1, 1)", moveList2.contains(new IntVector2(1, 1))); // forward
-    Assert.assertTrue("moveList2 contains (1, 0)", moveList2.contains(new IntVector2(1, 0))); // double forward
+    assertEquals("moveList2.size()", 3, moveList2.size());
+    assertTrue("moveList2 contains (2, 1)", moveList2.contains(new IntVector2(2, 1))); // capture
+    assertTrue("moveList2 contains (1, 1)", moveList2.contains(new IntVector2(1, 1))); // forward
+    assertTrue("moveList2 contains (1, 0)", moveList2.contains(new IntVector2(1, 0))); // double forward
   }
   
   @Test
@@ -142,15 +142,15 @@ public class PawnJUnitTest {
     
     List<IntVector2> moveList = board.getAvailableMoves(1, 3);
     
-    Assert.assertEquals("moveList.size()", 3, moveList.size());
-    Assert.assertTrue("moveList contains (1, 2)", moveList.contains(new IntVector2(1, 2))); // forward
-    Assert.assertTrue("moveList contains (1, 1)", moveList.contains(new IntVector2(1, 1))); // double forward
-    Assert.assertTrue("moveList1 contains (0, 2)", moveList.contains(new IntVector2(0, 2))); // en passant
+    assertEquals("moveList.size()", 3, moveList.size());
+    assertTrue("moveList contains (1, 2)", moveList.contains(new IntVector2(1, 2))); // forward
+    assertTrue("moveList contains (1, 1)", moveList.contains(new IntVector2(1, 1))); // double forward
+    assertTrue("moveList1 contains (0, 2)", moveList.contains(new IntVector2(0, 2))); // en passant
     
     board = board.makeMove(1, 3, 0, 2);
     
-    Assert.assertTrue("board.get(0, 2) instanceof Pawn", board.get(0, 2) instanceof Pawn);
-    Assert.assertNull("board.get(0, 3)", board.get(0, 3));
+    assertTrue("board.get(0, 2) instanceof Pawn", board.get(0, 2) instanceof Pawn);
+    assertNull("board.get(0, 3)", board.get(0, 3));
   }
   
   @Test
@@ -168,7 +168,7 @@ public class PawnJUnitTest {
     
     List<IntVector2> moveList = board.getAvailableMoves(1, 3);
     
-    Assert.assertEquals("moveList.size()", 1, moveList.size());
-    Assert.assertTrue("moveList1 contains (1, 2)", moveList.contains(new IntVector2(1, 2))); // forward
+    assertEquals("moveList.size()", 1, moveList.size());
+    assertTrue("moveList1 contains (1, 2)", moveList.contains(new IntVector2(1, 2))); // forward
   }
 }

@@ -97,6 +97,15 @@ public class StandardChessGameTest {
     }
     
     assertTrue(game.canDeclareDraw());
+    
+    // make sure you can still move
+    assertTrue(game.move(1, 0, 2, 2));
+    assertTrue(game.move(1, 7, 2, 5));
+    assertTrue(game.move(2, 2, 1, 0));
+    assertTrue(game.move(2, 5, 1, 7));
+    
+    // make sure you can still declare draw after fourfold repetition
+    assertTrue(game.canDeclareDraw());
   }
   
   @Test
@@ -108,8 +117,9 @@ public class StandardChessGameTest {
     
     StandardChessGame game = new StandardChessGame(new Board(mBoard));
     
+    int rookX = 0, rookY = 0;
     // move the rooks space invaders style for fifty moves
-    for (int i = 0, rookX = 0, rookY = 0, dir = 1; i < 50; i++) {
+    for (int i = 0, dir = 1; i < 50; i++) {
       assertFalse(game.canDeclareDraw());
       
       if ((dir == 1 && rookX == 7) || (dir == -1 && rookX == 0)) {
@@ -127,6 +137,12 @@ public class StandardChessGameTest {
       }
     }
     
+    assertTrue(game.canDeclareDraw());
+    
+    // make sure you can still move
+    assertTrue(game.move(rookX, rookY + 1, rookX, rookY));
+    
+    // make sure the rule still applies after an additional move
     assertTrue(game.canDeclareDraw());
   }
 }

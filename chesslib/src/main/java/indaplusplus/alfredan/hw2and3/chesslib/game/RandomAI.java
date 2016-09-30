@@ -24,40 +24,31 @@ public final class RandomAI extends StandardChessAI {
     List<List<IntVector2>> allMoves = new ArrayList<>();
     List<IntVector2> moveFrom = new ArrayList<>();
     
-    int numberOfMoves = 0;
     for (int x = 0; x < board.getWidth(); x++) {
       for (int y = 0; y < board.getHeight(); y++) {
         Piece piece = board.get(x, y);
         if (piece != null && piece.team == myTeam) {
           List<IntVector2> moves = board.getAvailableMoves(x, y);
-          allMoves.add(moves);
-          numberOfMoves += moves.size();
           
-          moveFrom.add(new IntVector2(x, y));
+          if (!moves.isEmpty()) {
+            allMoves.add(moves);
+            moveFrom.add(new IntVector2(x, y));
+          }
         }
       }
     }
     
-    if (numberOfMoves == 0) {
+    if (allMoves.isEmpty()) {
       return;
     }
     
-    int moveIndex = random.nextInt(numberOfMoves);
-    for (int i = 0; i < allMoves.size(); i++) {
-      List<IntVector2> moves = allMoves.get(i);
-      
-      if (moveIndex < moves.size()) {
-        // make the move
-        IntVector2 from = moveFrom.get(i);
-        IntVector2 to = moves.get(moveIndex);
-        
-        game.move(from.x, from.y, to.x, to.y);
-        
-        break;
-      } else {
-        moveIndex -= moves.size();
-      }
-    }
+    int pieceIndex = random.nextInt(allMoves.size());
+    IntVector2 from = moveFrom.get(pieceIndex);
+    
+    List<IntVector2> moves = allMoves.get(pieceIndex);
+    IntVector2 to = moves.get(random.nextInt(moves.size()));
+    
+    game.move(from.x, from.y, to.x, to.y);
     
     if (game.canPromotePawn()) {
       game.promotePawn(Queen.class);

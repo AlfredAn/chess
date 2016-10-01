@@ -195,6 +195,7 @@ public final class StandardChessGame {
     if (pieceCount < lastTurnPieceCount) {
       turnsSinceCaptureOrPawnMove = 0;
     }
+    lastTurnPieceCount = pieceCount;
     
     canDeclareDraw = false;
     

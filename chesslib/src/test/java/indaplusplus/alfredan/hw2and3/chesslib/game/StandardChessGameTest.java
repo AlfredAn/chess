@@ -140,9 +140,81 @@ public class StandardChessGameTest {
     assertTrue(game.canDeclareDraw());
     
     // make sure you can still move
-    assertTrue(game.move(rookX, rookY + 1, rookX, rookY));
+    assertTrue(game.move(rookX, rookY + 1, rookX + 1, rookY + 1));
     
     // make sure the rule still applies after an additional move
     assertTrue(game.canDeclareDraw());
+  }
+  
+  @Test
+  public void testFiftyMoveRuleDisabledIfPieceCaptured() {
+    MutableBoard mBoard = new MutableBoard(8, 8);
+    
+    mBoard.set(0, 1, new Rook(Team.WHITE));
+    mBoard.set(0, 0, new Rook(Team.BLACK));
+    
+    StandardChessGame game = new StandardChessGame(new Board(mBoard));
+    
+    int rookX = 0, rookY = 0;
+    // move the rooks space invaders style for fifty moves
+    for (int i = 0, dir = 1; i < 50; i++) {
+      assertFalse(game.canDeclareDraw());
+      
+      if ((dir == 1 && rookX == 7) || (dir == -1 && rookX == 0)) {
+        dir = -dir;
+        // go down one square to avoid the threefold repetition rule
+        assertTrue(game.move(rookX, rookY + 1, rookX, rookY + 2));
+        assertTrue(game.move(rookX, rookY, rookX, rookY + 1));
+        rookY++;
+      } else {
+        assertTrue(game.move(rookX, rookY + 1, rookX + dir, rookY + 1));
+        assertTrue(game.move(rookX, rookY, rookX + dir, rookY));
+        rookX += dir;
+      }
+    }
+    
+    assertTrue(game.canDeclareDraw());
+    
+    // this move takes a piece and should prevent the rule from going into effect
+    assertTrue(game.move(rookX, rookY + 1, rookX, rookY));
+    
+    assertFalse(game.canDeclareDraw());
+  }
+  
+  @Test
+  public void testFiftyMoveRuleDisabledIfPawnMoved() {
+    MutableBoard mBoard = new MutableBoard(8, 8);
+    
+    mBoard.set(0, 1, new Rook(Team.WHITE));
+    mBoard.set(0, 0, new Rook(Team.BLACK));
+    mBoard.set(7, 7, new Pawn(Team.BLACK));
+    
+    StandardChessGame game = new StandardChessGame(new Board(mBoard));
+    
+    int rookX = 0, rookY = 0;
+    // move the rooks space invaders style for fifty moves
+    for (int i = 0, dir = 1; i < 50; i++) {
+      assertFalse(game.canDeclareDraw());
+      
+      if ((dir == 1 && rookX == 7) || (dir == -1 && rookX == 0)) {
+        dir = -dir;
+        // go down one square to avoid the threefold repetition rule
+        assertTrue(game.move(rookX, rookY + 1, rookX, rookY + 2));
+        assertTrue(game.move(rookX, rookY, rookX, rookY + 1));
+        rookY++;
+      } else {
+        assertTrue(game.move(rookX, rookY + 1, rookX + dir, rookY + 1));
+        assertTrue(game.move(rookX, rookY, rookX + dir, rookY));
+        rookX += dir;
+      }
+    }
+    
+    // move a rook once again to make it black's turn
+    assertTrue(game.move(rookX, rookY + 1, rookX + 1, rookY + 1));
+    
+    // this move moves a pawn and should prevent the rule from going into effect
+    assertTrue(game.move(7, 7, 7, 6));
+    
+    assertFalse(game.canDeclareDraw());
   }
 }
